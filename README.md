@@ -1,1 +1,2 @@
-# events-platform-eventSpace
+### EventSpace
+Ongoing Project
