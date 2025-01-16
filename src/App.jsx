@@ -1,11 +1,17 @@
 import './App.css'
+import HomePage from './components/Home'
+import Navbar from './components/Navbar'
+
+
+
 
 function App() {
 
   return (
-    <>
-      <h1>Event Space</h1>
-    </>
+    <div>
+    <Navbar />
+    <HomePage />
+    </div>
   )
 }
 
