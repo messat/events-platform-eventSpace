@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { styled, alpha, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,7 +16,10 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import EventAvailableRoundedIcon from '@mui/icons-material/EventAvailableRounded';
-import { Container } from '@mui/material';
+import Container from '@mui/material/Container';
+import { createTheme } from '@mui/material/styles';
+
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -48,6 +51,8 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
+  fontSize: "20px",
+  fontWeight: "400",
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 30, 1, 0),
     // vertical padding + font size from searchIcon
@@ -59,6 +64,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
+
 
 
 
@@ -161,15 +168,22 @@ export default function Navbar() {
     </Menu>
   );
 
+  const theme = createTheme({
+    typography: {
+      fontFamily: 'sniglet'
+    }
+  })
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1,  }}>
 
       <AppBar position="fixed">
 
         <Container>
+          
         <Toolbar>
-          <EventAvailableRoundedIcon sx={{mr: 2, fontSize: "lg"}}/>
-
+           <EventAvailableRoundedIcon sx={{mr: 2, fontSize: "lg"}}/>
+          <ThemeProvider theme={theme}>
           <Typography
             variant="h6"
             noWrap
@@ -178,8 +192,7 @@ export default function Navbar() {
           >
             Event Space
           </Typography>
-
-        
+          </ThemeProvider>
           <Search >
             <SearchIconWrapper >
               <SearchIcon/>
@@ -189,7 +202,6 @@ export default function Navbar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          
           
           <Box sx={{ flexGrow: 1 }} />
 

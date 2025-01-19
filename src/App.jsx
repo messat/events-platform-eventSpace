@@ -1,16 +1,23 @@
 import './App.css'
-import HomePage from './components/Home'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import IndexPage from './components/IndexPage'
 import Navbar from './components/Navbar'
 
 
 
 
 function App() {
-
+  
   return (
     <div>
     <Navbar />
-    <HomePage />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<IndexPage />}>
+        </Route>
+      </Routes>
+    </BrowserRouter>
     </div>
   )
 }
