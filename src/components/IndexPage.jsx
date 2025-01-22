@@ -14,7 +14,7 @@ export default function IndexPage (){
         </ThemeProvider>
         
         <div style={{display: 'flex', justifyContent: "center"}}>
-        <div className="eventSpaceImage" style={{backgroundImage: `url("https://www.interactsoftware.com/wp-content/uploads/2017/12/persona.png")`, width: "85%"}}>
+        <div className="eventSpaceImage" style={{backgroundImage: `url("https://www.interactsoftware.com/wp-content/uploads/2017/12/persona.png")`, width: "92%"}}>
         <div style={{marginTop: "15%"}}>
 
         <Typography variant="h6" textAlign={"center"} gutterBottom fontWeight={"bold"} fontSize={"25px"} className="missionText">A platform to connect with anyone in the event space to Learn, Share and Grow</Typography>
