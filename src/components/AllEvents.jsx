@@ -9,25 +9,25 @@ export default function AllEvents (){
     
     return <Box>
         
-        <Grid2 container spacing={2} sx={{marginX: "2.5em", marginTop: "2.7em", marginBottom: "2.5em"}}>
+        <Grid2 container spacing={2} sx={{marginX: {xs: "2.5em", }, marginTop: "2.7em", marginBottom: "2.5em"}}>
                 {eventsArr.map((event) => (
             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3}} key={event.id}>
-                    <Paper elevation={6} spacing={5} item="true" sx={{maxHeight: "560px", minHeight: "435px", mb: 2}}>
+                    <Paper elevation={6} spacing={5} item="true" sx={{maxHeight: "700px", minHeight: "435px", mb: 2}}>
 
-                        <img src={event.event_img_url} alt='' className='eventImage'/>
+                        <img src={event.event_img_url} alt='Event Image' className='eventImage'/>
 
-                        <Typography variant="h6" sx={{mx: 1, minHeight: 96, typography: { xs: 'h6', sm: 'body1', md: 'h6'}}} gutterBottom>{event.title}</Typography>
-                        <Typography variant='subtitle1' sx={{mx: 1}} gutterBottom>{event.date.slice(0,22) + " GMT"}</Typography>
-                        <Typography sx={{color: "grey", mx: 1, fontWeight: "bold"}} gutterBottom>{event.location}</Typography>
-                        <Typography variant='h6' sx={{mx: 1, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
+                        <Typography variant="h6" sx={{mx: 2, minHeight: 96, typography: { xs: 'h6', sm: 'body1', md: 'h6'}}} gutterBottom>{event.title}</Typography>
+                        <Typography variant='subtitle1' sx={{mx: 2}} gutterBottom>{event.date.slice(0,22) + " GMT"}</Typography>
+                        <Typography sx={{color: "grey", mx: 2, fontWeight: "bold"}} gutterBottom>{event.location}</Typography>
+                        <Typography variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
 
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                        <Typography sx={{display: "inline-block", mt: -0.7, mr: 2}} variant='h6'>{event.event_last + " hr"}</Typography>
+                        <Typography sx={{display: "inline-block", mt: -0.7, mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.event_last + " hr"}</Typography>
                         <AccessTimeIcon sx={{mr: 2, display: "inline-block", mt: -0.2}}/>
                         </div>
 
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                            <Typography sx={{display: "inline-block", mr: 2}}variant='h6'>{event.spaces + " spaces"}</Typography>
+                            <Typography sx={{display: "inline-block", mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.spaces + " spaces"}</Typography>
                             <Groups2Icon  sx={{mr: 2, display: "inline-block", mt: 0.4}}></Groups2Icon> 
                         </div>
                         
@@ -36,7 +36,7 @@ export default function AllEvents (){
                         orientation="horizontal"
                         size="md"
                         variant="solid"
-                        sx={{ '--ButtonGroup-radius': '40px', mx: 1, mt: -5.2}}
+                        sx={{ '--ButtonGroup-radius': '40px', mx: 2, mt: -5.2}}
                         >
                         <Button>View event</Button>
                         </ButtonGroup>
