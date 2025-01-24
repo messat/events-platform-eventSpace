@@ -5,6 +5,7 @@ import IndexPage from './components/IndexPage'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer';
 import EventInformation from './components/EventInfo';
+import 'react-calendar/dist/Calendar.css';
 
 
 
@@ -17,7 +18,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<IndexPage />} />
-        <Route path="/event/:id" element={<EventInformation />} />
+        <Route path="/event/:event_id" element={<EventInformation />} />
       </Routes>
       </BrowserRouter>
     <Footer />

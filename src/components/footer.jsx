@@ -12,7 +12,7 @@ export default function Footer () {
       sx={{
         width: "100%",
         height: "auto",
-        paddingTop: "1rem",
+        paddingTop: "3rem",
         paddingBottom: "1rem",
       }}
     >

@@ -38,7 +38,7 @@ export default function AllEvents (){
                         <Typography variant='subtitle1' sx={{mx: 2}} gutterBottom>{event.date.slice(0,22) + " GMT"}</Typography>
                         <Typography sx={{color: "grey", mx: 2, fontWeight: "bold"}} gutterBottom>{event.location}</Typography>
                         <Typography variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
-
+                        
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
                         <Typography sx={{display: "inline-block", mt: -0.7, mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.duration + " hr"}</Typography>
                         <AccessTimeIcon sx={{mr: 2, display: "inline-block", mt: -0.2}}/>
