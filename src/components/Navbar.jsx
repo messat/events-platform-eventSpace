@@ -18,6 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import EventAvailableRoundedIcon from '@mui/icons-material/EventAvailableRounded';
 import Container from '@mui/material/Container';
 import { createTheme } from '@mui/material/styles';
+import { Link, useNavigate } from 'react-router';
 
 
 
@@ -70,7 +71,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function Navbar() {
-    
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -182,7 +182,9 @@ export default function Navbar() {
         <Container>
           
         <Toolbar>
-           <EventAvailableRoundedIcon sx={{mr: 2, fontSize: "lg"}}/>
+           <EventAvailableRoundedIcon sx={{mr: 2, fontSize: "lg"}} 
+           onClick={() => { window.location.href="/" }}/>
+           
           <ThemeProvider theme={theme}>
           <Typography
             variant="h6"

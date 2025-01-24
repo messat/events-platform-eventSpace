@@ -7,3 +7,7 @@ export async function getAllEvents() {
     return allEvents
 }
 
+export async function getEventById(event_id) {
+    const {data : {singleEvent}} = await instance.get(`/events/${event_id}`)
+    return singleEvent
+}
