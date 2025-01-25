@@ -18,7 +18,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import EventAvailableRoundedIcon from '@mui/icons-material/EventAvailableRounded';
 import Container from '@mui/material/Container';
 import { createTheme } from '@mui/material/styles';
-import { Link, useNavigate } from 'react-router';
+import { Link } from '@mui/material';
+import { useState } from 'react';
 
 
 
@@ -61,7 +62,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '20ch',
+      width: '45ch',
     },
   },
 }));
@@ -71,8 +72,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function Navbar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -88,6 +90,8 @@ export default function Navbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    window.location.href = "/events/user/login"
+    
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -111,12 +115,13 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Log In</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
+
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -133,6 +138,7 @@ export default function Navbar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
@@ -141,6 +147,7 @@ export default function Navbar() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
+
       <MenuItem>
         <IconButton
           size="large"
@@ -153,6 +160,7 @@ export default function Navbar() {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
+
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -165,6 +173,7 @@ export default function Navbar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+
     </Menu>
   );
 
@@ -186,15 +195,16 @@ export default function Navbar() {
            onClick={() => { window.location.href="/" }}/>
            
           <ThemeProvider theme={theme}>
-          <Typography
+          <Link
             variant="h6"
             noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' }}}
+            href="/"
+            sx={{ display: { xs: 'none', sm: 'block' }, color: "white" }}
           >
             Event Space
-          </Typography>
+          </Link>
           </ThemeProvider>
+
           <Search >
             <SearchIconWrapper >
               <SearchIcon/>

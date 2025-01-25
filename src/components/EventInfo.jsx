@@ -30,7 +30,6 @@ export default function EventInformation() {
         try {
             const eventInfo = await getEventById(event_id)
             setEventByID(eventInfo)
-            console.log(eventInfo)
             return eventInfo
         } catch (err) {
             console.error(err, "Error from event Information")
