@@ -12,8 +12,8 @@ export default function Footer () {
       sx={{
         width: "100%",
         height: "auto",
-        paddingTop: "3rem",
-        paddingBottom: "1rem",
+        bottom: 40,
+        position: "absolute"
       }}
     >
       <Container maxWidth="lg">
@@ -28,7 +28,7 @@ export default function Footer () {
           <Grid item="true">
             <ThemeProvider theme={theme}>
             <Typography color="textSecondary" variant="subtitle1">
-             © {`${new Date().getFullYear()} | Muhammad Essat | React JS | Material UI | Node | Express | MongoDBk`}
+             © {`${new Date().getFullYear()} | Muhammad Essat | React JS | Material UI | Node | Express | MongoDB`}
             </Typography>
             </ThemeProvider>
           </Grid>

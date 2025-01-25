@@ -3,9 +3,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import IndexPage from './components/IndexPage'
 import Navbar from './components/Navbar'
-import Footer from './components/Footer';
+
 import EventInformation from './components/EventInfo';
 import 'react-calendar/dist/Calendar.css';
+import Footer from './components/footer';
+import Login from './components/Login';
+import './Login.css'
+import { Box } from '@mui/material';
+import RegisterUser from './components/Register';
 
 
 
@@ -13,16 +18,20 @@ import 'react-calendar/dist/Calendar.css';
 function App() {
   
   return (
-    <div>
+    <Box sx={{position: "relative", minHeight: "100vh"}}>
+      <Box sx={{pb: "9rem"}}>
     <Navbar />
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<IndexPage />} />
+        <Route path="/events/user/login" element={<Login />} />
+        <Route path="/events/user/register" element={<RegisterUser />} />
         <Route path="/event/:event_id" element={<EventInformation />} />
       </Routes>
       </BrowserRouter>
-    <Footer />
-    </div>
+    <Footer/>
+    </Box>
+    </Box>
   )
 }
 
