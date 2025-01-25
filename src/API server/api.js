@@ -21,3 +21,8 @@ export async function logInUserEventSpace(user) {
     const {data : {login}} = await instance.post("/events/user/login", user)
     return login
 }
+
+export async function employeeLogInEventSpace(employeeDetails) {
+    const {data} = await instance.post("/events/employee/login", employeeDetails)
+    return data
+}

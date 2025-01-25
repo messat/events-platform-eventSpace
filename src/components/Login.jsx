@@ -28,7 +28,7 @@ export default function Login() {
         <Paper elevation={10} sx={{mt: 8, p: 2}}>
 
             <Avatar sx={{ width: 56, height: 56, bgcolor: '#2196f3', mx: 'auto', textAlign: "center", mb: 2 }}>
-                <LockPersonIcon fontSize="large" color="" />
+                <LockPersonIcon fontSize="large" />
             </Avatar>
 
             <ThemeProvider theme={theme}>
@@ -90,7 +90,7 @@ export default function Login() {
                 </Grid2>
 
                 <Grid2 item="true" sx={{mt: 1}}>
-                <Link component={RouterLink} to="/employee/login" sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} className="StaffLink">Staff Account</Link>
+                <Link component={RouterLink} to="/events/vpn/employee/login" sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} className="StaffLink">Staff Account</Link>
                 </Grid2>
             </Grid2>
 
