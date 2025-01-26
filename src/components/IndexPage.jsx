@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import AllEvents from "./AllEvents";
 
 
-export default function IndexPage (){
+export default function IndexPage ({searchTitle}){
     const theme = createTheme({
         typography: {fontFamily: 'sniglet'}
       })
@@ -45,6 +45,6 @@ export default function IndexPage (){
         </div>
         </div>
 
-        <AllEvents/>
+        <AllEvents searchTitle={searchTitle}/>
     </div>
 } 

@@ -71,10 +71,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
-export default function Navbar() {
+export default function Navbar({setSearchTitle}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -212,6 +211,13 @@ export default function Navbar() {
             <StyledInputBase
               placeholder="Search the event title…"
               inputProps={{ 'aria-label': 'search' }}
+              name="search"
+              onChange={(event) => {
+                const {name, value} = event.target
+                setSearchTitle((prev) => {
+                  return {...prev, [name]: value}
+                })
+              }}
             />
           </Search>
           
