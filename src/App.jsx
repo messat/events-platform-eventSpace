@@ -13,19 +13,20 @@ import { Box } from '@mui/material';
 import RegisterUser from './components/Register';
 import EmployeeLogin from './components/EmployeeLogin';
 import EmployeeRegister from './components/EmployeeRegister';
+import { useState } from 'react';
 
 
 
 
 function App() {
-  
+  const [searchTitle, setSearchTitle] = useState({search: ""})
   return (
     <Box sx={{position: "relative", minHeight: "100vh"}}>
       <Box sx={{pb: "9rem"}}>
-    <Navbar />
+    <Navbar setSearchTitle={setSearchTitle}/>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<IndexPage />} />
+        <Route path="/" element={<IndexPage searchTitle={searchTitle} />} />
         <Route path="/events/user/login" element={<Login />} />
         <Route path="/events/user/register" element={<RegisterUser />} />
         <Route path="/events/vpn/employee/login" element={<EmployeeLogin />} />

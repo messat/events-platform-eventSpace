@@ -9,25 +9,24 @@ import { getAllEvents } from '../API server/api';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function AllEvents (){
+export default function AllEvents ({searchTitle}){
   const [allEvents, setAllEvents] = useState([]) 
-
   useEffect(() => {
       (async () => {
         try {
-          const eventsArr = await getAllEvents()
+          const eventsArr = await getAllEvents(searchTitle)
           setAllEvents(eventsArr)
           return eventsArr
         } catch (err) {
           console.error(err, "From all events")
         }
       })()
-  }, [])
+  }, [searchTitle.search])
     
     return <Box>
         
         <Grid2 container spacing={2} sx={{marginX: {xs: "2.5em", }, marginTop: "2.7em", marginBottom: "2.5em"}}>
-                {allEvents.map((event) => (
+                {Array.isArray(allEvents) ? allEvents.map((event) => (
             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3}} key={event._id}>
                     <Paper elevation={6} spacing={5} item="true" sx={{maxHeight: "700px", minHeight: "435px", mb: 2}}>
 
@@ -59,7 +58,7 @@ export default function AllEvents (){
                         </ButtonGroup>
                     </Paper>
             </Grid2>
-                ))}
+                )): <Typography variant='button' fontSize={"20px"} color='red'>{allEvents + ". Please try again."}</Typography>}
             
         </Grid2>
   
