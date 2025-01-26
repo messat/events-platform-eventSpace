@@ -12,6 +12,7 @@ import './Login.css'
 import { Box } from '@mui/material';
 import RegisterUser from './components/Register';
 import EmployeeLogin from './components/EmployeeLogin';
+import EmployeeRegister from './components/EmployeeRegister';
 
 
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/events/user/login" element={<Login />} />
         <Route path="/events/user/register" element={<RegisterUser />} />
         <Route path="/events/vpn/employee/login" element={<EmployeeLogin />} />
+        <Route path="/events/vpn/employee/eventspace/register" element={<EmployeeRegister />} />
         <Route path="/event/:event_id" element={<EventInformation />} />
       </Routes>
       </BrowserRouter>

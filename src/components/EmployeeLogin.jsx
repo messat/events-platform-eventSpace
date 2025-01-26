@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Container, createTheme, Grid2, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
-import { Link as RouterLink, useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 import BadgeIcon from '@mui/icons-material/Badge';
 import { useState } from "react";
 import { employeeLogInEventSpace } from "../API server/api";
@@ -49,7 +49,7 @@ export default function EmployeeLogin() {
             onChange={(event) => {
                 const {name, value} = event.target
                 setFormData((curr) => {
-                    return {...curr, [name]: parseInt(value)}
+                    return {...curr, [name]: value}
                 })
             }}
             placeholder="Enter your employee ID"
@@ -80,9 +80,11 @@ export default function EmployeeLogin() {
             autoComplete="off"
             sx={{mb: 2}}
             /> 
-            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Log In</Button>
+            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Employee Log In</Button>
             </Box>
-
+            <Box sx={{mt: 2}}>
+            <Link href="/events/user/login" sx={{ml: 1, marginTop: "20px"}} underline="hover" variant="body1">Back to User Login</Link>
+            </Box>
         </Paper>
     </Container>)
 }
