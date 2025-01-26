@@ -1,11 +1,10 @@
 import { Avatar, Box, Button, Container, createTheme, Grid2, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import { Link as RouterLink, useNavigate} from 'react-router-dom'
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { useState } from "react";
-import { registerUserEventSpace } from "../API server/api";
+import { employeeRegisterEventSpace, registerUserEventSpace } from "../API server/api";
+import WorkIcon from '@mui/icons-material/Work';
 
-export default function RegisterUser() {
-
+export default function EmployeeRegister() {
     const theme = createTheme({
         typography: {
             fontFamily: "sniglet"
@@ -13,29 +12,28 @@ export default function RegisterUser() {
     })
     const navigate = useNavigate()
 
-    const [formData, setFormData] = useState({firstname: "", lastname: "", email: "", username: "", password: ""})
+    const [formData, setFormData] = useState({firstname: "", lastname: "", email: "", employeeNumber: "", password: ""})
 
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
-            const addUser = await registerUserEventSpace(formData)
+            const registerEmployee = await employeeRegisterEventSpace(formData)
             navigate("/")
-            return addUser
         } catch (err) {
-            console.error(err, "From handle submit - register user")
+            console.error(err, "From handle submit - register employee")
         }     
     }
 
    return (<Container maxWidth="sm">
-        <Paper elevation={10} sx={{mt: 8, p: 2}}>
+        <Paper elevation={10} sx={{mt: 8, p: 2, pb: 4}}>
 
             <Avatar sx={{ width: 56, height: 56, bgcolor: '#2196f3', mx: 'auto', textAlign: "center", mb: 2 }}>
-                <AppRegistrationIcon fontSize="large" />
+                <WorkIcon fontSize="large" />
             </Avatar>
 
             <ThemeProvider theme={theme}>
-            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Register with Event Space</Typography>
+            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Employee registration at Event Space</Typography>
             </ThemeProvider>
 
             <Box component="form"
@@ -44,7 +42,7 @@ export default function RegisterUser() {
             sx={{mx: 1}}
             >
             <TextField 
-            id="outlined-basic-firstname"
+            id="employee-firstname"
             label="First Name"
             variant="outlined"
             placeholder="Enter your first name"
@@ -58,10 +56,10 @@ export default function RegisterUser() {
             }}
             fullWidth
             required
-            autoFocus
             autoComplete="on"
             sx={{mb: 2}}
             /> 
+
             <TextField 
             id="outlined-basic-lastname"
             label="Last Name"
@@ -82,32 +80,13 @@ export default function RegisterUser() {
             /> 
 
             <TextField 
-            id="outlined-basic-email-address"
+            id="employee-email-address"
             label="Email Address"
             variant="outlined"
-            placeholder="Enter your email address"
+            placeholder="Create employee email address"
             type="email"
             name="email"
             value={formData.email}
-            onChange={(event) => {
-                const {name, value} = event.target
-                setFormData((curr) => {
-                    return {...curr, [name]: value.trim()}
-                })
-            }}
-            fullWidth
-            required
-            autoComplete="on"
-            sx={{mb: 2}}
-            /> 
-
-            <TextField 
-            id="outlined-basic-username-register"
-            label="Username"
-            variant="outlined"
-            name="username"
-            placeholder="Enter your username"
-            value={formData.username}
             onChange={(event) => {
                 const {name, value} = event.target
                 setFormData((curr) => {
@@ -120,12 +99,33 @@ export default function RegisterUser() {
             sx={{mb: 2}}
             /> 
 
+            <TextField 
+            id="employee-id-register"
+            label="Employee ID"
+            variant="outlined"
+            name="employeeNumber"
+            placeholder="Enter Your New Employee ID"
+            value={formData.employeeNumber}
+            onChange={(event) => {
+                const {name, value} = event.target
+                setFormData((curr) => {
+                    return {...curr, [name]: value}
+                })
+            }}
+            fullWidth
+            type="number"
+            inputMode="numeric"
+            required
+            autoComplete="off"
+            sx={{mb: 2}}
+            /> 
+
 
             <TextField 
-            id="outlined-basic-password-register"
+            id="employee-password-register"
             label="Password"
             variant="outlined"
-            placeholder="Enter your password"
+            placeholder="Enter Your Employee Password"
             fullWidth
             name="password"
             value={formData.password}
@@ -140,16 +140,8 @@ export default function RegisterUser() {
             autoComplete="off"
             sx={{mb: 2}}
             /> 
-            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Log In to event space</Button>
-            </Box>
-
-            <Grid2 container justifyContent="end" sx={{mt: 3, ml: 1}}>
-                
-
-                <Grid2 item="true" sx={{mt: 1}}>
-                <Link component={RouterLink} to="/employee/login" sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} className="StaffLink">Staff Account</Link>
-                </Grid2>
-            </Grid2>
+            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Register -- Event Space</Button>
+            </Box>   
 
         </Paper>
     </Container>

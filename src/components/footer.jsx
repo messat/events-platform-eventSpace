@@ -20,7 +20,7 @@ export default function Footer () {
         <Grid container direction="column" alignItems="center">
           <Grid>
             <ThemeProvider theme={theme}>
-            <Typography color="black" variant="h5" sx={{fontStyle: "sniglet"}}>
+            <Typography color="black" variant="h5" sx={{fontStyle: "sniglet", color: "#2196f3"}}>
                Event Space
             </Typography>
             </ThemeProvider>
