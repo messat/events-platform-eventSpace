@@ -13,6 +13,7 @@ import EmployeeLogin from './components/EmployeeLogin';
 import EmployeeRegister from './components/EmployeeRegister';
 import { useState, useEffect } from 'react';
 import UserContext from './Context/UserContext'
+import CreateEvent from './components/Forms/CreateEvent';
 
 
 
@@ -49,6 +50,7 @@ function App() {
         <Route path="/events/user/register" element={<RegisterUser />} />
         <Route path="/events/vpn/employee/login" element={<EmployeeLogin />} />
         <Route path="/events/vpn/employee/eventspace/register" element={<EmployeeRegister />} />
+        <Route path="/events/vpn/employee/hostEvent" element={<CreateEvent />}></Route>
         <Route path="/event/:event_id" element={<EventInformation />} />
       </Routes>
       </BrowserRouter>
