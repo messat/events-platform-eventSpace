@@ -1,10 +1,14 @@
 import { Avatar, Box, Button, Container, createTheme, Grid2, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import { Link as RouterLink, useNavigate} from 'react-router-dom'
-import { useState } from "react";
-import { employeeRegisterEventSpace, registerUserEventSpace } from "../API server/api";
+import { useContext, useState } from "react";
+import { employeeRegisterEventSpace } from "../API server/api";
 import WorkIcon from '@mui/icons-material/Work';
+import UserContext from "../Context/UserContext";
 
 export default function EmployeeRegister() {
+      const {isLoggedIn, setIsLoggedIn} = useContext(UserContext) 
+
+
     const theme = createTheme({
         typography: {
             fontFamily: "sniglet"
@@ -19,6 +23,8 @@ export default function EmployeeRegister() {
         event.preventDefault()
         try {
             const registerEmployee = await employeeRegisterEventSpace(formData)
+            localStorage.setItem("employee", JSON.stringify(registerEmployee))
+            setIsLoggedIn(registerEmployee)
             navigate("/")
         } catch (err) {
             console.error(err, "From handle submit - register employee")

@@ -1,10 +1,15 @@
 import { Avatar, Box, Button, Container, createTheme, Grid2, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Link as RouterLink, useNavigate} from 'react-router-dom'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { logInUserEventSpace } from "../API server/api";
+import UserContext from "../Context/UserContext";
+
+
 
 export default function Login() {
+    const {setIsLoggedIn} = useContext(UserContext)
+
     const theme = createTheme({
         typography: {
             fontFamily: "sniglet"
@@ -18,6 +23,8 @@ export default function Login() {
         event.preventDefault()
         try {
             const loginUser = await logInUserEventSpace(formData)
+            setIsLoggedIn(loginUser)
+            localStorage.setItem("user", JSON.stringify(loginUser))
             navigate("/")
         } catch (err) {
             console.error(err, "Error from Promise chain, user login")
