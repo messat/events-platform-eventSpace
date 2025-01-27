@@ -24,6 +24,7 @@ import UserContext from '../Context/UserContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LoginIcon from '@mui/icons-material/Login';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -146,6 +147,14 @@ export default function Navbar({setSearchTitle}) {
       </Box>
 
        : null}
+
+       {isLoggedIn.employeeNumber ? 
+        <Box sx={{display: "flex", flexDirection: "row"}}>
+        <EditCalendarIcon sx={{mt: 0.8, ml: 1.5}} onClick={() => { window.location.href="/events/vpn/employee/hostEvent"}}/>
+       <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Link href={"/events/vpn/employee/hostEvent"} underline='hover' variant='button'>Host event</Link></MenuItem>
+      </Box>
+
+       : null}
     </Menu>
   );
 
@@ -185,7 +194,7 @@ export default function Navbar({setSearchTitle}) {
       </MenuItem>
       </Box>
       :
-      <Box sx={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+      <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
         <LoginIcon sx={{mt: 1.3}} onClick={() => {
           window.location.href="/events/user/login"
         }} fontSize='large'/>
@@ -193,9 +202,16 @@ export default function Navbar({setSearchTitle}) {
       </Box>}
 
         {isLoggedIn.username || isLoggedIn.employeeNumber ? 
-         <Box sx={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+         <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
          <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large'/>
          <MenuItem onClick={handleMenuClose} ><Link href={"/events"} underline='hover' variant='button' sx={{fontSize: "16px", mt: 0.5}}>My account</Link></MenuItem>
+         </Box>
+          : null}
+
+        {isLoggedIn.employeeNumber ? 
+         <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
+         <EditCalendarIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large'/>
+         <MenuItem onClick={handleMenuClose} ><Link href={"/events/vpn/employee/hostEvent"} underline='hover' variant='button' sx={{fontSize: "16px", mt: 0.5}}>Host Event</Link></MenuItem>
          </Box>
           : null}
 
