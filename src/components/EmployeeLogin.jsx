@@ -1,10 +1,12 @@
 import { Avatar, Box, Button, Container, createTheme, Grid2, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import { useNavigate} from 'react-router-dom'
 import BadgeIcon from '@mui/icons-material/Badge';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { employeeLogInEventSpace } from "../API server/api";
+import UserContext from "../Context/UserContext";
 
 export default function EmployeeLogin() {
+    const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
 
     const theme = createTheme({
         typography: {
@@ -19,6 +21,8 @@ export default function EmployeeLogin() {
             event.preventDefault()
             try {
                 const employeeLogIn = await employeeLogInEventSpace(formData)
+                localStorage.setItem("employee", JSON.stringify(employeeLogIn))
+                setIsLoggedIn(employeeLogIn)
                 navigate("/")
             } catch (err) {
                 console.error(err, "Error from catch block, employee log in")

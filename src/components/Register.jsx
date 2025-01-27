@@ -1,10 +1,13 @@
 import { Avatar, Box, Button, Container, createTheme, Grid2, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import { Link as RouterLink, useNavigate} from 'react-router-dom'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { registerUserEventSpace } from "../API server/api";
+import UserContext from "../Context/UserContext";
 
 export default function RegisterUser() {
+
+    const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
 
     const theme = createTheme({
         typography: {
@@ -20,6 +23,8 @@ export default function RegisterUser() {
         event.preventDefault()
         try {
             const addUser = await registerUserEventSpace(formData)
+            setIsLoggedIn(addUser)
+            localStorage.setItem("user", JSON.stringify(addUser))
             navigate("/")
             return addUser
         } catch (err) {

@@ -58,7 +58,11 @@ export default function AllEvents ({searchTitle}){
                         </ButtonGroup>
                     </Paper>
             </Grid2>
-                )): <Typography variant='button' fontSize={"20px"} color='red'>{allEvents + ". Please try again."}</Typography>}
+                )): <Grid2 size={{xs: 12, sm: 6, md: 6 }} offset={{ sm: 3, md: 3}} sx={{mt: 3}}>
+                  <Paper elevation={6}  sx={{display: "flex", justifyContent: "center", p:3 }}>
+                <Typography variant='button' sx={{align: "center", fontSize: "20px", color : 'red'}}>{allEvents.replace(/\\\S\+/g, " ") + ". Please try again."}</Typography>
+                </Paper>
+               </Grid2>}
             
         </Grid2>
   

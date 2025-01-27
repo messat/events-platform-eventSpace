@@ -19,8 +19,11 @@ import EventAvailableRoundedIcon from '@mui/icons-material/EventAvailableRounded
 import Container from '@mui/material/Container';
 import { createTheme } from '@mui/material/styles';
 import { Link } from '@mui/material';
-import { useState } from 'react';
-
+import { useState, useContext } from 'react';
+import UserContext from '../Context/UserContext';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LoginIcon from '@mui/icons-material/Login';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -56,8 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   fontSize: "20px",
   fontWeight: "400",
   '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 30, 1, 0),
-    // vertical padding + font size from searchIcon
+    padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -72,6 +74,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function Navbar({setSearchTitle}) {
+  const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -88,9 +91,7 @@ export default function Navbar({setSearchTitle}) {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
-    window.location.href = "/events/user/login"
-    
+    handleMobileMenuClose()    
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -114,8 +115,37 @@ export default function Navbar({setSearchTitle}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Log In</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {isLoggedIn.username || isLoggedIn.employeeNumber ? <Box sx={{display: "flex", flexDirection: "row"}}>
+
+      <LogoutIcon sx={{mt: 0.9, ml:1.5}} onClick={() => {
+        setIsLoggedIn({})
+        localStorage.clear()
+        window.location.href="/events/user/login"
+      }}></LogoutIcon>
+      <MenuItem onClick={handleMenuClose} sx={{p: 1}}>
+      <Link href={"/events/user/login"} underline='hover' variant='button' 
+      onClick={()=> { 
+        setIsLoggedIn({}) 
+        localStorage.clear()
+        }}>{isLoggedIn.employeeNumber ? "Employee Log Out" : "Log Out"}</Link>
+      </MenuItem>
+      </Box>
+      : 
+      <Box sx={{display: "flex", flexDirection: "row"}}>
+        <LoginIcon sx={{mt: 0.9, ml: 1}} onClick={() => {
+          window.location.href="/events/user/login"
+        }} />
+      <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Link href={"/events/user/login"} underline='hover' variant='button'>Log In</Link></MenuItem>
+      </Box>}
+
+      {isLoggedIn.username || isLoggedIn.employeeNumber ? 
+
+      <Box sx={{display: "flex", flexDirection: "row"}}>
+      <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}}/>
+      <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Link href={"/events"} underline='hover' variant='button'>My account</Link></MenuItem>
+      </Box>
+
+       : null}
     </Menu>
   );
 
@@ -137,41 +167,38 @@ export default function Navbar({setSearchTitle}) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      {isLoggedIn.username  || isLoggedIn.employeeNumber ? 
+      <Box sx={{display: "flex", flexDirection: "row"}}>
 
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
 
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+      <LogoutIcon onClick={() => {
+        setIsLoggedIn({})
+        localStorage.clear()
+        window.location.href="/events/user/login"
+      }} sx={{mr: 2}} fontSize='large'></LogoutIcon>
+      <Link href={"/events/user/login"} underline='hover' variant='button' sx={{fontSize: "16px"}}
+      onClick={()=> { 
+        setIsLoggedIn({}) 
+        localStorage.clear()
+        }}>{isLoggedIn.employeeNumber ? "Employee Log Out" : "Log Out"}</Link>
       </MenuItem>
+      </Box>
+      :
+      <Box sx={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+        <LoginIcon sx={{mt: 1.3}} onClick={() => {
+          window.location.href="/events/user/login"
+        }} fontSize='large'/>
+      <MenuItem onClick={handleMenuClose} sx={{p: 1.2}}><Link href={"/events/user/login"} underline='hover' variant='button'>Log In</Link></MenuItem>
+      </Box>}
 
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+        {isLoggedIn.username || isLoggedIn.employeeNumber ? 
+         <Box sx={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+         <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large'/>
+         <MenuItem onClick={handleMenuClose} ><Link href={"/events"} underline='hover' variant='button' sx={{fontSize: "16px", mt: 0.5}}>My account</Link></MenuItem>
+         </Box>
+          : null}
+
 
     </Menu>
   );
