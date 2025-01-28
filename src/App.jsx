@@ -4,7 +4,7 @@ import IndexPage from './components/IndexPage'
 import Navbar from './components/Navbar'
 import EventInformation from './components/EventInfo';
 import 'react-calendar/dist/Calendar.css';
-import Footer from './components/footer';
+import Footer from './components/Footer';
 import Login from './components/Login';
 import './Login.css'
 import { Box } from '@mui/material';
