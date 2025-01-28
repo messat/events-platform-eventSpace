@@ -25,7 +25,7 @@ export default function AllEvents ({searchTitle}){
     
     return <Box>
         
-        <Grid2 container spacing={2} sx={{marginX: {xs: "2.5em", }, marginTop: "2.7em", marginBottom: "2.5em"}}>
+        <Grid2 container spacing={2} sx={{marginX: {xs: "2.5em"}, marginTop: "2.7em", marginBottom: "2.5em"}}>
                 {Array.isArray(allEvents) ? allEvents.map((event) => (
             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3}} key={event._id}>
                     <Paper elevation={6} spacing={5} item="true" sx={{maxHeight: "700px", minHeight: "435px", mb: 2}}>
@@ -38,13 +38,13 @@ export default function AllEvents ({searchTitle}){
                         <Typography variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
                         
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                        <Typography sx={{display: "inline-block", mt: -0.7, mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.duration + " hr"}</Typography>
-                        <AccessTimeIcon sx={{mr: 2, display: "inline-block", mt: -0.2}}/>
+                        <Typography sx={{display: "inline-block", mt: -1.4, mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.duration + " hr"}</Typography>
+                        <AccessTimeIcon sx={{mr: 2, display: "inline-block", mt: -1.4, mb: 1 }}/>
                         </div>
 
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                            <Typography sx={{display: "inline-block", mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.spaces + " spaces"}</Typography>
-                            <Groups2Icon  sx={{mr: 2, display: "inline-block", mt: 0.4}}></Groups2Icon> 
+                            <Typography sx={{display: "inline-block", mr: 2, mt: -0.4, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.spaces + " spaces"}</Typography>
+                            <Groups2Icon  sx={{mr: 2, display: "inline-block", mt: -0.5}}></Groups2Icon> 
                         </div>
                         
                         <ButtonGroup
@@ -52,7 +52,7 @@ export default function AllEvents ({searchTitle}){
                         orientation="horizontal"
                         size="md"
                         variant="solid"
-                        sx={{ '--ButtonGroup-radius': '40px', mx: 2, mt: -5.2}}
+                        sx={{ '--ButtonGroup-radius': '40px', mx: 2, mt: -4.9}}
                         >
                         <Button component={Link} to={`/event/${event._id}`}>View event</Button>
                         </ButtonGroup>

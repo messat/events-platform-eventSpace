@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router"
-import { getEventById } from "../API server/api"
+import { getEventById, signUpUserToEvent } from "../API server/api"
 import { Box, Container, createTheme, Grid2, Paper, styled, ThemeProvider, Typography } from "@mui/material"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -8,12 +8,13 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CategoryIcon from '@mui/icons-material/Category';
 import TimelapseIcon from '@mui/icons-material/Timelapse';
 import Calendar from 'react-calendar';
+import UserContext from "../Context/UserContext";
 
 
 
 
 export default function EventInformation() {
-
+    const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
     const theme = createTheme({
         typography: {
             fontFamily: 'sniglet'
@@ -23,19 +24,25 @@ export default function EventInformation() {
     const {event_id} = useParams()
 
     const [eventByID, setEventByID] = useState({})
-    const [value, onChange] = useState(new Date())
+    const [userID, setUserID] = useState({_id :""}) 
+    const [isClicked, setIsClicked] = useState(false);
 
+    const [value, onChange] = useState(new Date())
     useEffect(() => {
        (async () => {
         try {
             const eventInfo = await getEventById(event_id)
             setEventByID(eventInfo)
+            if(eventByID.attendees && userID._id && eventByID.attendees.includes(userID._id)){
+                setIsClicked(!false)
+            }
             return eventInfo
         } catch (err) {
+            setIsClicked(false)
             console.error(err, "Error from event Information")
         }
     })()
-    }, [])
+    }, [JSON.stringify(eventByID.attendees)])
 
     const Item = styled(Typography)(({ theme }) => ({
         backgroundColor: '#fff',
@@ -48,6 +55,28 @@ export default function EventInformation() {
         }),
       }));
 
+      useEffect(()=> {
+        const findUser = localStorage.getItem("user")
+        if(findUser){
+            const parseUser = JSON.parse(findUser)
+            setUserID((prev) => {
+                return {...prev, _id: parseUser._id}
+            })
+        }
+    }, [])
+    
+      async function handleSignUp(event) {
+        event.preventDefault()
+        try {
+            const signUp = await signUpUserToEvent(event_id, userID)
+            setIsClicked(!false)
+            setEventByID(signUp)
+            return signUp
+        } catch (err) {
+            setIsClicked(false)
+            console.log(err, "Err from sign up function")
+        }
+      }
     return <Box>
     
     <Box sx={{display: "flex", justifyContent: "center"}}>
@@ -131,8 +160,8 @@ export default function EventInformation() {
                 {eventByID.price ? "£" + eventByID.price : "FREE"} 
             </Box>
             <Stack direction="column" sx={{mx: 3, mt: 3}}>
-                <Button variant="contained" color="success">
-                    Get Ticket
+                <Button variant="contained" color="success" onClick={handleSignUp} disabled={isClicked}>
+                  {eventByID._id && userID._id && eventByID.attendees.includes(userID._id) ? "Already Signed up to this event" : "Get Ticket"}  
                 </Button>
             </Stack>
             </Box>

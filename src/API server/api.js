@@ -41,3 +41,8 @@ export async function createEventInEventSpace(newEvent) {
     const {data : {addEvent}} = await instance.post("/events", newEvent)
     return addEvent
 }
+
+export async function signUpUserToEvent(event_id, userId) {
+    const {data: {addUserToEvent}} = await instance.post(`/events/signup/${event_id}`, userId )
+    return addUserToEvent
+}
