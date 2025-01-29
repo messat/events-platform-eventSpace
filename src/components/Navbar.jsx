@@ -143,7 +143,7 @@ export default function Navbar({setSearchTitle}) {
 
       <Box sx={{display: "flex", flexDirection: "row"}}>
       <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}}/>
-      <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Link href={"/events"} underline='hover' variant='button'>My account</Link></MenuItem>
+      <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Link href={"/events/user/account-management"} underline='hover' variant='button'>My account</Link></MenuItem>
       </Box>
 
        : null}
@@ -204,7 +204,7 @@ export default function Navbar({setSearchTitle}) {
         {isLoggedIn.username || isLoggedIn.employeeNumber ? 
          <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
          <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large'/>
-         <MenuItem onClick={handleMenuClose} ><Link href={"/events"} underline='hover' variant='button' sx={{fontSize: "16px", mt: 0.5}}>My account</Link></MenuItem>
+         <MenuItem onClick={handleMenuClose} ><Link href={"/events/user/account-management"} underline='hover' variant='button' sx={{fontSize: "16px", mt: 0.5}}>My account</Link></MenuItem>
          </Box>
           : null}
 
