@@ -15,6 +15,7 @@ import { useState, useEffect } from 'react';
 import UserContext from './Context/UserContext'
 import CreateEvent from './components/Forms/CreateEvent';
 import AccountManagement from './components/AccountManagement';
+import EmployeeAccountManagement from './components/EmployeeAccountManagement';
 
 
 
@@ -53,6 +54,7 @@ function App() {
         <Route path="/events/vpn/employee/login" element={<EmployeeLogin />} />
         <Route path="/events/vpn/employee/eventspace/register" element={<EmployeeRegister />} />
         <Route path="/events/vpn/employee/hostEvent" element={<CreateEvent />}></Route>
+        <Route path="/events/vpn/employee/account-management" element={<EmployeeAccountManagement />} />
         <Route path="/event/:event_id" element={<EventInformation />} />
       </Routes>
       </BrowserRouter>

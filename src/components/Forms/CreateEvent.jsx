@@ -1,5 +1,5 @@
-import { Avatar, Box, Button, Container, createTheme, Grid2, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
-import { Link as RouterLink, useNavigate} from 'react-router-dom'
+import { Avatar, Box, Button, Container, createTheme, Grid2, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
+import { useNavigate} from 'react-router-dom'
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../Context/UserContext";
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
@@ -36,7 +36,6 @@ export default function CreateEvent() {
         event.preventDefault()
         try {
             const newEvent = await createEventInEventSpace(formData)
-            console.log(newEvent)
             navigate("/")
             return newEvent
         } catch (err) {

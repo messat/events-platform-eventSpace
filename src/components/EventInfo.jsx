@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router"
 import { getEventById, signUpUserToEvent } from "../API server/api"
-import { Box, Container, createTheme, Grid2, Paper, styled, ThemeProvider, Typography } from "@mui/material"
+import { Box, Container, createTheme, Grid2, styled, ThemeProvider, Typography } from "@mui/material"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import LocationOnIcon from '@mui/icons-material/LocationOn';

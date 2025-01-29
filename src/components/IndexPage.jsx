@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider} from '@mui/material/styles';
 import AllEvents from "./AllEvents";
 
 
