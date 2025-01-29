@@ -4,16 +4,11 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import EventAvailableRoundedIcon from '@mui/icons-material/EventAvailableRounded';
 import Container from '@mui/material/Container';
@@ -139,7 +134,7 @@ export default function Navbar({setSearchTitle}) {
       <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Link href={"/events/user/login"} underline='hover' variant='button'>Log In</Link></MenuItem>
       </Box>}
 
-      {isLoggedIn.username || isLoggedIn.employeeNumber ? 
+      {isLoggedIn.username ? 
 
       <Box sx={{display: "flex", flexDirection: "row"}}>
       <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}}/>
@@ -147,6 +142,15 @@ export default function Navbar({setSearchTitle}) {
       </Box>
 
        : null}
+
+      {isLoggedIn.employeeNumber ? 
+
+      <Box sx={{display: "flex", flexDirection: "row"}}>
+      <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}}/>
+      <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Link href={"/events/vpn/employee/account-management"} underline='hover' variant='button'>My account</Link></MenuItem>
+      </Box>
+
+      : null}
 
        {isLoggedIn.employeeNumber ? 
         <Box sx={{display: "flex", flexDirection: "row"}}>
@@ -201,12 +205,21 @@ export default function Navbar({setSearchTitle}) {
       <MenuItem onClick={handleMenuClose} sx={{p: 1.2}}><Link href={"/events/user/login"} underline='hover' variant='button'>Log In</Link></MenuItem>
       </Box>}
 
-        {isLoggedIn.username || isLoggedIn.employeeNumber ? 
+        {isLoggedIn.username ? 
          <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
          <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large'/>
          <MenuItem onClick={handleMenuClose} ><Link href={"/events/user/account-management"} underline='hover' variant='button' sx={{fontSize: "16px", mt: 0.5}}>My account</Link></MenuItem>
          </Box>
           : null}
+        
+        {isLoggedIn.employeeNumber ? 
+         <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
+         <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large'/>
+         <MenuItem onClick={handleMenuClose} ><Link href={"/events/vpn/employee/account-management"} underline='hover' variant='button' sx={{fontSize: "16px", mt: 0.5}}>My account</Link></MenuItem>
+         </Box>
+          : null}
+
+        
 
         {isLoggedIn.employeeNumber ? 
          <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>

@@ -55,5 +55,14 @@ export async function fetchUserJoinedEvents(userId) {
 export async function cancelEventByUser(userId, id) {
     const {data: {cancelUserEvent}} = await instance.patch(`/events/user/cancelevent/${userId}`, id)
     return cancelUserEvent
-    
+}
+
+export async function hostedEventsByEmployee(employeeID) {
+    const {data: {employeeHosted} } = await instance.get(`/events/employee/author/${employeeID}`)
+    return employeeHosted
+}
+
+export async function deleteEventByEmployee(eventID) {
+    const data = await instance.delete(`/events/employee/deleteevent/${eventID}`)
+    return data
 }
