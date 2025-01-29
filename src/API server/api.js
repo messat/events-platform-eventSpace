@@ -46,3 +46,14 @@ export async function signUpUserToEvent(event_id, userId) {
     const {data: {addUserToEvent}} = await instance.post(`/events/signup/${event_id}`, userId )
     return addUserToEvent
 }
+
+export async function fetchUserJoinedEvents(userId) {
+    const { data: {userJoined}} = await instance.get(`/events/user/joined/${userId}`)
+    return userJoined
+}
+
+export async function cancelEventByUser(userId, id) {
+    const {data: {cancelUserEvent}} = await instance.patch(`/events/user/cancelevent/${userId}`, id)
+    return cancelUserEvent
+    
+}
