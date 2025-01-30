@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { getEventById, signUpUserToEvent } from "../API server/api"
 import { Box, Container, createTheme, Grid2, styled, ThemeProvider, Typography } from "@mui/material"
 import Stack from '@mui/material/Stack';
@@ -9,7 +9,8 @@ import CategoryIcon from '@mui/icons-material/Category';
 import TimelapseIcon from '@mui/icons-material/Timelapse';
 import Calendar from 'react-calendar';
 import UserContext from "../Context/UserContext";
-
+import Groups2Icon from '@mui/icons-material/Groups2';
+import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
 
 
 
@@ -20,10 +21,11 @@ export default function EventInformation() {
             fontFamily: 'sniglet'
         }
     })
+    const navigate = useNavigate()
 
     const {event_id} = useParams()
 
-    const [eventByID, setEventByID] = useState({})
+    const [eventByID, setEventByID] = useState({author: {firstname: "Farhana", lastname: "Essat"}})
     const [userID, setUserID] = useState({_id :""}) 
     const [isClicked, setIsClicked] = useState(false);
 
@@ -32,7 +34,9 @@ export default function EventInformation() {
        (async () => {
         try {
             const eventInfo = await getEventById(event_id)
-            setEventByID(eventInfo)
+            setEventByID((prev) => {
+                return {...prev, ...eventInfo}
+            })
             if(eventByID.attendees && userID._id && eventByID.attendees.includes(userID._id)){
                 setIsClicked(!false)
             }
@@ -68,10 +72,18 @@ export default function EventInformation() {
       async function handleSignUp(event) {
         event.preventDefault()
         try {
+            const checkUserLogin = JSON.parse(localStorage.getItem("user"))
+            const checkEmployeeLogin = JSON.parse(localStorage.getItem("employee"))
+            if(!checkUserLogin){
+                navigate("/events/user/login")
+            } 
+            if(checkEmployeeLogin){
+                navigate(`/event/${event_id}`)
+            }
             const signUp = await signUpUserToEvent(event_id, userID)
             setIsClicked(!false)
             setEventByID(signUp)
-            return signUp
+            navigate("/events/user/account-management")
         } catch (err) {
             setIsClicked(false)
             console.log(err, "Err from sign up function")
@@ -103,8 +115,15 @@ export default function EventInformation() {
 
         <Grid2 size={{ xs: 12, sm: 6, md: 7 }} sx={{my: 3}}>
             <ThemeProvider theme={theme}>
-          <Typography variant="h4" sx={{ typography: {xs: "h5", md: "h4"}}}>{eventByID.title}</Typography>
+          <Typography variant="h4" sx={{ typography: {xs: "h5", md: "h4"}}} color="primary">{eventByID.title}</Typography>
           </ThemeProvider>
+          
+        {eventByID.author ?
+          <Box sx={{bgcolor: "#eeeeee", p: 2, my: 1, borderRadius: 2, mt: 2}}>
+          <Typography>{eventByID.author.firstname} {" "} {eventByID.author.lastname} is hosting the event</Typography>
+          </Box>
+            : null}
+
           <Typography variant="h5" sx={{ mt: 2}}>Date and Time</Typography>
           <Typography variant="subtitle1" sx={{mt: 0.5}}>{eventByID.date}</Typography>
 
@@ -138,26 +157,31 @@ export default function EventInformation() {
           borderRadius: 1,
           bgcolor: '#2196f3',
           '&:hover': {
-            bgcolor: '#4caf50',
+            bgcolor: '#90caf9',
           },
         }}>
             <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-
             <Box component={"section"} sx={{
-                 p: 2, border: '5px dashed grey',
-                 marginTop: 3,
-                 textAlign: "center",
-                 mx: 3
+                border: '5px dashed white',
+                marginTop: 3,
+                textAlign: "center",
+                mx: 3,
             }}>
-                {eventByID.spaces} Spaces Available
+                <Groups2Icon fontSize="large"/>
+                <Typography variant="h6">{eventByID.spaces} Spaces</Typography>
             </Box>
             <Box sx={{
-               p: 2, border: '5px dashed grey',
+               border: '5px dashed white',
                marginTop: 3,
                textAlign: "center",
-               mx: 3
+               mx: 3,
+               display: "flex",
+               flexDirection: "row",
+               justifyContent: "center",
+               alignItems: "center"
             }}>
-                {eventByID.price ? "£" + eventByID.price : "FREE"} 
+                <CurrencyPoundIcon fontSize="medium"/>
+                <Typography variant="h6" fontSize={"23px"}>{eventByID.price ? + eventByID.price : "FREE"}</Typography>
             </Box>
             <Stack direction="column" sx={{mx: 3, mt: 3}}>
                 <Button variant="contained" color="success" onClick={handleSignUp} disabled={isClicked}>

@@ -4,6 +4,7 @@ import ButtonGroup from '@mui/joy/ButtonGroup';
 import Paper from '@mui/material/Paper';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Groups2Icon from '@mui/icons-material/Groups2';
+import CategoryIcon from '@mui/icons-material/Category';
 import { useEffect } from 'react';
 import { getAllEvents } from '../API server/api';
 import { useState } from 'react';
@@ -37,8 +38,14 @@ export default function AllEvents ({searchTitle}){
                         <Typography sx={{color: "grey", mx: 2, fontWeight: "bold"}} gutterBottom>{event.location}</Typography>
                         <Typography variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
                         
+                        <Box >
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                        <Typography sx={{display: "inline-block", mt: -1.4, mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.duration + " hr"}</Typography>
+                        <Typography sx={{display: "inline-block", mt: -5, mr: 2, typography: { xs: 'button', sm: 'body1', md: 'button'}}} variant='h6'>{event.category.slice(0, 1).toUpperCase() + event.category.slice(1)}</Typography>
+                        <CategoryIcon sx={{mr: 2, display: "inline-block", mt: -5 }}/>
+                        </div>
+
+                        <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
+                        <Typography sx={{display: "inline-block", mt: -1.4, mr: 2, typography: { xs: 'button', sm: 'body1', md: 'button'}}} variant='h6'>{event.duration + " hr"}</Typography>
                         <AccessTimeIcon sx={{mr: 2, display: "inline-block", mt: -1.4, mb: 1 }}/>
                         </div>
 
@@ -46,13 +53,14 @@ export default function AllEvents ({searchTitle}){
                             <Typography sx={{display: "inline-block", mr: 2, mt: -0.4, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.spaces + " spaces"}</Typography>
                             <Groups2Icon  sx={{mr: 2, display: "inline-block", mt: -0.5}}></Groups2Icon> 
                         </div>
+                        </Box>
                         
                         <ButtonGroup
                         color="primary"
                         orientation="horizontal"
                         size="md"
                         variant="solid"
-                        sx={{ '--ButtonGroup-radius': '40px', mx: 2, mt: -4.9}}
+                        sx={{ '--ButtonGroup-radius': '40px', mx: 1.5, mt: -4.4}}
                         >
                         <Button component={Link} to={`/event/${event._id}`}>View event</Button>
                         </ButtonGroup>

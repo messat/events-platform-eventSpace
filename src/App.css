@@ -8,11 +8,14 @@
 
 .eventSpaceImage {
     border-radius: 50%;
+    border-radius: 0.5%;
     object-fit: scale-down;
     max-height: 575px;
     background: rgba(234, 220, 216, 0.5);
     opacity: 0.7;
 }
+
+
 
 .missionText {
     color: rgba(0, 0, 0, 1);

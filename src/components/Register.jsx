@@ -145,14 +145,14 @@ export default function RegisterUser() {
             autoComplete="off"
             sx={{mb: 2}}
             /> 
-            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Log In to event space</Button>
+            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Register at event space</Button>
             </Box>
 
             <Grid2 container justifyContent="end" sx={{mt: 3, ml: 1}}>
                 
 
                 <Grid2 item="true" sx={{mt: 1}}>
-                <Link component={RouterLink} to="/employee/login" sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} className="StaffLink">Staff Account</Link>
+                <Link component={RouterLink} to="/events/vpn/employee/eventspace/register" sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} className="StaffLink">Staff Account</Link>
                 </Grid2>
             </Grid2>
 
