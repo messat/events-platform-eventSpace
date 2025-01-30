@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Container, createTheme, Grid2, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Avatar, Box, Button, Container, createTheme, FormHelperText, Grid2, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import { Link as RouterLink, useNavigate} from 'react-router-dom'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { useContext, useState } from "react";
@@ -18,16 +18,36 @@ export default function RegisterUser() {
 
     const [formData, setFormData] = useState({firstname: "", lastname: "", email: "", username: "", password: ""})
 
+    const [firstnameError, setFirstnameError] = useState(false)
+    const [lastnameError, setLastnameError] = useState(false)
+    const [emailError, setEmailError] = useState(false)
+    const [usernameError, setUsernameError] = useState(false)
+    const [passwordError, setPasswordError] = useState(false)
+    const [checkUniqueUsername, setCheckUniqueUsername] = useState(false)
+    const [checkUniqueEmail, setCheckUniqueEmail] = useState(false)
+    const [messageSubmission, setMessageSubmission] = useState(false)
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
             const addUser = await registerUserEventSpace(formData)
+            setCheckUniqueUsername(false)
+            setCheckUniqueEmail(false)
+            setMessageSubmission(false)
             setIsLoggedIn(addUser)
             localStorage.setItem("user", JSON.stringify(addUser))
             navigate("/")
             return addUser
         } catch (err) {
+            setMessageSubmission(true)
+            if(err.response.data.msg === "401 User already exists" && err.response.data.err.username){
+                setCheckUniqueUsername(true)
+                setCheckUniqueEmail(false)
+            }
+            if(err.response.data.msg === "401 User already exists" && err.response.data.err.email){
+                setCheckUniqueEmail(true)
+                setCheckUniqueUsername(false)
+            }
             console.error(err, "From handle submit - register user")
         }     
     }
@@ -42,9 +62,8 @@ export default function RegisterUser() {
             <ThemeProvider theme={theme}>
             <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Register with Event Space</Typography>
             </ThemeProvider>
-
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}}>Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.</FormHelperText> : ""}
             <Box component="form"
-            noValidate
             onSubmit={handleSubmit}
             sx={{mx: 1}}
             >
@@ -60,12 +79,20 @@ export default function RegisterUser() {
                 setFormData((curr) => {
                     return {...curr, [name]: value }
                 })
+                if(event.target.validity.valid){
+                    setFirstnameError(false)
+                } else {
+                    setFirstnameError(true)
+                }
             }}
+            slotProps={{htmlInput: {pattern: "[A-Za-z ]+"}}}
+            error={firstnameError}
+            helperText={firstnameError ? "Please Enter Your Firstname" : ""}
             fullWidth
             required
             autoFocus
             autoComplete="on"
-            sx={{mb: 2}}
+            sx={{mb: 2.5}}
             /> 
             <TextField 
             id="outlined-basic-lastname"
@@ -79,11 +106,19 @@ export default function RegisterUser() {
                 setFormData((curr) => {
                     return {...curr, [name]: value }
                 })
+                if(event.target.validity.valid){
+                    setLastnameError(false)
+                } else {
+                    setLastnameError(true)
+                }
             }}
+            error={lastnameError}
+            slotProps={{htmlInput: {pattern: "[A-Za-z ]+"}}}
+            helperText={lastnameError ? "Please Enter Your Lastname" : ""}
             fullWidth
             required
             autoComplete="on"
-            sx={{mb: 2}}
+            sx={{mb: 2.5}}
             /> 
 
             <TextField 
@@ -99,12 +134,20 @@ export default function RegisterUser() {
                 setFormData((curr) => {
                     return {...curr, [name]: value.trim()}
                 })
+                if(event.target.validity.valid){
+                    setEmailError(false)
+                } else {
+                    setEmailError(true)
+                }
             }}
+            error={emailError}
+            helperText={emailError ? "Please Enter A Valid Email" : ""}
             fullWidth
             required
             autoComplete="on"
-            sx={{mb: 2}}
+            sx={{mb: 2.5}}
             /> 
+            {checkUniqueEmail ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>This Email Already Exists. Please Try Another Email.</FormHelperText> : ""}
 
             <TextField 
             id="outlined-basic-username-register"
@@ -118,12 +161,23 @@ export default function RegisterUser() {
                 setFormData((curr) => {
                     return {...curr, [name]: value.trim()}
                 })
+                if(event.target.validity.valid){
+                    setUsernameError(false)
+                } else {
+                    setUsernameError(true)
+                }
             }}
+            error={usernameError}
+            slotProps={{htmlInput: {pattern: "[A-Za-z0-9]+"}}}
+            helperText={usernameError ? "Please Enter A Valid Username. This Should Not Include Any Special Characters !*_?" : ""}
             fullWidth
             required
             autoComplete="off"
-            sx={{mb: 2}}
+            sx={{mb: 2.5}}
             /> 
+
+            {checkUniqueUsername ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>This Username Already Exists. Please Try Again.</FormHelperText> : ""}
+
 
 
             <TextField 
@@ -139,11 +193,18 @@ export default function RegisterUser() {
                 setFormData((curr) => {
                     return {...curr, [name]: value}
                 })
+                if(event.target.validity.valid){
+                    setPasswordError(false)
+                } else {
+                    setPasswordError(true)
+                }
             }}
+            error={passwordError}
+            helperText={passwordError ? "Please Enter A Valid Password" : ""}
             required
             type="password"
             autoComplete="off"
-            sx={{mb: 2}}
+            sx={{mb: 2.5}}
             /> 
             <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Register at event space</Button>
             </Box>
@@ -152,7 +213,7 @@ export default function RegisterUser() {
                 
 
                 <Grid2 item="true" sx={{mt: 1}}>
-                <Link component={RouterLink} to="/events/vpn/employee/eventspace/register" sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} className="StaffLink">Staff Account</Link>
+                <Link component={RouterLink} to="/events/vpn/employee/login" sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} className="StaffLink">Staff Account</Link>
                 </Grid2>
             </Grid2>
 
