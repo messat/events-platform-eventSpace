@@ -31,6 +31,7 @@ const Search = styled('div')(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
+  marginTop: 1,
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
@@ -137,7 +138,7 @@ export default function Navbar({setSearchTitle}) {
       {isLoggedIn.username ? 
 
       <Box sx={{display: "flex", flexDirection: "row"}}>
-      <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}}/>
+      <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}} onClick={() => window.location.href="/events/user/account-management"}/>
       <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Link href={"/events/user/account-management"} underline='hover' variant='button'>My account</Link></MenuItem>
       </Box>
 
@@ -146,7 +147,7 @@ export default function Navbar({setSearchTitle}) {
       {isLoggedIn.employeeNumber ? 
 
       <Box sx={{display: "flex", flexDirection: "row"}}>
-      <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}}/>
+      <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}} onClick={() => window.location.href="/events/vpn/employee/account-management"}/>
       <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Link href={"/events/vpn/employee/account-management"} underline='hover' variant='button'>My account</Link></MenuItem>
       </Box>
 
@@ -190,7 +191,7 @@ export default function Navbar({setSearchTitle}) {
         localStorage.clear()
         window.location.href="/events/user/login"
       }} sx={{mr: 2}} fontSize='large'></LogoutIcon>
-      <Link href={"/events/user/login"} underline='hover' variant='button' sx={{fontSize: "16px"}}
+      <Link href={"/events/user/login"} underline='hover' variant='button' sx={{fontSize: "16px", ml: -0.2}}
       onClick={()=> { 
         setIsLoggedIn({}) 
         localStorage.clear()
@@ -207,14 +208,14 @@ export default function Navbar({setSearchTitle}) {
 
         {isLoggedIn.username ? 
          <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
-         <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large'/>
+         <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large' onClick={() => window.location.href="/events/user/account-management"}/>
          <MenuItem onClick={handleMenuClose} ><Link href={"/events/user/account-management"} underline='hover' variant='button' sx={{fontSize: "16px", mt: 0.5}}>My account</Link></MenuItem>
          </Box>
           : null}
         
         {isLoggedIn.employeeNumber ? 
          <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
-         <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large'/>
+         <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large' onClick={() => window.location.href="/events/vpn/employee/account-management"}/>
          <MenuItem onClick={handleMenuClose} ><Link href={"/events/vpn/employee/account-management"} underline='hover' variant='button' sx={{fontSize: "16px", mt: 0.5}}>My account</Link></MenuItem>
          </Box>
           : null}
@@ -223,7 +224,7 @@ export default function Navbar({setSearchTitle}) {
 
         {isLoggedIn.employeeNumber ? 
          <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
-         <EditCalendarIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large'/>
+         <EditCalendarIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large' onClick={() => window.location.href="/events/vpn/employee/hostEvent"}/>
          <MenuItem onClick={handleMenuClose} ><Link href={"/events/vpn/employee/hostEvent"} underline='hover' variant='button' sx={{fontSize: "16px", mt: 0.5}}>Host Event</Link></MenuItem>
          </Box>
           : null}
@@ -265,7 +266,7 @@ export default function Navbar({setSearchTitle}) {
               <SearchIcon/>
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search the event title…"
+              placeholder="Search The Event Title…"
               inputProps={{ 'aria-label': 'search' }}
               name="search"
               onChange={(event) => {

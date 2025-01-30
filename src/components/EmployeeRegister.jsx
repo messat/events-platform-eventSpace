@@ -146,7 +146,7 @@ export default function EmployeeRegister() {
             autoComplete="off"
             sx={{mb: 2}}
             /> 
-            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Register -- Event Space</Button>
+            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Employee Registration At Event Space</Button>
             </Box>   
 
         </Paper>

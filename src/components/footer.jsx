@@ -28,7 +28,7 @@ export default function Footer () {
           <Grid item="true">
             <ThemeProvider theme={theme}>
             <Typography color="textSecondary" variant="subtitle1">
-             © {`${new Date().getFullYear()} | Muhammad Essat | React JS | Material UI | Node | Express | MongoDB`}
+             © {`${new Date().getFullYear()} | Muhammad Essat | React JS | Material UI | Node | JavaScript | Express | MongoDB | Mongoose`}
             </Typography>
             </ThemeProvider>
           </Grid>
