@@ -10,6 +10,7 @@ import DurationSlider from "./SliderDuration";
 import GroupsIcon from '@mui/icons-material/Groups';
 import FormHelperText from '@mui/material/FormHelperText';
 import { createEventInEventSpace } from "../../API server/api";
+import HostEventLoading from "../LoadingState/HostingEventLoading";
 
 
 export default function CreateEvent() {
@@ -31,17 +32,40 @@ export default function CreateEvent() {
     }, [])
 
     const [formData, setFormData] = useState({title: "", date: "", description: "", location: "", event_img_url: "", price: 0, duration: 2, category: "", spaces: "", _id: ""})
+
+    const [titleError, setTitleError] = useState(false)
+    const [locationError, setLocationError] = useState(false)
+    const [imageAddressError, setImageAddressError] = useState(false)
+    const [spacesError, setSpacesError] = useState(false)
+    const [dateError, setDateError] = useState(false)
+    const [categoryError, setCategoryError] = useState(false)
+    const [descriptionError, setDescriptionError] = useState(false)
+    const [messageSubmission, setMessageSubmission] = useState(false)
+
+    const [isLoading, setIsLoading] = useState(false)
+
     
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
+            setIsLoading(true)
             const newEvent = await createEventInEventSpace(formData)
+            setMessageSubmission(false)
+            setIsLoading(false)
             navigate("/")
             return newEvent
         } catch (err) {
+            setIsLoading(false)
             console.error(err, "From handle submit - register user")
+            setMessageSubmission(true)
         }     
     }
+
+if(isLoading){
+    return (<Box>
+        <HostEventLoading />
+    </Box>)
+}
 
    return (<Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 4, p: 4}}>
@@ -53,9 +77,9 @@ export default function CreateEvent() {
             <ThemeProvider theme={theme}>
             <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Host an event at Event Space</Typography>
             </ThemeProvider>
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}}>Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.</FormHelperText> : ""}
 
             <Box component="form"
-            noValidate
             onSubmit={handleSubmit}
             sx={{mx: 1}}
             >
@@ -71,12 +95,19 @@ export default function CreateEvent() {
                 setFormData((curr) => {
                     return {...curr, [name]: value }
                 })
+                if(event.target.validity.valid){
+                    setTitleError(false)
+                } else {
+                    setTitleError(true)
+                }
             }}
+            error={titleError}
+            helperText={titleError ? "Please Enter A Title" : ""}
             fullWidth
             required
             autoFocus
             autoComplete="off"
-            sx={{mb: 2}}
+            sx={{mb: 2.5}}
             /> 
             
             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
@@ -93,10 +124,17 @@ export default function CreateEvent() {
                 setFormData((curr) => {
                     return {...curr, [name]: value }
                 })
+                if(event.target.validity.valid){
+                    setLocationError(false)
+                } else {
+                    setLocationError(true)
+                }
             }}
+            error={locationError}
+            helperText={locationError ? "Please Enter A Valid Location" : ""}
             required
             autoComplete="off"
-            sx={{mb: 2,  width: "92%"}}
+            sx={{mb: 2.5,  width: "92%"}}
             /> 
             </Box>
 
@@ -115,10 +153,17 @@ export default function CreateEvent() {
                 setFormData((curr) => {
                     return {...curr, [name]: value.trim()}
                 })
+                if(event.target.validity.valid){
+                    setImageAddressError(false)
+                } else {
+                    setImageAddressError(true)
+                }
             }}
+            error={imageAddressError}
+            helperText={imageAddressError ? "Please Enter A Image Address Link" : ""}
             required
             autoComplete="off"
-            sx={{mb: 2, width: "92%"}}
+            sx={{mb: 2.5, width: "92%"}}
             />
             </Box>
 
@@ -139,16 +184,23 @@ export default function CreateEvent() {
                 setFormData((curr) => {
                     return {...curr, [name]: value}
                 })
+                if(event.target.validity.valid){
+                    setSpacesError(false)
+                } else {
+                    setSpacesError(true)
+                } 
             }}
+            error={spacesError}
+            helperText={spacesError ? "Please Enter A Valid Number" : ""}
             required
             autoComplete="off"
-            sx={{mb: 2, width: "92%"}}
+            sx={{mb: 2.5, width: "92%"}}
             />
             </Box>
 
             <Box sx={{mt: 1.5}}>
                 <Typography variant="button" color="primary">Date of Event</Typography>
-                <FormHelperText sx={{mb: 1}} >Enter date in this format date: Sat, 20 Apr 2025 15:00 - 18:00 GMT</FormHelperText>
+                <FormHelperText sx={{mb: 1.4, mt: 1}} >Enter date in this format date: Sat, 20 Apr 2025 15:00 - 18:00 GMT</FormHelperText>
             <TextField 
             id="event_date"
             label="Event Date"
@@ -162,10 +214,17 @@ export default function CreateEvent() {
                 setFormData((curr) => {
                     return {...curr, [name]: value}
                 })
+                if(event.target.validity.valid){
+                    setDateError(false)
+                } else {
+                    setDateError(true)
+                } 
             }}
+            error={dateError}
+            helperText={dateError ? "Please Enter A Valid Date" : ""}
             required
             autoComplete="off"
-            sx={{mb: 2, width: "100%"}}
+            sx={{mb: 2.5, width: "100%"}}
             />
             </Box>
 
@@ -183,12 +242,19 @@ export default function CreateEvent() {
                 setFormData((curr) => {
                     return {...curr, [name]: value}
                 })
+                if(event.target.validity.valid){
+                    setCategoryError(false)
+                } else {
+                    setCategoryError(true)
+                } 
             }}
+            error={categoryError}
+            helperText={categoryError ? "Please Enter A Category" : ""}
             fullWidth
             type="text"
             required
             autoComplete="off"
-            sx={{mb: 2}}
+            sx={{mb: 2.5}}
             /> 
 
             <EventPriceSlider formData={formData} setFormData={setFormData} />
@@ -208,11 +274,18 @@ export default function CreateEvent() {
                 setFormData((curr) => {
                     return {...curr, [name]: value}
                 })
+                if(event.target.validity.valid){
+                    setDescriptionError(false)
+                } else {
+                    setDescriptionError(true)
+                } 
             }}
+            error={descriptionError}
+            helperText={descriptionError ? "Please Enter A Description About The Event" : ""}
             required
             type="text"
             autoComplete="off"
-            sx={{mb: 2, mt: 2.5}}
+            sx={{mb: 2.5, mt: 2.5}}
             multiline
             rows={3}
             /> 

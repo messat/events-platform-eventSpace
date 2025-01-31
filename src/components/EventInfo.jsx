@@ -11,6 +11,7 @@ import Calendar from 'react-calendar';
 import UserContext from "../Context/UserContext";
 import Groups2Icon from '@mui/icons-material/Groups2';
 import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
+import EventInfoLoadingScreen, { SignUpTicketLoading } from "./LoadingState/EventInfoLoading";
 
 
 
@@ -28,11 +29,16 @@ export default function EventInformation() {
     const [eventByID, setEventByID] = useState({author: {firstname: "Farhana", lastname: "Essat"}})
     const [userID, setUserID] = useState({_id :""}) 
     const [isClicked, setIsClicked] = useState(false);
+    const [isLoading, setIsLoading] = useState(true)
+
+    const [isLoadingTicket, setIsLoadingTicket] = useState(false)
 
     const [value, onChange] = useState(new Date())
+
     useEffect(() => {
        (async () => {
         try {
+            setIsLoading(true)
             const eventInfo = await getEventById(event_id)
             setEventByID((prev) => {
                 return {...prev, ...eventInfo}
@@ -40,8 +46,10 @@ export default function EventInformation() {
             if(eventByID.attendees && userID._id && eventByID.attendees.includes(userID._id)){
                 setIsClicked(!false)
             }
+            setIsLoading(false)
             return eventInfo
         } catch (err) {
+            setIsLoading(false)
             setIsClicked(false)
             console.error(err, "Error from event Information")
         }
@@ -80,15 +88,32 @@ export default function EventInformation() {
             if(checkEmployeeLogin){
                 navigate(`/event/${event_id}`)
             }
+            setIsLoadingTicket(true)
             const signUp = await signUpUserToEvent(event_id, userID)
             setIsClicked(!false)
+            setIsLoadingTicket(false)
             setEventByID(signUp)
             navigate("/events/user/account-management")
         } catch (err) {
             setIsClicked(false)
+            setIsLoadingTicket(false)
             console.log(err, "Err from sign up function")
         }
       }
+
+
+if(isLoading){
+    return (<Box>
+        <EventInfoLoadingScreen />
+    </Box>)
+}
+
+if(isLoadingTicket){
+    return (<Box>
+        <SignUpTicketLoading  eventByID={eventByID}/>
+    </Box>)
+}
+
     return <Box>
     
     <Box sx={{display: "flex", justifyContent: "center"}}>
@@ -102,6 +127,7 @@ export default function EventInformation() {
             borderRadius: "15px",
             maxHeight: { xs: 250, sm: 400, md: 500 },
             maxWidth: { xs: 400,sm: 650, md: 1300 },
+            boxShadow: 15
         }}
         src={eventByID.event_img_url}
         alt="Event Image"

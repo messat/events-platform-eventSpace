@@ -1,4 +1,4 @@
-import { Box, Grid2, Typography } from '@mui/material';
+import { Box, Grid2, Skeleton, Stack, Typography } from '@mui/material';
 import Button from '@mui/joy/Button';
 import ButtonGroup from '@mui/joy/ButtonGroup';
 import Paper from '@mui/material/Paper';
@@ -9,33 +9,47 @@ import { useEffect } from 'react';
 import { getAllEvents } from '../API server/api';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import LoadingEvents from './LoadingState/EventsLoading';
 
 export default function AllEvents ({searchTitle}){
-  const [allEvents, setAllEvents] = useState([]) 
+  const [allEvents, setAllEvents] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
       (async () => {
         try {
+          setIsLoading(true)
           const eventsArr = await getAllEvents(searchTitle)
           setAllEvents(eventsArr)
+          setIsLoading(false)
           return eventsArr
         } catch (err) {
+          setIsLoading(false)
           console.error(err, "From all events")
         }
       })()
   }, [searchTitle.search])
+
+  if(isLoading){
+    return (<Box>
+    <LoadingEvents />
+    </Box>)
+  }
+
+  
     
     return <Box>
         
         <Grid2 container spacing={2} sx={{marginX: {xs: "2.5em"}, marginTop: "2.7em", marginBottom: "2.5em"}}>
                 {Array.isArray(allEvents) ? allEvents.map((event) => (
             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3}} key={event._id}>
-                    <Paper elevation={6} spacing={5} item="true" sx={{maxHeight: "700px", minHeight: "435px", mb: 2}}>
+                    
+                        <Paper elevation={6} spacing={5} item="true" sx={{maxHeight: "700px", minHeight: "450px", mb: 2}}>
 
                         <img src={event.event_img_url} alt='Event Image' className='eventImage'/>
 
                         <Typography variant="h6" sx={{mx: 2, minHeight: 96, typography: { xs: 'h6', sm: 'body1', md: 'h6'}}} gutterBottom>{event.title}</Typography>
                         <Typography variant='subtitle1' sx={{mx: 2}} gutterBottom>{event.date.slice(0,22) + " GMT"}</Typography>
-                        <Typography sx={{color: "grey", mx: 2, fontWeight: "bold"}} gutterBottom>{event.location}</Typography>
+                        <Typography sx={{color: "grey", mx: 2, fontWeight: "bold", height: "40px"}} gutterBottom>{event.location}</Typography>
                         <Typography variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
                         
                         <Box >
@@ -51,7 +65,7 @@ export default function AllEvents ({searchTitle}){
 
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
                             <Typography sx={{display: "inline-block", mr: 2, mt: -0.4, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.spaces + " spaces"}</Typography>
-                            <Groups2Icon  sx={{mr: 2, display: "inline-block", mt: -0.5}}></Groups2Icon> 
+                            <Groups2Icon  sx={{mr: 2, display: "inline-block", mt: {xs: 0.1, sm: -0.5}}}></Groups2Icon> 
                         </div>
                         </Box>
                         
