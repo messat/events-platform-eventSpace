@@ -1,7 +1,6 @@
-import { Container, Grid2, Paper, Typography } from "@mui/material";
+import { Grid2, Paper, Typography } from "@mui/material";
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import AllEvents from "./AllEvents";
-import { Grid } from "@mui/joy";
 
 
 export default function IndexPage ({searchTitle}){

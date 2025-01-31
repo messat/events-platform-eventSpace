@@ -10,6 +10,7 @@ import DurationSlider from "./SliderDuration";
 import GroupsIcon from '@mui/icons-material/Groups';
 import FormHelperText from '@mui/material/FormHelperText';
 import { createEventInEventSpace } from "../../API server/api";
+import HostEventLoading from "../LoadingState/HostingEventLoading";
 
 
 export default function CreateEvent() {
@@ -41,19 +42,30 @@ export default function CreateEvent() {
     const [descriptionError, setDescriptionError] = useState(false)
     const [messageSubmission, setMessageSubmission] = useState(false)
 
+    const [isLoading, setIsLoading] = useState(false)
+
     
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
+            setIsLoading(true)
             const newEvent = await createEventInEventSpace(formData)
             setMessageSubmission(false)
+            setIsLoading(false)
             navigate("/")
             return newEvent
         } catch (err) {
+            setIsLoading(false)
             console.error(err, "From handle submit - register user")
             setMessageSubmission(true)
         }     
     }
+
+if(isLoading){
+    return (<Box>
+        <HostEventLoading />
+    </Box>)
+}
 
    return (<Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 4, p: 4}}>

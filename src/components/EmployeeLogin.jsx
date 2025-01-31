@@ -4,6 +4,8 @@ import BadgeIcon from '@mui/icons-material/Badge';
 import { useContext, useState } from "react";
 import { employeeLogInEventSpace } from "../API server/api";
 import UserContext from "../Context/UserContext";
+import LogInUserLoading from "./LoadingState/LoginUserLoading";
+
 
 export default function EmployeeLogin() {
     const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
@@ -19,20 +21,31 @@ export default function EmployeeLogin() {
     const [employeeIDError, setEmployeeIDError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
     const [messageSubmission, setMessageSubmission] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     
         const handleSubmit = async (event) => {
             event.preventDefault()
             try {
+                setIsLoading(true)
                 const employeeLogIn = await employeeLogInEventSpace(formData)
                 localStorage.setItem("employee", JSON.stringify(employeeLogIn))
                 setMessageSubmission(false)
                 setIsLoggedIn(employeeLogIn)
+                setIsLoading(false)
                 navigate("/")
             } catch (err) {
+                setIsLoading(false)
                 setMessageSubmission(true)
                 console.error(err, "Error from catch block, employee log in")
             }
     }
+
+if(isLoading){
+    return (<Box>
+        <LogInUserLoading />
+    </Box>)
+}
+
     return (<Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 8, p: 2, pb: 4}}>
 

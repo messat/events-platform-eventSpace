@@ -4,6 +4,7 @@ import { Link as RouterLink, useNavigate} from 'react-router-dom'
 import { useContext, useState } from "react";
 import { logInUserEventSpace } from "../API server/api";
 import UserContext from "../Context/UserContext";
+import LogInUserLoading from "./LoadingState/LoginUserLoading";
 
 
 
@@ -21,21 +22,31 @@ export default function Login() {
     const [usernameError, setUsernameError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
     const [messageSubmission, setMessageSubmission] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
+            setIsLoading(true)
             const loginUser = await logInUserEventSpace(formData)
             setIsLoggedIn(loginUser)
             setMessageSubmission(false)
+            setIsLoading(false)
             localStorage.setItem("user", JSON.stringify(loginUser))
             navigate("/")
         } catch (err) {
+            setIsLoading(false)
             setMessageSubmission(true)
             console.error(err, "Error from Promise chain, user login")
             const errorMessage = err.response.data.msg
         }
     }
+
+if(isLoading){
+    return <Box>
+        <LogInUserLoading />
+    </Box>
+}
 
    return (<Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 8, p: 2}}>

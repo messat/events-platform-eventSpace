@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { employeeRegisterEventSpace } from "../API server/api";
 import WorkIcon from '@mui/icons-material/Work';
 import UserContext from "../Context/UserContext";
+import { RegisterEmployeeLoading } from "./LoadingState/RegisterAccountLoading";
 
 export default function EmployeeRegister() {
       const {isLoggedIn, setIsLoggedIn} = useContext(UserContext) 
@@ -28,20 +29,25 @@ export default function EmployeeRegister() {
     const [messageSubmission, setMessageSubmission] = useState(false)
     const [checkEmployeeIDLength, setCheckEmployeeIDLength] = useState(false)
 
+    const [isLoading, setIsLoading] = useState(false)
+
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
+            setIsLoading(true)
             const registerEmployee = await employeeRegisterEventSpace(formData)
             setCheckUniqueEmail(false)
             setCheckUniqueEmployeeID(false)
             setCheckEmployeeIDLength(false)
             setMessageSubmission(false)
+            setIsLoading(false)
             localStorage.setItem("employee", JSON.stringify(registerEmployee))
             setIsLoggedIn(registerEmployee)
             navigate("/")
         } catch (err) {
-            // console.error(err, "From handle submit - register employee")
+            setIsLoading(false)
+            console.error(err, "From handle submit - register employee")
             setMessageSubmission(true)
             if(err.response.data.msg === "401 User already exists" && err.response.data.err.employeeNumber){
                 setCheckUniqueEmployeeID(true)
@@ -60,6 +66,12 @@ export default function EmployeeRegister() {
             }
         }     
     }
+
+if(isLoading){
+    return (<Box>
+        <RegisterEmployeeLoading />
+    </Box>)
+}
 
    return (<Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 8, p: 2, pb: 4}}>

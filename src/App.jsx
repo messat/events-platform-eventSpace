@@ -7,6 +7,7 @@ import 'react-calendar/dist/Calendar.css';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import './Login.css'
+import './Loading.css'
 import { Box } from '@mui/material';
 import RegisterUser from './components/Register';
 import EmployeeLogin from './components/EmployeeLogin';
@@ -43,10 +44,10 @@ function App() {
     <Box sx={{position: "relative", minHeight: "100vh"}}>
       <Box sx={{pb: "9rem"}}>
 
-    <Navbar setSearchTitle={setSearchTitle}/>
-
     <BrowserRouter>
+    <Navbar setSearchTitle={setSearchTitle}/>
       <Routes>
+
         <Route path="/" element={<IndexPage searchTitle={searchTitle} />} />
         <Route path="/events/user/login" element={<Login />} />
         <Route path="/events/user/register" element={<RegisterUser />} />

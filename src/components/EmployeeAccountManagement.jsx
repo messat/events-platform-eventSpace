@@ -7,6 +7,7 @@ import Button from '@mui/joy/Button';
 import {Button as SingleButton} from '@mui/material'
 import ButtonGroup from '@mui/joy/ButtonGroup';
 import { Link } from 'react-router-dom';
+import AccountManagmentUserLoading from "./LoadingState/AccountManagementLoading";
 
 
 export default function EmployeeAccountManagement () {
@@ -16,6 +17,8 @@ export default function EmployeeAccountManagement () {
     const [eventsHostedByEmployee, setEventsHostedByEmployee] = useState([])
 
     const [isClicked, setIsClicked] = useState(false)
+
+    const [isLoading, setIsLoading] = useState(true)
     const theme = createTheme({
         typography: {
             fontFamily: 'sniglet',
@@ -33,16 +36,25 @@ export default function EmployeeAccountManagement () {
         (async () => {
             try {
                 if(employeeID._id){
+                    setIsLoading(true)
                     const employeeHosted = await hostedEventsByEmployee(employeeID._id)
+                    setIsLoading(false)
                     setEventsHostedByEmployee(employeeHosted)
                     setIsClicked(false)   
                 }
             } catch (err) {
                 console.error("error from Employee Account management", err)
+                setIsLoading(false)
                 setIsClicked(false)
             }
         })()
     }, [employeeID._id && eventsHostedByEmployee.length  && isClicked])
+
+if(isLoading){
+    return (<Box>
+        <AccountManagmentUserLoading />
+    </Box>)
+}
 
 
     return (<Box sx={{mt: 4}}>

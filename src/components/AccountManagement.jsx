@@ -8,6 +8,7 @@ import {Button as SingleButton} from '@mui/material'
 
 import ButtonGroup from '@mui/joy/ButtonGroup';
 import { Link } from 'react-router-dom';
+import AccountManagmentUserLoading from "./LoadingState/AccountManagementLoading";
 
 
 export default function AccountManagement () {
@@ -17,6 +18,8 @@ export default function AccountManagement () {
     const [eventsUserJoined, setEventsUserJoined] = useState([])
 
     const [isClicked, setIsClicked] = useState(false)
+
+    const [isLoading, setIsLoading] = useState(true)
 
     const theme = createTheme({
         typography: {
@@ -36,18 +39,25 @@ export default function AccountManagement () {
         (async () => {
             try {
                 if(userID._id){
+                    setIsLoading(true)
                     const userJoinedEvents = await fetchUserJoinedEvents(userID._id)
                     setEventsUserJoined(userJoinedEvents)
+                    setIsLoading(false)
                     setIsClicked(false)   
                 }
             } catch (err) {
                 console.error("error from Account management", err)
                 setIsClicked(false)
+                setIsLoading(false)
             }
         })()
     }, [userID._id && eventsUserJoined.length && isClicked])
 
-
+if(isLoading){
+    return (<Box>
+        <AccountManagmentUserLoading />
+    </Box>)
+}
 
     return (<Box sx={{mt: 4}}>
         <Container maxWidth="sm">

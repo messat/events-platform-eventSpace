@@ -4,6 +4,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { useContext, useState } from "react";
 import { registerUserEventSpace } from "../API server/api";
 import UserContext from "../Context/UserContext";
+import RegisterUserLoading from "./LoadingState/RegisterAccountLoading";
 
 export default function RegisterUser() {
 
@@ -27,18 +28,23 @@ export default function RegisterUser() {
     const [checkUniqueEmail, setCheckUniqueEmail] = useState(false)
     const [messageSubmission, setMessageSubmission] = useState(false)
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
+            setIsLoading(true)
             const addUser = await registerUserEventSpace(formData)
             setCheckUniqueUsername(false)
             setCheckUniqueEmail(false)
             setMessageSubmission(false)
             setIsLoggedIn(addUser)
+            setIsLoading(false)
             localStorage.setItem("user", JSON.stringify(addUser))
             navigate("/")
             return addUser
         } catch (err) {
+            setIsLoading(false)
             setMessageSubmission(true)
             if(err.response.data.msg === "401 User already exists" && err.response.data.err.username){
                 setCheckUniqueUsername(true)
@@ -51,6 +57,12 @@ export default function RegisterUser() {
             console.error(err, "From handle submit - register user")
         }     
     }
+
+if(isLoading){
+    return (<Box>
+        <RegisterUserLoading />
+    </Box>)
+}
 
    return (<Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 8, p: 2}}>
