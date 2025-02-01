@@ -5,6 +5,7 @@ import { employeeRegisterEventSpace } from "../API server/api";
 import WorkIcon from '@mui/icons-material/Work';
 import UserContext from "../Context/UserContext";
 import { RegisterEmployeeLoading } from "./LoadingState/RegisterAccountLoading";
+import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 export default function EmployeeRegister({setRegistrationLogInAlertSuccess}) {
       const {isLoggedIn, setIsLoggedIn} = useContext(UserContext) 
@@ -30,6 +31,7 @@ export default function EmployeeRegister({setRegistrationLogInAlertSuccess}) {
     const [checkEmployeeIDLength, setCheckEmployeeIDLength] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(null)
 
 
     const handleSubmit = async (event) => {
@@ -37,6 +39,7 @@ export default function EmployeeRegister({setRegistrationLogInAlertSuccess}) {
         try {
             setIsLoading(true)
             const registerEmployee = await employeeRegisterEventSpace(formData)
+            setIsError(null)
             setRegistrationLogInAlertSuccess(true)
             setCheckUniqueEmail(false)
             setCheckUniqueEmployeeID(false)
@@ -48,6 +51,7 @@ export default function EmployeeRegister({setRegistrationLogInAlertSuccess}) {
             navigate("/")
         } catch (err) {
             setRegistrationLogInAlertSuccess(false)
+            setIsError(err)
             setIsLoading(false)
             console.error(err, "From handle submit - register employee")
             setMessageSubmission(true)
@@ -73,6 +77,16 @@ if(isLoading){
     return (<Box>
         <RegisterEmployeeLoading />
     </Box>)
+}
+
+if(isError){
+    if(!isError.response){
+      return (<Box>
+        <ErrorHandlerClient isError={isError} />
+    </Box>)
+    } else {
+        setIsError(null)
+    }
 }
 
    return (<Container maxWidth="sm">

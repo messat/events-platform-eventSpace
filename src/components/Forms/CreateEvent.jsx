@@ -11,6 +11,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import FormHelperText from '@mui/material/FormHelperText';
 import { createEventInEventSpace } from "../../API server/api";
 import HostEventLoading from "../LoadingState/HostingEventLoading";
+import ErrorHandlerClient from "../ErrorState/ErrorIndex";
 
 
 export default function CreateEvent({setCreateEventAlert}) {
@@ -43,6 +44,7 @@ export default function CreateEvent({setCreateEventAlert}) {
     const [messageSubmission, setMessageSubmission] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(null)
 
     
     const handleSubmit = async (event) => {
@@ -50,6 +52,7 @@ export default function CreateEvent({setCreateEventAlert}) {
         try {
             setIsLoading(true)
             const newEvent = await createEventInEventSpace(formData)
+            setIsError(null)
             setCreateEventAlert(true)
             setMessageSubmission(false)
             setIsLoading(false)
@@ -57,6 +60,7 @@ export default function CreateEvent({setCreateEventAlert}) {
             return newEvent
         } catch (err) {
             setCreateEventAlert(false)
+            setIsError(err)
             setIsLoading(false)
             console.error(err, "From handle submit - register user")
             setMessageSubmission(true)
@@ -66,6 +70,12 @@ export default function CreateEvent({setCreateEventAlert}) {
 if(isLoading){
     return (<Box>
         <HostEventLoading />
+    </Box>)
+}
+
+if(isError){
+      return (<Box>
+        <ErrorHandlerClient isError={isError} />
     </Box>)
 }
 

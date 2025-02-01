@@ -5,10 +5,12 @@ import { useContext, useState } from "react";
 import { logInUserEventSpace } from "../API server/api";
 import UserContext from "../Context/UserContext";
 import LogInUserLoading from "./LoadingState/LoginUserLoading";
+import UserLogOutAlertSuccess from "./Alerts/LogoutAlert";
+import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 
 
-export default function Login({setUserLogInAlert}) {
+export default function Login({setUserLogInAlert, userLogOutAlert, setUserLogOutAlert}) {
     const {setIsLoggedIn} = useContext(UserContext)
 
     const theme = createTheme({
@@ -22,13 +24,16 @@ export default function Login({setUserLogInAlert}) {
     const [usernameError, setUsernameError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
     const [messageSubmission, setMessageSubmission] = useState(false)
+
     const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(null)
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
             setIsLoading(true)
             const loginUser = await logInUserEventSpace(formData)
+            setIsError(null)
             setUserLogInAlert(true)
             setIsLoggedIn(loginUser)
             setMessageSubmission(false)
@@ -37,10 +42,10 @@ export default function Login({setUserLogInAlert}) {
             navigate("/")
         } catch (err) {
             setUserLogInAlert(false)
+            setIsError(err)
             setIsLoading(false)
             setMessageSubmission(true)
             console.error(err, "Error from Promise chain, user login")
-            const errorMessage = err.response.data.msg
         }
     }
 
@@ -50,7 +55,20 @@ if(isLoading){
     </Box>
 }
 
-   return (<Container maxWidth="sm">
+if(isError){
+    if(!isError.response){
+      return (<Box>
+        <ErrorHandlerClient isError={isError} />
+    </Box>)
+    } else {
+        setIsError(null)
+    }
+}
+
+   return (<Box>
+    {userLogOutAlert ? <Box> <UserLogOutAlertSuccess setUserLogOutAlert={setUserLogOutAlert} />
+        </Box> : null}
+   <Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 8, p: 2}}>
 
             <Avatar sx={{ width: 56, height: 56, bgcolor: '#2196f3', mx: 'auto', textAlign: "center", mb: 2 }}>
@@ -136,5 +154,6 @@ if(isLoading){
 
         </Paper>
     </Container>
+    </Box>
    )
 }

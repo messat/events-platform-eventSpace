@@ -1,4 +1,4 @@
-import { Box, Grid2, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, Grid2, Typography } from '@mui/material';
 import Button from '@mui/joy/Button';
 import ButtonGroup from '@mui/joy/ButtonGroup';
 import Paper from '@mui/material/Paper';
@@ -10,19 +10,24 @@ import { getAllEvents } from '../API server/api';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoadingEvents from './LoadingState/EventsLoading';
+import ErrorHandlerClient from './ErrorState/ErrorIndex';
 
 export default function AllEvents ({searchTitle}){
   const [allEvents, setAllEvents] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState(null)
   useEffect(() => {
       (async () => {
         try {
+         
           setIsLoading(true)
           const eventsArr = await getAllEvents(searchTitle)
+          setIsError(null)
           setAllEvents(eventsArr)
           setIsLoading(false)
           return eventsArr
         } catch (err) {
+          setIsError(err)
           setIsLoading(false)
           console.error(err, "From all events")
         }
@@ -35,6 +40,11 @@ export default function AllEvents ({searchTitle}){
     </Box>)
   }
 
+  if(isError){
+    return (<Box>
+      <ErrorHandlerClient isError={isError} />
+    </Box>)
+  }
   
     
     return <Box>
