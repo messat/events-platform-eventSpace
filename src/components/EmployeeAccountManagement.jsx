@@ -8,9 +8,11 @@ import {Button as SingleButton} from '@mui/material'
 import ButtonGroup from '@mui/joy/ButtonGroup';
 import { Link } from 'react-router-dom';
 import AccountManagmentUserLoading from "./LoadingState/AccountManagementLoading";
+import CreateEventAlertSuccess from "./Alerts/HostingEventLoading";
+import CancelEventByEmployeeAlertSuccess from "./Alerts/CancelEventAlert";
 
 
-export default function EmployeeAccountManagement () {
+export default function EmployeeAccountManagement ({ createEventAlert, setCreateEventAlert, cancelEventByEmployeeAlert, setCanelEventByEmployeeAlert}) {
     
     const [employeeID, setEmployeeID] = useState({})
 
@@ -50,6 +52,21 @@ export default function EmployeeAccountManagement () {
         })()
     }, [employeeID._id && eventsHostedByEmployee.length  && isClicked])
 
+
+    async function handleCancelEventByEmployer(event) {
+        try {
+            setIsLoading(true)
+            await deleteEventByEmployee(event._id)
+            setCanelEventByEmployeeAlert(true)
+            setIsLoading(false)
+            setIsClicked(!false)
+        } catch (err) {
+            setIsLoading(false)
+            setCanelEventByEmployeeAlert(false)
+            setIsClicked(false)
+        }
+    }
+
 if(isLoading){
     return (<Box>
         <AccountManagmentUserLoading />
@@ -65,6 +82,14 @@ if(isLoading){
             </ThemeProvider>
         </Box>
         </Container>
+        {createEventAlert ? <Box sx={{mb: 3}}>
+            <CreateEventAlertSuccess setCreateEventAlert={setCreateEventAlert} />
+        </Box> : null}
+
+        {cancelEventByEmployeeAlert ? <Box sx={{mb: 3}}>
+            <CancelEventByEmployeeAlertSuccess setCanelEventByEmployeeAlert={setCanelEventByEmployeeAlert} />
+        </Box> : null}
+
     <Container maxWidth="lg">
         <Grid2 container spacing={4}>
 
@@ -77,6 +102,7 @@ if(isLoading){
                 </Box>
                 </Paper>
             </Grid2>
+
 
             {eventsHostedByEmployee.length ? eventsHostedByEmployee.map((event) => (
                 <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 4}} key={event._id}>
@@ -108,9 +134,8 @@ if(isLoading){
                         </ButtonGroup>
 
                         <Stack spacing={2} direction="row" sx={{display: "flex", justifyContent: "center", mt: 2}}>
-                            <SingleButton variant="contained" sx={{width: "93%", borderRadius: "20px"}} color="error" onClick={async ()=> {
-                                await deleteEventByEmployee(event._id)
-                                setIsClicked(!false)
+                            <SingleButton variant="contained" sx={{width: "93%", borderRadius: "20px"}} color="error" onClick={()=> {
+                                return handleCancelEventByEmployer(event)
                             }}>Cancel Event</SingleButton>
                         </Stack>
                         

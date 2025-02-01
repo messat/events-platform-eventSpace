@@ -7,7 +7,7 @@ import UserContext from "../Context/UserContext";
 import LogInUserLoading from "./LoadingState/LoginUserLoading";
 
 
-export default function EmployeeLogin() {
+export default function EmployeeLogin({setUserLogInAlert}) {
     const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
 
     const theme = createTheme({
@@ -31,10 +31,12 @@ export default function EmployeeLogin() {
                 localStorage.setItem("employee", JSON.stringify(employeeLogIn))
                 setMessageSubmission(false)
                 setIsLoggedIn(employeeLogIn)
+                setUserLogInAlert(true)
                 setIsLoading(false)
                 navigate("/")
             } catch (err) {
                 setIsLoading(false)
+                setUserLogInAlert(false)
                 setMessageSubmission(true)
                 console.error(err, "Error from catch block, employee log in")
             }

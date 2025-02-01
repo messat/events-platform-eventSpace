@@ -25,6 +25,18 @@ function App() {
 
   const [searchTitle, setSearchTitle] = useState({search: ""})
 
+  const [userLogInAlert, setUserLogInAlert] = useState(false)
+
+  const [registrationLogInAlertSuccess, setRegistrationLogInAlertSuccess] = useState(false)
+
+  const [createEventAlert, setCreateEventAlert] = useState(false)
+
+  const [cancelEventByEmployeeAlert, setCanelEventByEmployeeAlert] = useState(false)
+
+  const [cancelTicketByUserAlert, setCancelTicketByUserAlert] = useState(false)
+
+  const [bookingTicketByUserAlert, setBookingTicketByUserAlert] = useState(false)
+
   useEffect(()=>{
     const userLoggedIn = localStorage.getItem("user")
     const employeeLoggedIn = localStorage.getItem("employee")
@@ -48,15 +60,15 @@ function App() {
     <Navbar setSearchTitle={setSearchTitle}/>
       <Routes>
 
-        <Route path="/" element={<IndexPage searchTitle={searchTitle} />} />
-        <Route path="/events/user/login" element={<Login />} />
-        <Route path="/events/user/register" element={<RegisterUser />} />
-        <Route path="/events/user/account-management" element={<AccountManagement />}/>
-        <Route path="/events/vpn/employee/login" element={<EmployeeLogin />} />
-        <Route path="/events/vpn/employee/eventspace/register" element={<EmployeeRegister />} />
-        <Route path="/events/vpn/employee/hostEvent" element={<CreateEvent />}></Route>
-        <Route path="/events/vpn/employee/account-management" element={<EmployeeAccountManagement />} />
-        <Route path="/event/:event_id" element={<EventInformation />} />
+        <Route path="/" element={<IndexPage searchTitle={searchTitle} userLogInAlert={userLogInAlert} setUserLogInAlert={setUserLogInAlert} registrationLogInAlertSuccess={registrationLogInAlertSuccess} setRegistrationLogInAlertSuccess={setRegistrationLogInAlertSuccess} />} />
+        <Route path="/events/user/login" element={<Login setUserLogInAlert={setUserLogInAlert} />} />
+        <Route path="/events/user/register" element={<RegisterUser setRegistrationLogInAlertSuccess={setRegistrationLogInAlertSuccess} />} />
+        <Route path="/events/user/account-management" element={<AccountManagement cancelTicketByUserAlert={cancelTicketByUserAlert} setCancelTicketByUserAlert={setCancelTicketByUserAlert} bookingTicketByUserAlert={bookingTicketByUserAlert} setBookingTicketByUserAlert={setBookingTicketByUserAlert}/>}/>
+        <Route path="/events/vpn/employee/login" element={<EmployeeLogin setUserLogInAlert={setUserLogInAlert} />} />
+        <Route path="/events/vpn/employee/eventspace/register" element={<EmployeeRegister setRegistrationLogInAlertSuccess={setRegistrationLogInAlertSuccess} />} />
+        <Route path="/events/vpn/employee/hostEvent" element={<CreateEvent setCreateEventAlert={setCreateEventAlert} />}></Route>
+        <Route path="/events/vpn/employee/account-management" element={<EmployeeAccountManagement createEventAlert={createEventAlert} setCreateEventAlert={setCreateEventAlert} cancelEventByEmployeeAlert={cancelEventByEmployeeAlert} setCanelEventByEmployeeAlert={setCanelEventByEmployeeAlert} />} />
+        <Route path="/event/:event_id" element={<EventInformation setBookingTicketByUserAlert={setBookingTicketByUserAlert} />} />
       </Routes>
       </BrowserRouter>
 

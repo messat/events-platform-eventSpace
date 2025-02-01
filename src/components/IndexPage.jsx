@@ -1,17 +1,31 @@
-import { Grid2, Paper, Typography } from "@mui/material";
+import { Box, Grid2, Paper, Typography } from "@mui/material";
 import { createTheme, ThemeProvider} from '@mui/material/styles';
 import AllEvents from "./AllEvents";
+import UserLogInAlertSuccess from "./Alerts/UserLogInAlert";
+import RegistrationLoginAlert from "./Alerts/RegistrationLoginAlert";
 
 
-export default function IndexPage ({searchTitle}){
+export default function IndexPage ({searchTitle, userLogInAlert, setUserLogInAlert, registrationLogInAlertSuccess, setRegistrationLogInAlertSuccess }){
     const theme = createTheme({
         typography: {fontFamily: 'sniglet'}
       })
+    
+
+
     return <div style={{marginTop: 20}}>
         
         <ThemeProvider theme={theme}>
         <Typography variant="h2" sx={{textAlign: "center", mt: "21px"}} color="primary" gutterBottom>Welcome to Event Space</Typography>
         </ThemeProvider>
+        
+        {userLogInAlert ? <Box>
+        <UserLogInAlertSuccess setUserLogInAlert={setUserLogInAlert} />
+        </Box> : null}
+        
+        {registrationLogInAlertSuccess ? <Box>
+        <RegistrationLoginAlert setRegistrationLogInAlertSuccess={setRegistrationLogInAlertSuccess} />
+        </Box> : null}
+
         <Grid2 container spacing={2} sx={{marginX: {xs: "2.5em"}, marginTop: "2.7em", marginBottom: "2.5em"}}>
             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3}}>
         <Paper elevation={24} sx={{minHeight: "325px", bgcolor: "#1769aa", display: "flex", alignItems: "center"}} >

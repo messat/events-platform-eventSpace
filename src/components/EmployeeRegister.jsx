@@ -6,7 +6,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import UserContext from "../Context/UserContext";
 import { RegisterEmployeeLoading } from "./LoadingState/RegisterAccountLoading";
 
-export default function EmployeeRegister() {
+export default function EmployeeRegister({setRegistrationLogInAlertSuccess}) {
       const {isLoggedIn, setIsLoggedIn} = useContext(UserContext) 
 
     const theme = createTheme({
@@ -37,6 +37,7 @@ export default function EmployeeRegister() {
         try {
             setIsLoading(true)
             const registerEmployee = await employeeRegisterEventSpace(formData)
+            setRegistrationLogInAlertSuccess(true)
             setCheckUniqueEmail(false)
             setCheckUniqueEmployeeID(false)
             setCheckEmployeeIDLength(false)
@@ -46,6 +47,7 @@ export default function EmployeeRegister() {
             setIsLoggedIn(registerEmployee)
             navigate("/")
         } catch (err) {
+            setRegistrationLogInAlertSuccess(false)
             setIsLoading(false)
             console.error(err, "From handle submit - register employee")
             setMessageSubmission(true)

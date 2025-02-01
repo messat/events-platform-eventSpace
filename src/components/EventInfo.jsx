@@ -15,7 +15,7 @@ import EventInfoLoadingScreen, { SignUpTicketLoading } from "./LoadingState/Even
 
 
 
-export default function EventInformation() {
+export default function EventInformation({setBookingTicketByUserAlert}) {
     const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
     const theme = createTheme({
         typography: {
@@ -90,14 +90,15 @@ export default function EventInformation() {
             }
             setIsLoadingTicket(true)
             const signUp = await signUpUserToEvent(event_id, userID)
+            setBookingTicketByUserAlert(true)
             setIsClicked(!false)
             setIsLoadingTicket(false)
             setEventByID(signUp)
             navigate("/events/user/account-management")
         } catch (err) {
             setIsClicked(false)
+            setBookingTicketByUserAlert(false)
             setIsLoadingTicket(false)
-            console.log(err, "Err from sign up function")
         }
       }
 
