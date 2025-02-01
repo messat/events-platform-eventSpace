@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 import { getEventById, signUpUserToEvent } from "../API server/api"
-import { Box, Container, createTheme, Grid2, styled, ThemeProvider, Typography } from "@mui/material"
+import { Box, Container, createTheme, Grid2, ThemeProvider, Typography } from "@mui/material"
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -12,6 +12,7 @@ import UserContext from "../Context/UserContext";
 import Groups2Icon from '@mui/icons-material/Groups2';
 import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
 import EventInfoLoadingScreen, { SignUpTicketLoading } from "./LoadingState/EventInfoLoading";
+import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 
 
@@ -33,6 +34,8 @@ export default function EventInformation({setBookingTicketByUserAlert}) {
 
     const [isLoadingTicket, setIsLoadingTicket] = useState(false)
 
+    const [isError, setIsError] = useState(null)
+
     const [value, onChange] = useState(new Date())
 
     useEffect(() => {
@@ -40,6 +43,7 @@ export default function EventInformation({setBookingTicketByUserAlert}) {
         try {
             setIsLoading(true)
             const eventInfo = await getEventById(event_id)
+            setIsError(null)
             setEventByID((prev) => {
                 return {...prev, ...eventInfo}
             })
@@ -50,22 +54,12 @@ export default function EventInformation({setBookingTicketByUserAlert}) {
             return eventInfo
         } catch (err) {
             setIsLoading(false)
+            setIsError(err)
             setIsClicked(false)
             console.error(err, "Error from event Information")
         }
     })()
     }, [JSON.stringify(eventByID.attendees)])
-
-    const Item = styled(Typography)(({ theme }) => ({
-        backgroundColor: '#fff',
-        ...theme.typography.h4,
-        padding: theme.spacing(1),
-        textAlign: 'start',
-        color: theme.palette.text.secondary,
-        ...theme.applyStyles('dark', {
-          backgroundColor: '#1A2027',
-        }),
-      }));
 
       useEffect(()=> {
         const findUser = localStorage.getItem("user")
@@ -90,12 +84,14 @@ export default function EventInformation({setBookingTicketByUserAlert}) {
             }
             setIsLoadingTicket(true)
             const signUp = await signUpUserToEvent(event_id, userID)
+            setIsError(null)
             setBookingTicketByUserAlert(true)
             setIsClicked(!false)
             setIsLoadingTicket(false)
             setEventByID(signUp)
             navigate("/events/user/account-management")
         } catch (err) {
+            setIsError(err)
             setIsClicked(false)
             setBookingTicketByUserAlert(false)
             setIsLoadingTicket(false)
@@ -114,6 +110,15 @@ if(isLoadingTicket){
         <SignUpTicketLoading  eventByID={eventByID}/>
     </Box>)
 }
+
+
+if(isError){
+    return (<Box>
+        <ErrorHandlerClient isError={isError} />
+    </Box>)
+}
+
+
 
     return <Box>
     

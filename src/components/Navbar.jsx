@@ -13,14 +13,14 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import EventAvailableRoundedIcon from '@mui/icons-material/EventAvailableRounded';
 import Container from '@mui/material/Container';
 import { createTheme } from '@mui/material/styles';
-import { Link, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useState, useContext } from 'react';
 import UserContext from '../Context/UserContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LoginIcon from '@mui/icons-material/Login';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-import { NavLink, useHref, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -71,7 +71,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
-export default function Navbar({setSearchTitle}) {
+export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
   const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -120,6 +120,7 @@ export default function Navbar({setSearchTitle}) {
       <LogoutIcon sx={{mt: 0.9, ml:1.5}} onClick={() => {
         setIsLoggedIn({})
         localStorage.clear()
+        setUserLogOutAlert(true)
         navigate("/events/user/login")
       }}></LogoutIcon>
       <MenuItem onClick={handleMenuClose} sx={{p: 1}}>
@@ -127,6 +128,7 @@ export default function Navbar({setSearchTitle}) {
       onClick={()=> {
         setIsLoggedIn({}) 
         localStorage.clear()
+        setUserLogOutAlert(true)
         navigate("/events/user/login")
         }}>{isLoggedIn.employeeNumber ? "Employee Log Out" : "Log Out"}</Typography>
       </MenuItem>
@@ -193,12 +195,14 @@ export default function Navbar({setSearchTitle}) {
       <LogoutIcon onClick={() => {
         setIsLoggedIn({})
         localStorage.clear()
+        setUserLogOutAlert(true)
         navigate("/events/user/login")
       }} sx={{mr: 2}} fontSize='large'></LogoutIcon>
       <Typography color='primary' underline='hover' variant='button' sx={{fontSize: "16px", ml: -0.2}}
       onClick={()=> { 
         setIsLoggedIn({}) 
         localStorage.clear()
+        setUserLogOutAlert(true)
         navigate("/events/user/login")
         }}>{isLoggedIn.employeeNumber ? "Employee Log Out" : "Log Out"}</Typography>
       </MenuItem>

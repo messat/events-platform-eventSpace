@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { registerUserEventSpace } from "../API server/api";
 import UserContext from "../Context/UserContext";
 import RegisterUserLoading from "./LoadingState/RegisterAccountLoading";
+import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 export default function RegisterUser({setRegistrationLogInAlertSuccess}) {
 
@@ -29,12 +30,14 @@ export default function RegisterUser({setRegistrationLogInAlertSuccess}) {
     const [messageSubmission, setMessageSubmission] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(null)
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
             setIsLoading(true)
             const addUser = await registerUserEventSpace(formData)
+            setIsError(null)
             setRegistrationLogInAlertSuccess(true)
             setCheckUniqueUsername(false)
             setCheckUniqueEmail(false)
@@ -46,6 +49,7 @@ export default function RegisterUser({setRegistrationLogInAlertSuccess}) {
             return addUser
         } catch (err) {
             setRegistrationLogInAlertSuccess(false)
+            setIsError(err)
             setIsLoading(false)
             setMessageSubmission(true)
             if(err.response.data.msg === "401 User already exists" && err.response.data.err.username){
@@ -64,6 +68,16 @@ if(isLoading){
     return (<Box>
         <RegisterUserLoading />
     </Box>)
+}
+
+if(isError){
+    if(!isError.response){
+      return (<Box>
+        <ErrorHandlerClient isError={isError} />
+    </Box>)
+    } else {
+        setIsError(null)
+    }
 }
 
    return (<Container maxWidth="sm">

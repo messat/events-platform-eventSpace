@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import AccountManagmentUserLoading from "./LoadingState/AccountManagementLoading";
 import { EventTicketCancelledByUserAlert } from "./Alerts/CancelEventAlert";
 import BookingTicketAlertSuccess from "./Alerts/BookingTicketAlert";
+import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 
 export default function AccountManagement ({cancelTicketByUserAlert, setCancelTicketByUserAlert, bookingTicketByUserAlert, setBookingTicketByUserAlert}) {
@@ -22,6 +23,7 @@ export default function AccountManagement ({cancelTicketByUserAlert, setCancelTi
     const [isClicked, setIsClicked] = useState(false)
 
     const [isLoading, setIsLoading] = useState(true)
+    const [isError, setIsError] = useState(null)
 
     const theme = createTheme({
         typography: {
@@ -43,12 +45,14 @@ export default function AccountManagement ({cancelTicketByUserAlert, setCancelTi
                 if(userID._id){
                     setIsLoading(true)
                     const userJoinedEvents = await fetchUserJoinedEvents(userID._id)
+                    setIsError(null)
                     setEventsUserJoined(userJoinedEvents)
                     setIsLoading(false)
                     setIsClicked(false)   
                 }
             } catch (err) {
                 console.error("error from Account management", err)
+                setIsError(err)
                 setIsClicked(false)
                 setIsLoading(false)
             }
@@ -60,12 +64,14 @@ export default function AccountManagement ({cancelTicketByUserAlert, setCancelTi
         try {
             setIsLoading(true)
             await cancelEventByUser(userID._id, {id: event._id, spaces: event.spaces})
+            setIsError(null)
             setCancelTicketByUserAlert(true)
             setIsLoading(false)
             setIsClicked(!false)
             
         } catch (err) {
             setCancelTicketByUserAlert(false)
+            setIsError(err)
             setIsClicked(false)
         }
     }
@@ -75,6 +81,12 @@ if(isLoading){
         <AccountManagmentUserLoading />
     </Box>)
 }
+
+if(isError){
+    return (<Box>
+      <ErrorHandlerClient isError={isError} />
+    </Box>)
+  }
 
     return (<Box sx={{mt: 4}}>
         <Container maxWidth="sm">

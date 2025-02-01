@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import AccountManagmentUserLoading from "./LoadingState/AccountManagementLoading";
 import CreateEventAlertSuccess from "./Alerts/HostingEventLoading";
 import CancelEventByEmployeeAlertSuccess from "./Alerts/CancelEventAlert";
+import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 
 export default function EmployeeAccountManagement ({ createEventAlert, setCreateEventAlert, cancelEventByEmployeeAlert, setCanelEventByEmployeeAlert}) {
@@ -21,6 +22,7 @@ export default function EmployeeAccountManagement ({ createEventAlert, setCreate
     const [isClicked, setIsClicked] = useState(false)
 
     const [isLoading, setIsLoading] = useState(true)
+    const [isError, setIsError] = useState(null)
     const theme = createTheme({
         typography: {
             fontFamily: 'sniglet',
@@ -40,12 +42,14 @@ export default function EmployeeAccountManagement ({ createEventAlert, setCreate
                 if(employeeID._id){
                     setIsLoading(true)
                     const employeeHosted = await hostedEventsByEmployee(employeeID._id)
+                    setIsError(null)
                     setIsLoading(false)
                     setEventsHostedByEmployee(employeeHosted)
                     setIsClicked(false)   
                 }
             } catch (err) {
                 console.error("error from Employee Account management", err)
+                setIsError(err)
                 setIsLoading(false)
                 setIsClicked(false)
             }
@@ -57,11 +61,13 @@ export default function EmployeeAccountManagement ({ createEventAlert, setCreate
         try {
             setIsLoading(true)
             await deleteEventByEmployee(event._id)
+            setIsError(null)
             setCanelEventByEmployeeAlert(true)
             setIsLoading(false)
             setIsClicked(!false)
         } catch (err) {
             setIsLoading(false)
+            setIsError(err)
             setCanelEventByEmployeeAlert(false)
             setIsClicked(false)
         }
@@ -72,6 +78,12 @@ if(isLoading){
         <AccountManagmentUserLoading />
     </Box>)
 }
+
+if(isError){
+    return (<Box>
+      <ErrorHandlerClient isError={isError} />
+    </Box>)
+  }
 
 
     return (<Box sx={{mt: 4}}>

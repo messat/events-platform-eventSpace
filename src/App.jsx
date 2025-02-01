@@ -17,6 +17,7 @@ import UserContext from './Context/UserContext'
 import CreateEvent from './components/Forms/CreateEvent';
 import AccountManagement from './components/AccountManagement';
 import EmployeeAccountManagement from './components/EmployeeAccountManagement';
+import ErrorPage from './components/ErrorState/ErrorPage';
 
 
 
@@ -36,6 +37,8 @@ function App() {
   const [cancelTicketByUserAlert, setCancelTicketByUserAlert] = useState(false)
 
   const [bookingTicketByUserAlert, setBookingTicketByUserAlert] = useState(false)
+
+  const [userLogOutAlert, setUserLogOutAlert] = useState(false)
 
   useEffect(()=>{
     const userLoggedIn = localStorage.getItem("user")
@@ -57,11 +60,11 @@ function App() {
       <Box sx={{pb: "9rem"}}>
 
     <BrowserRouter>
-    <Navbar setSearchTitle={setSearchTitle}/>
+    <Navbar setSearchTitle={setSearchTitle} setUserLogOutAlert={setUserLogOutAlert} />
       <Routes>
 
         <Route path="/" element={<IndexPage searchTitle={searchTitle} userLogInAlert={userLogInAlert} setUserLogInAlert={setUserLogInAlert} registrationLogInAlertSuccess={registrationLogInAlertSuccess} setRegistrationLogInAlertSuccess={setRegistrationLogInAlertSuccess} />} />
-        <Route path="/events/user/login" element={<Login setUserLogInAlert={setUserLogInAlert} />} />
+        <Route path="/events/user/login" element={<Login setUserLogInAlert={setUserLogInAlert} userLogOutAlert={userLogOutAlert} setUserLogOutAlert={setUserLogOutAlert} />} />
         <Route path="/events/user/register" element={<RegisterUser setRegistrationLogInAlertSuccess={setRegistrationLogInAlertSuccess} />} />
         <Route path="/events/user/account-management" element={<AccountManagement cancelTicketByUserAlert={cancelTicketByUserAlert} setCancelTicketByUserAlert={setCancelTicketByUserAlert} bookingTicketByUserAlert={bookingTicketByUserAlert} setBookingTicketByUserAlert={setBookingTicketByUserAlert}/>}/>
         <Route path="/events/vpn/employee/login" element={<EmployeeLogin setUserLogInAlert={setUserLogInAlert} />} />
@@ -69,6 +72,7 @@ function App() {
         <Route path="/events/vpn/employee/hostEvent" element={<CreateEvent setCreateEventAlert={setCreateEventAlert} />}></Route>
         <Route path="/events/vpn/employee/account-management" element={<EmployeeAccountManagement createEventAlert={createEventAlert} setCreateEventAlert={setCreateEventAlert} cancelEventByEmployeeAlert={cancelEventByEmployeeAlert} setCanelEventByEmployeeAlert={setCanelEventByEmployeeAlert} />} />
         <Route path="/event/:event_id" element={<EventInformation setBookingTicketByUserAlert={setBookingTicketByUserAlert} />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
       </BrowserRouter>
 

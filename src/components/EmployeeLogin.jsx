@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { employeeLogInEventSpace } from "../API server/api";
 import UserContext from "../Context/UserContext";
 import LogInUserLoading from "./LoadingState/LoginUserLoading";
+import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 
 export default function EmployeeLogin({setUserLogInAlert}) {
@@ -22,6 +23,7 @@ export default function EmployeeLogin({setUserLogInAlert}) {
     const [passwordError, setPasswordError] = useState(false)
     const [messageSubmission, setMessageSubmission] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(null)
     
         const handleSubmit = async (event) => {
             event.preventDefault()
@@ -29,6 +31,7 @@ export default function EmployeeLogin({setUserLogInAlert}) {
                 setIsLoading(true)
                 const employeeLogIn = await employeeLogInEventSpace(formData)
                 localStorage.setItem("employee", JSON.stringify(employeeLogIn))
+                setIsError(null)
                 setMessageSubmission(false)
                 setIsLoggedIn(employeeLogIn)
                 setUserLogInAlert(true)
@@ -36,6 +39,7 @@ export default function EmployeeLogin({setUserLogInAlert}) {
                 navigate("/")
             } catch (err) {
                 setIsLoading(false)
+                setIsError(err)
                 setUserLogInAlert(false)
                 setMessageSubmission(true)
                 console.error(err, "Error from catch block, employee log in")
@@ -46,6 +50,16 @@ if(isLoading){
     return (<Box>
         <LogInUserLoading />
     </Box>)
+}
+
+if(isError){
+    if(!isError.response){
+      return (<Box>
+        <ErrorHandlerClient isError={isError} />
+    </Box>)
+    } else {
+        setIsError(null)
+    }
 }
 
     return (<Container maxWidth="sm">
