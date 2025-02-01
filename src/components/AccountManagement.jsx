@@ -9,9 +9,11 @@ import {Button as SingleButton} from '@mui/material'
 import ButtonGroup from '@mui/joy/ButtonGroup';
 import { Link } from 'react-router-dom';
 import AccountManagmentUserLoading from "./LoadingState/AccountManagementLoading";
+import { EventTicketCancelledByUserAlert } from "./Alerts/CancelEventAlert";
+import BookingTicketAlertSuccess from "./Alerts/BookingTicketAlert";
 
 
-export default function AccountManagement () {
+export default function AccountManagement ({cancelTicketByUserAlert, setCancelTicketByUserAlert, bookingTicketByUserAlert, setBookingTicketByUserAlert}) {
     
     const [userID, setUserID] = useState({})
 
@@ -53,6 +55,21 @@ export default function AccountManagement () {
         })()
     }, [userID._id && eventsUserJoined.length && isClicked])
 
+
+    async function hancleCancelTicketUser(userID, event){
+        try {
+            setIsLoading(true)
+            await cancelEventByUser(userID._id, {id: event._id, spaces: event.spaces})
+            setCancelTicketByUserAlert(true)
+            setIsLoading(false)
+            setIsClicked(!false)
+            
+        } catch (err) {
+            setCancelTicketByUserAlert(false)
+            setIsClicked(false)
+        }
+    }
+
 if(isLoading){
     return (<Box>
         <AccountManagmentUserLoading />
@@ -67,6 +84,14 @@ if(isLoading){
             </ThemeProvider>
         </Box>
         </Container>
+
+          {cancelTicketByUserAlert ? <Box sx={{mb: 3}}>
+                    <EventTicketCancelledByUserAlert setCancelTicketByUserAlert={setCancelTicketByUserAlert} />
+                </Box> : null}
+
+            {bookingTicketByUserAlert ? <Box sx={{mb: 3}}>
+                    <BookingTicketAlertSuccess setBookingTicketByUserAlert={setBookingTicketByUserAlert} />
+                </Box> : null}
     <Container maxWidth="lg">
         <Grid2 container spacing={4}>
 
@@ -110,8 +135,7 @@ if(isLoading){
                         </ButtonGroup>
                         <Stack spacing={2} direction="row" sx={{display: "flex", justifyContent: "center", mt: 2}}>
                             <SingleButton variant="contained" sx={{width: "93%", color: "error", borderRadius: "20px"}} color="warning" onClick={()=> {
-                                cancelEventByUser(userID._id, {id: event._id, spaces: event.spaces})
-                                setIsClicked(!false)
+                                return hancleCancelTicketUser(userID, event)
                             }}>Cancel Ticket</SingleButton>
                         </Stack>
                 </Paper>

@@ -6,7 +6,7 @@ import { registerUserEventSpace } from "../API server/api";
 import UserContext from "../Context/UserContext";
 import RegisterUserLoading from "./LoadingState/RegisterAccountLoading";
 
-export default function RegisterUser() {
+export default function RegisterUser({setRegistrationLogInAlertSuccess}) {
 
     const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
 
@@ -35,6 +35,7 @@ export default function RegisterUser() {
         try {
             setIsLoading(true)
             const addUser = await registerUserEventSpace(formData)
+            setRegistrationLogInAlertSuccess(true)
             setCheckUniqueUsername(false)
             setCheckUniqueEmail(false)
             setMessageSubmission(false)
@@ -44,6 +45,7 @@ export default function RegisterUser() {
             navigate("/")
             return addUser
         } catch (err) {
+            setRegistrationLogInAlertSuccess(false)
             setIsLoading(false)
             setMessageSubmission(true)
             if(err.response.data.msg === "401 User already exists" && err.response.data.err.username){

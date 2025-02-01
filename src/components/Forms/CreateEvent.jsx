@@ -13,7 +13,7 @@ import { createEventInEventSpace } from "../../API server/api";
 import HostEventLoading from "../LoadingState/HostingEventLoading";
 
 
-export default function CreateEvent() {
+export default function CreateEvent({setCreateEventAlert}) {
 
     const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
     const theme = createTheme({
@@ -50,11 +50,13 @@ export default function CreateEvent() {
         try {
             setIsLoading(true)
             const newEvent = await createEventInEventSpace(formData)
+            setCreateEventAlert(true)
             setMessageSubmission(false)
             setIsLoading(false)
-            navigate("/")
+            navigate("/events/vpn/employee/account-management")
             return newEvent
         } catch (err) {
+            setCreateEventAlert(false)
             setIsLoading(false)
             console.error(err, "From handle submit - register user")
             setMessageSubmission(true)

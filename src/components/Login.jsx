@@ -8,7 +8,7 @@ import LogInUserLoading from "./LoadingState/LoginUserLoading";
 
 
 
-export default function Login() {
+export default function Login({setUserLogInAlert}) {
     const {setIsLoggedIn} = useContext(UserContext)
 
     const theme = createTheme({
@@ -29,12 +29,14 @@ export default function Login() {
         try {
             setIsLoading(true)
             const loginUser = await logInUserEventSpace(formData)
+            setUserLogInAlert(true)
             setIsLoggedIn(loginUser)
             setMessageSubmission(false)
             setIsLoading(false)
             localStorage.setItem("user", JSON.stringify(loginUser))
             navigate("/")
         } catch (err) {
+            setUserLogInAlert(false)
             setIsLoading(false)
             setMessageSubmission(true)
             console.error(err, "Error from Promise chain, user login")
