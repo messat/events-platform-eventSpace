@@ -9,7 +9,7 @@ import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 
 export default function EmployeeLogin({setUserLogInAlert}) {
-    const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
+    const {setIsLoggedIn} = useContext(UserContext)
 
     const theme = createTheme({
         typography: {
@@ -42,7 +42,6 @@ export default function EmployeeLogin({setUserLogInAlert}) {
                 setIsError(err)
                 setUserLogInAlert(false)
                 setMessageSubmission(true)
-                console.error(err, "Error from catch block, employee log in")
             }
     }
 
@@ -56,7 +55,7 @@ if(isError){
     if(!isError.response){
       return (<Box>
         <ErrorHandlerClient isError={isError} />
-    </Box>)
+        </Box>)
     } else {
         setIsError(null)
     }
@@ -77,7 +76,10 @@ if(isError){
             onSubmit={handleSubmit}
             sx={{mx: 1}}
             >
-                {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "17px", ml: 1, color: "red", textAlign: "center"}}>Incorrect Employee ID Or Password</FormHelperText> : ""}
+
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "17px", ml: 1, color: "red", textAlign: "center"}}>
+                Incorrect Employee ID Or Password</FormHelperText> : ""}
+            
             <TextField 
             id="employee-id"
             label="Employee ID"
@@ -132,11 +134,14 @@ if(isError){
             autoComplete="off"
             sx={{mb: 2.5}}
             /> 
+
             <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Employee Log In</Button>
             </Box>
+            
             <Box sx={{mt: 2}}>
             <Link href="/events/user/login" sx={{ml: 1, marginTop: "20px"}} underline="hover" variant="body1">Back to User Login</Link>
             </Box>
+
         </Paper>
     </Container>)
 }

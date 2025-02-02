@@ -27,7 +27,9 @@ function valuetext(value) {
 
 export default function DurationSlider({ formData, setFormData}) {
   return (<Box sx={{mt:2}}>
+
       <Typography color='primary' variant='button'>Duration of Event</Typography>
+
     <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center"}} >
       <Slider
         aria-label="Event Duration"
@@ -49,6 +51,7 @@ export default function DurationSlider({ formData, setFormData}) {
         sx={{width: "95%", ml: 2}}
       />
     </Box>
+    
     </Box>
   );
 }

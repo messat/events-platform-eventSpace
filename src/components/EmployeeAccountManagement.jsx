@@ -16,18 +16,19 @@ import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 export default function EmployeeAccountManagement ({ createEventAlert, setCreateEventAlert, cancelEventByEmployeeAlert, setCanelEventByEmployeeAlert}) {
     
     const [employeeID, setEmployeeID] = useState({})
-
     const [eventsHostedByEmployee, setEventsHostedByEmployee] = useState([])
 
     const [isClicked, setIsClicked] = useState(false)
 
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(null)
+
     const theme = createTheme({
         typography: {
             fontFamily: 'sniglet',
         }
     })
+
     useEffect(()=> {
         const findEmployee = localStorage.getItem("employee")
         if(findEmployee){
@@ -48,7 +49,6 @@ export default function EmployeeAccountManagement ({ createEventAlert, setCreate
                     setIsClicked(false)   
                 }
             } catch (err) {
-                console.error("error from Employee Account management", err)
                 setIsError(err)
                 setIsLoading(false)
                 setIsClicked(false)
@@ -87,13 +87,17 @@ if(isError){
 
 
     return (<Box sx={{mt: 4}}>
+
         <Container maxWidth="sm">
+
         <Box sx={{display: "flex", justifyContent: "center", boxShadow: 10, p: 0.5, mb: 4}}  >
             <ThemeProvider theme={theme}>
             <Typography component={"h1"} variant="h3" sx={{color: 'primary.dark'}}>Employee Event Space</Typography>
             </ThemeProvider>
         </Box>
+
         </Container>
+
         {createEventAlert ? <Box sx={{mb: 3}}>
             <CreateEventAlertSuccess setCreateEventAlert={setCreateEventAlert} />
         </Box> : null}
@@ -118,10 +122,15 @@ if(isError){
 
             {eventsHostedByEmployee.length ? eventsHostedByEmployee.map((event) => (
                 <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 4}} key={event._id}>
+
                 <Paper elevation={8}  sx={{maxHeight: "900px", minHeight: "300px", gap: 2, pb: 4}}>
-                <img src={event.event_img_url} alt='Event Image' className='eventImage'/>
+
+                <img src={event.event_img_url} alt='Event Image' className='eventImage' onError={(e) => {
+                          e.target.src = 'https://images.unsplash.com/photo-1642618598178-52eb00dc544d?q=80&w=3390&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
+                          }}/>
+
                 <Typography variant="h6" sx={{mx: 2, minHeight: 96, typography: { xs: 'h6', sm: 'body1', md: 'h6'}}} gutterBottom>{event.title}</Typography>
-                <Typography variant='subtitle1' sx={{mx: 2}} gutterBottom>{event.date.slice(0,22) + " GMT"}</Typography>
+                <Typography variant='subtitle1' sx={{mx: 2}} gutterBottom>{event.date ? event.date : event.start}</Typography>
                 <Typography sx={{color: "grey", mx: 2, fontWeight: "bold"}} gutterBottom>{event.location}</Typography>
                 <Typography variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
 
@@ -149,6 +158,7 @@ if(isError){
                             <SingleButton variant="contained" sx={{width: "93%", borderRadius: "20px"}} color="error" onClick={()=> {
                                 return handleCancelEventByEmployer(event)
                             }}>Cancel Event</SingleButton>
+                            
                         </Stack>
                         
                 </Paper>
