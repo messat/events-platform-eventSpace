@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 import { getEventById, signUpUserToEvent } from "../API server/api"
 import { Box, Container, createTheme, Grid2, ThemeProvider, Typography } from "@mui/material"
@@ -8,21 +8,19 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CategoryIcon from '@mui/icons-material/Category';
 import TimelapseIcon from '@mui/icons-material/Timelapse';
 import Calendar from 'react-calendar';
-import UserContext from "../Context/UserContext";
 import Groups2Icon from '@mui/icons-material/Groups2';
 import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
 import EventInfoLoadingScreen, { SignUpTicketLoading } from "./LoadingState/EventInfoLoading";
 import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 
-
 export default function EventInformation({setBookingTicketByUserAlert}) {
-    const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
     const theme = createTheme({
         typography: {
             fontFamily: 'sniglet'
         }
     })
+
     const navigate = useNavigate()
 
     const {event_id} = useParams()
@@ -56,7 +54,6 @@ export default function EventInformation({setBookingTicketByUserAlert}) {
             setIsLoading(false)
             setIsError(err)
             setIsClicked(false)
-            console.error(err, "Error from event Information")
         }
     })()
     }, [JSON.stringify(eventByID.attendees)])
@@ -113,9 +110,13 @@ if(isLoadingTicket){
 
 
 if(isError){
+    if(!isError.response){
     return (<Box>
         <ErrorHandlerClient isError={isError} />
-    </Box>)
+        </Box>)
+    } else {
+        setIsError(null)
+    }
 }
 
 
@@ -137,6 +138,9 @@ if(isError){
         }}
         src={eventByID.event_img_url}
         alt="Event Image"
+        onError={(e) => {
+            e.target.src = 'https://images.unsplash.com/photo-1642618598178-52eb00dc544d?q=80&w=3390&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
+            }}
         >
         </Box>
     </Box>
@@ -146,6 +150,7 @@ if(isError){
         <Grid2 container spacing={2}>
 
         <Grid2 size={{ xs: 12, sm: 6, md: 7 }} sx={{my: 3}}>
+            
             <ThemeProvider theme={theme}>
           <Typography variant="h4" sx={{ typography: {xs: "h5", md: "h4"}}} color="primary">{eventByID.title}</Typography>
           </ThemeProvider>

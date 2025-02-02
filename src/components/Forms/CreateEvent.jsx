@@ -1,7 +1,6 @@
 import { Avatar, Box, Button, Container, createTheme, Grid2, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import { useNavigate} from 'react-router-dom'
-import { useContext, useEffect, useState } from "react";
-import UserContext from "../../Context/UserContext";
+import { useEffect, useState } from "react";
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import ImageIcon from '@mui/icons-material/Image';
@@ -12,11 +11,15 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { createEventInEventSpace } from "../../API server/api";
 import HostEventLoading from "../LoadingState/HostingEventLoading";
 import ErrorHandlerClient from "../ErrorState/ErrorIndex";
+import dayjs from 'dayjs'
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 
 export default function CreateEvent({setCreateEventAlert}) {
 
-    const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
     const theme = createTheme({
         typography: {
             fontFamily: "sniglet"
@@ -32,24 +35,49 @@ export default function CreateEvent({setCreateEventAlert}) {
         })
     }, [])
 
-    const [formData, setFormData] = useState({title: "", date: "", description: "", location: "", event_img_url: "", price: 0, duration: 2, category: "", spaces: "", _id: ""})
-
+    
     const [titleError, setTitleError] = useState(false)
     const [locationError, setLocationError] = useState(false)
     const [imageAddressError, setImageAddressError] = useState(false)
     const [spacesError, setSpacesError] = useState(false)
-    const [dateError, setDateError] = useState(false)
     const [categoryError, setCategoryError] = useState(false)
     const [descriptionError, setDescriptionError] = useState(false)
     const [messageSubmission, setMessageSubmission] = useState(false)
-
+    
+    const [startDate, setStartDate] = useState(dayjs('2025-02-03T15:30'))
+    const [endDate, setEndDate] = useState(dayjs('2025-02-03T15:30'))
+    
+    const [formData, setFormData] = useState({
+        title: "",
+        date: "",
+        start: startDate.toISOString(),
+        end: endDate.toISOString(),
+        description: "",
+        location: "",
+        event_img_url: "",
+        price: 0,
+        duration: 2,
+        category: "",
+        spaces: "",
+        _id: ""
+    });
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(null)
-
+    
+    const handleStartDateChange = (newValue) => {
+        setStartDate(newValue);
+        setFormData((prev) => ({ ...prev, start: newValue.toISOString() }))
+    }
+    
+    const handleEndDateChange = (newValue) => {
+        setEndDate(newValue)
+        setFormData((prev) => ({ ...prev, end: newValue.toISOString() }))
+    }
     
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
+           
             setIsLoading(true)
             const newEvent = await createEventInEventSpace(formData)
             setIsError(null)
@@ -62,7 +90,6 @@ export default function CreateEvent({setCreateEventAlert}) {
             setCreateEventAlert(false)
             setIsError(err)
             setIsLoading(false)
-            console.error(err, "From handle submit - register user")
             setMessageSubmission(true)
         }     
     }
@@ -74,9 +101,13 @@ if(isLoading){
 }
 
 if(isError){
+    if(!isError.response){
       return (<Box>
         <ErrorHandlerClient isError={isError} />
     </Box>)
+    } else {
+        setIsError(null)
+    }
 }
 
    return (<Container maxWidth="sm">
@@ -89,12 +120,16 @@ if(isError){
             <ThemeProvider theme={theme}>
             <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Host an event at Event Space</Typography>
             </ThemeProvider>
-            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}}>Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.</FormHelperText> : ""}
+
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}}>
+                Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.
+                </FormHelperText> : ""}
 
             <Box component="form"
             onSubmit={handleSubmit}
             sx={{mx: 1}}
             >
+
             <TextField 
             id="title-event"
             label="Title"
@@ -179,7 +214,6 @@ if(isError){
             />
             </Box>
 
-
             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
             <GroupsIcon color="primary" fontSize="large" sx={{mt: 1, mr: 1.2}}/>
             <TextField 
@@ -210,37 +244,35 @@ if(isError){
             />
             </Box>
 
-            <Box sx={{mt: 1.5}}>
-                <Typography variant="button" color="primary">Date of Event</Typography>
-                <FormHelperText sx={{mb: 1.4, mt: 1}} >Enter date in this format date: Sat, 20 Apr 2025 15:00 - 18:00 GMT</FormHelperText>
-            <TextField 
-            id="event_date"
-            label="Event Date"
-            variant="outlined"
-            placeholder="Enter the date of event"
-            type="text"
-            name="date"
-            value={formData.date}
-            onChange={(event) => {
-                const {name, value} = event.target
-                setFormData((curr) => {
-                    return {...curr, [name]: value}
-                })
-                if(event.target.validity.valid){
-                    setDateError(false)
-                } else {
-                    setDateError(true)
-                } 
-            }}
-            error={dateError}
-            helperText={dateError ? "Please Enter A Valid Date" : ""}
-            required
-            autoComplete="off"
-            sx={{mb: 2.5, width: "100%"}}
-            />
+
+            <Box>
+                <Box sx={{mb: 2}}>
+                <Typography variant="button" color="primary">Start Date</Typography>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['DateTimePicker']}>
+                        <DateTimePicker
+                            label="Start Date"
+                            value={startDate}
+                            onChange={handleStartDateChange}
+                        />
+                    </DemoContainer>
+                </LocalizationProvider>
             </Box>
 
+        <Box sx={{mb: 3}}>   
+            <Typography variant="button" color="primary">End Date</Typography>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DateTimePicker']}>
+                <DateTimePicker
+                    label="End Date"
+                    value={endDate}
+                    onChange={handleEndDateChange}
+                />
+                </DemoContainer>
+            </LocalizationProvider>
+        </Box> 
 
+        </Box> 
 
             <TextField 
             id="category-event"
@@ -306,8 +338,6 @@ if(isError){
             </Box>
 
             <Grid2 container justifyContent="end" sx={{mt: 3, ml: 1}}>
-                
-
       
             </Grid2>
 

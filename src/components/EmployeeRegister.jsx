@@ -8,7 +8,7 @@ import { RegisterEmployeeLoading } from "./LoadingState/RegisterAccountLoading";
 import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 export default function EmployeeRegister({setRegistrationLogInAlertSuccess}) {
-      const {isLoggedIn, setIsLoggedIn} = useContext(UserContext) 
+      const {setIsLoggedIn} = useContext(UserContext) 
 
     const theme = createTheme({
         typography: {
@@ -53,7 +53,6 @@ export default function EmployeeRegister({setRegistrationLogInAlertSuccess}) {
             setRegistrationLogInAlertSuccess(false)
             setIsError(err)
             setIsLoading(false)
-            console.error(err, "From handle submit - register employee")
             setMessageSubmission(true)
             if(err.response.data.msg === "401 User already exists" && err.response.data.err.employeeNumber){
                 setCheckUniqueEmployeeID(true)
@@ -76,14 +75,14 @@ export default function EmployeeRegister({setRegistrationLogInAlertSuccess}) {
 if(isLoading){
     return (<Box>
         <RegisterEmployeeLoading />
-    </Box>)
+        </Box>)
 }
 
 if(isError){
     if(!isError.response){
       return (<Box>
         <ErrorHandlerClient isError={isError} />
-    </Box>)
+        </Box>)
     } else {
         setIsError(null)
     }
@@ -99,11 +98,16 @@ if(isError){
             <ThemeProvider theme={theme}>
             <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Employee registration at Event Space</Typography>
             </ThemeProvider>
-            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}}>Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.</FormHelperText> : ""}
+
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}}>
+                Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.
+                </FormHelperText> : ""}
+
             <Box component="form"
             onSubmit={handleSubmit}
             sx={{mx: 1}}
             >
+
             <TextField 
             id="employee-firstname"
             label="First Name"
@@ -185,7 +189,8 @@ if(isError){
             sx={{mb: 2}}
             /> 
 
-            {checkUniqueEmail ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>This Email Already Exists. Please Try Another Email.</FormHelperText> : ""}
+            {checkUniqueEmail ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>
+                This Email Already Exists. Please Try Another Email.</FormHelperText> : ""}
 
 
             <TextField 
@@ -217,8 +222,11 @@ if(isError){
             sx={{mb: 2}}
             /> 
 
-            {checkUniqueEmployeeID ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>This Username Already Exists. Please Try Again.</FormHelperText> : ""}
-            {checkEmployeeIDLength ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>Must Be 8 Characters Long.</FormHelperText> : ""}
+            {checkUniqueEmployeeID ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>
+                This Username Already Exists. Please Try Again.</FormHelperText> : ""}
+
+            {checkEmployeeIDLength ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>
+                Must Be 8 Characters Long.</FormHelperText> : ""}
 
             <TextField 
             id="employee-password-register"
@@ -246,6 +254,7 @@ if(isError){
             autoComplete="off"
             sx={{mb: 2}}
             /> 
+            
             <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Employee Registration At Event Space</Button>
             </Box>   
 

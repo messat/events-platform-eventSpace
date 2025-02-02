@@ -9,7 +9,7 @@ import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 export default function RegisterUser({setRegistrationLogInAlertSuccess}) {
 
-    const {isLoggedIn, setIsLoggedIn} = useContext(UserContext)
+    const {setIsLoggedIn} = useContext(UserContext)
 
     const theme = createTheme({
         typography: {
@@ -60,7 +60,6 @@ export default function RegisterUser({setRegistrationLogInAlertSuccess}) {
                 setCheckUniqueEmail(true)
                 setCheckUniqueUsername(false)
             }
-            console.error(err, "From handle submit - register user")
         }     
     }
 
@@ -74,7 +73,7 @@ if(isError){
     if(!isError.response){
       return (<Box>
         <ErrorHandlerClient isError={isError} />
-    </Box>)
+        </Box>)
     } else {
         setIsError(null)
     }
@@ -90,11 +89,14 @@ if(isError){
             <ThemeProvider theme={theme}>
             <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Register with Event Space</Typography>
             </ThemeProvider>
+
             {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}}>Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.</FormHelperText> : ""}
+            
             <Box component="form"
             onSubmit={handleSubmit}
             sx={{mx: 1}}
             >
+    
             <TextField 
             id="outlined-basic-firstname"
             label="First Name"
@@ -122,6 +124,7 @@ if(isError){
             autoComplete="on"
             sx={{mb: 2.5}}
             /> 
+
             <TextField 
             id="outlined-basic-lastname"
             label="Last Name"
@@ -175,7 +178,9 @@ if(isError){
             autoComplete="on"
             sx={{mb: 2.5}}
             /> 
-            {checkUniqueEmail ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>This Email Already Exists. Please Try Another Email.</FormHelperText> : ""}
+
+            {checkUniqueEmail ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>
+                This Email Already Exists. Please Try Another Email.</FormHelperText> : ""}
 
             <TextField 
             id="outlined-basic-username-register"
@@ -204,9 +209,8 @@ if(isError){
             sx={{mb: 2.5}}
             /> 
 
-            {checkUniqueUsername ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>This Username Already Exists. Please Try Again.</FormHelperText> : ""}
-
-
+            {checkUniqueUsername ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>
+                This Username Already Exists. Please Try Again.</FormHelperText> : ""}
 
             <TextField 
             id="outlined-basic-password-register"
@@ -234,15 +238,18 @@ if(isError){
             autoComplete="off"
             sx={{mb: 2.5}}
             /> 
+
             <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Register at event space</Button>
             </Box>
 
             <Grid2 container justifyContent="end" sx={{mt: 3, ml: 1}}>
                 
-
                 <Grid2 item="true" sx={{mt: 1}}>
-                <Link component={RouterLink} to="/events/vpn/employee/login" sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} className="StaffLink">Staff Account</Link>
+                <Link component={RouterLink} to="/events/vpn/employee/login" 
+                sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} 
+                className="StaffLink">Staff Account</Link>
                 </Grid2>
+
             </Grid2>
 
         </Paper>

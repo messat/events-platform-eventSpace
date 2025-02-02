@@ -9,7 +9,6 @@ import UserLogOutAlertSuccess from "./Alerts/LogoutAlert";
 import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 
-
 export default function Login({setUserLogInAlert, userLogOutAlert, setUserLogOutAlert}) {
     const {setIsLoggedIn} = useContext(UserContext)
 
@@ -18,6 +17,7 @@ export default function Login({setUserLogInAlert, userLogOutAlert, setUserLogOut
             fontFamily: "sniglet"
         }
     })
+
     let navigate = useNavigate()
 
     const [formData, setFormData] = useState({username: "", password: ""})
@@ -45,29 +45,28 @@ export default function Login({setUserLogInAlert, userLogOutAlert, setUserLogOut
             setIsError(err)
             setIsLoading(false)
             setMessageSubmission(true)
-            console.error(err, "Error from Promise chain, user login")
         }
     }
 
 if(isLoading){
-    return <Box>
+    return (<Box>
         <LogInUserLoading />
-    </Box>
+        </Box>)
 }
 
 if(isError){
     if(!isError.response){
       return (<Box>
         <ErrorHandlerClient isError={isError} />
-    </Box>)
+            </Box>)
     } else {
         setIsError(null)
     }
 }
 
    return (<Box>
-    {userLogOutAlert ? <Box> <UserLogOutAlertSuccess setUserLogOutAlert={setUserLogOutAlert} />
-        </Box> : null}
+    {userLogOutAlert ? <Box> <UserLogOutAlertSuccess setUserLogOutAlert={setUserLogOutAlert} /> </Box> : null}
+
    <Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 8, p: 2}}>
 
@@ -83,7 +82,9 @@ if(isError){
             onSubmit={handleSubmit}
             sx={{mx: 1}}
             >
-                {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "17px", ml: 1, color: "red", textAlign: "center"}}>Incorrect Username or Password</FormHelperText> : ""}
+            
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "17px", ml: 1, color: "red", textAlign: "center"}}>Incorrect Username or Password</FormHelperText> : ""}
+            
             <TextField 
             id="outlined-basic-username"
             label="Username"
@@ -111,7 +112,6 @@ if(isError){
             sx={{mb: 2.5}}
             /> 
 
-
             <TextField 
             id="outlined-basic-password"
             label="Password"
@@ -138,10 +138,12 @@ if(isError){
             autoComplete="off"
             sx={{mb: 2.5}}
             /> 
+
             <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Log In</Button>
             </Box>
 
             <Grid2 container justifyContent="end" sx={{mt: 3, ml: 1}}>
+                
                 <Grid2 item="true" size={{xs: 12}}>
                 <Typography variant="subtitle1" sx={{display: "inline"}}>Don't have an account? </Typography>
                 <Link component={RouterLink} to="/events/user/register">Create an account</Link>

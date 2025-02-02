@@ -30,8 +30,11 @@ function valuetext(value) {
 }
 
 export default function EventPriceSlider({ formData, setFormData}) {
+
   return (<Box>
+
       <Typography color='primary' variant='button'>Price of Event</Typography>
+      
     <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center"}} >
       <Slider
         aria-label="Event Price"
@@ -51,6 +54,7 @@ export default function EventPriceSlider({ formData, setFormData}) {
         sx={{width: "95%", ml: 2}}
       />
     </Box>
+
     </Box>
   );
 }
