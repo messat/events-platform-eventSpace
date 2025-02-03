@@ -1,8 +1,8 @@
 import axios from "axios"
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
+const BASE_URL = process.env.NODE_ENV === "production" ? "https://events-space-be-messat.vercel.app" :  "http://localhost:3000"
 
-const instance = axios.create({ baseURL: process.env.NODE_ENV === "production" ? BASE_URL :  "http://localhost:3000"})
+const instance = axios.create({ baseURL: BASE_URL })
 
 export async function getAllEvents(searchTitle) {
     if(searchTitle.search){
