@@ -4,7 +4,7 @@ import IndexPage from './components/IndexPage'
 import Navbar from './components/Navbar'
 import EventInformation from './components/EventInfo';
 import 'react-calendar/dist/Calendar.css';
-import Footer from './components/Footer';
+import FooterEventSpace from './components/FooterEventSpace';
 import Login from './components/Login';
 import './Login.css'
 import './Loading.css'
@@ -78,7 +78,7 @@ function App() {
       </main>
       </BrowserRouter>
       <footer role='Event Space Tech Stacks Used'>
-    <Footer/>
+    <FooterEventSpace />
     </footer>
     </Box>
     </Box>
