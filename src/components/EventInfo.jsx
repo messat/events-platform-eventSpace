@@ -10,6 +10,7 @@ import TimelapseIcon from '@mui/icons-material/Timelapse';
 import Calendar from 'react-calendar';
 import Groups2Icon from '@mui/icons-material/Groups2';
 import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
+import Moment from 'react-moment';
 import EventInfoLoadingScreen, { SignUpTicketLoading } from "./LoadingState/EventInfoLoading";
 import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
@@ -97,13 +98,13 @@ export default function EventInformation({setBookingTicketByUserAlert}) {
 
 
 if(isLoading){
-    return (<Box>
+    return (<Box role="alert" aria-live="polite">
         <EventInfoLoadingScreen />
     </Box>)
 }
 
 if(isLoadingTicket){
-    return (<Box>
+    return (<Box role="alert" aria-live="polite">
         <SignUpTicketLoading  eventByID={eventByID}/>
     </Box>)
 }
@@ -111,7 +112,7 @@ if(isLoadingTicket){
 
 if(isError){
     if(!isError.response){
-    return (<Box>
+    return (<Box role="alert" aria-live="polite">
         <ErrorHandlerClient isError={isError} />
         </Box>)
     } else {
@@ -121,7 +122,8 @@ if(isError){
 
 
 
-    return <Box>
+    return (<main role="main" aria-labelledby="event-information-page">
+    <Box>
     
     <Box sx={{display: "flex", justifyContent: "center"}}>
         <Box
@@ -137,7 +139,7 @@ if(isError){
             boxShadow: 15
         }}
         src={eventByID.event_img_url}
-        alt="Event Image"
+        alt={`${eventByID.title} Image`}
         onError={(e) => {
             e.target.src = 'https://images.unsplash.com/photo-1642618598178-52eb00dc544d?q=80&w=3390&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
             }}
@@ -152,30 +154,30 @@ if(isError){
         <Grid2 size={{ xs: 12, sm: 6, md: 7 }} sx={{my: 3}}>
             
             <ThemeProvider theme={theme}>
-          <Typography variant="h4" sx={{ typography: {xs: "h5", md: "h4"}}} color="primary">{eventByID.title}</Typography>
+          <Typography variant="h4" sx={{ typography: {xs: "h5", md: "h4"}}} color="primary" id="event title" tabIndex={0}>{eventByID.title}</Typography>
           </ThemeProvider>
           
         {eventByID.author ?
           <Box sx={{bgcolor: "#eeeeee", p: 2, my: 1, borderRadius: 2, mt: 2}}>
-          <Typography>{eventByID.author.firstname} {" "} {eventByID.author.lastname} is hosting the event</Typography>
+          <Typography tabIndex={0}>{eventByID.author.firstname} {" "} {eventByID.author.lastname} is hosting the event</Typography>
           </Box>
             : null}
 
           <Typography variant="h5" sx={{ mt: 2}}>Date and Time</Typography>
-          <Typography variant="subtitle1" sx={{mt: 0.5}}>{eventByID.date}</Typography>
+          <Typography variant="subtitle1" sx={{mt: 0.5, color: "primary.main", fontWeight: "bold"}}><Moment format="LLL">{eventByID.start}</Moment> {">>>"} <Moment format="LT">{eventByID.end}</Moment></Typography>
 
           <Box sx={{display: "flex", flexDirection: "row", alignItems: "end", mb: 2}}>
-          <LocationOnIcon sx={{color: "orange", mt: 2, mr: 1}} fontSize="large"/>
+          <LocationOnIcon sx={{color: "orange", mt: 2, mr: 1}} fontSize="large" aria-label="Location Icon"/>
           <Typography variant="body1" sx={{fontWeight: "bold", fontSize: "19px"}}>{eventByID.location}</Typography>
           </Box>
 
           <Box sx={{display: "flex", flexDirection: "row", mb: 2}}>
-          <CategoryIcon sx={{ color: "#2196f3", mr: 1}} fontSize="large"/>
+          <CategoryIcon sx={{ color: "#2196f3", mr: 1}} fontSize="large" aria-label="Category Icon"/>
           <Typography variant="body1" sx={{fontWeight: "bold", fontSize: "19px"}}>{eventByID.category ? eventByID.category.slice(0,1).toUpperCase() + eventByID.category.slice(1) : null}</Typography>
           </Box>
 
           <Box sx={{display: "flex", flexDirection: "row", mb: 2, alignItems: "center"}}>
-            <TimelapseIcon fontSize="large" />
+            <TimelapseIcon fontSize="large" aria-label="Duration Icon"/>
             <Typography variant="body1" sx={{fontWeight: "bold", fontSize: "19px", ml: 1}}>{eventByID.duration + " hr"}</Typography>
           </Box>
 
@@ -204,8 +206,8 @@ if(isError){
                 textAlign: "center",
                 mx: 3,
             }}>
-                <Groups2Icon fontSize="large"/>
-                <Typography variant="h6">{eventByID.spaces} Spaces</Typography>
+                <Groups2Icon fontSize="large" aria-label="Spaces Icon"/>
+                <Typography variant="h6" tabIndex={0}>{eventByID.spaces} Spaces</Typography>
             </Box>
             <Box sx={{
                border: '5px dashed white',
@@ -217,18 +219,18 @@ if(isError){
                justifyContent: "center",
                alignItems: "center"
             }}>
-                <CurrencyPoundIcon fontSize="medium"/>
-                <Typography variant="h6" fontSize={"23px"}>{eventByID.price ? + eventByID.price : "FREE"}</Typography>
+                <CurrencyPoundIcon fontSize="medium" aria-label="Currency Icon"/>
+                <Typography variant="h6" fontSize={"23px"}>{eventByID.price ? eventByID.price : "FREE"}</Typography>
             </Box>
             <Stack direction="column" sx={{mx: 3, mt: 3}}>
-                <Button variant="contained" color="success" onClick={handleSignUp} disabled={isClicked}>
+                <Button variant="contained" color="success" onClick={handleSignUp} disabled={isClicked} role="button" aria-label={isClicked ? "Already Signed Up" : "Get Ticket"}>
                   {eventByID._id && userID._id && eventByID.attendees.includes(userID._id) ? "Already Signed up to this event" : "Get Ticket"}  
                 </Button>
             </Stack>
             </Box>
         </Box>
             <Box sx={{display: "flex", ml: 3}}>
-            <Calendar onChange={onchange} value={value}  />
+            <Calendar onChange={onchange} value={value} aria-label="Calendar" />
             </Box>
         </Grid2>
         
@@ -237,5 +239,6 @@ if(isError){
         </Container>
         </Box>
     </Box>
+    </main>)
 }
 

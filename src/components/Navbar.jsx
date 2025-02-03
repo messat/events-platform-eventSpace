@@ -114,6 +114,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      aria-labelledby='menu-button-profile'
     >
       {isLoggedIn.username || isLoggedIn.employeeNumber ? <Box sx={{display: "flex", flexDirection: "row"}}>
 
@@ -186,6 +187,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      aria-labelledby='mobile-menu-profile-button'
     >
       {isLoggedIn.username  || isLoggedIn.employeeNumber ? 
       <Box sx={{display: "flex", flexDirection: "row"}}>
@@ -248,7 +250,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
     }
   })
 
-  return (
+  return (<nav role='navigation' aria-label='Main Navigation On Event Space'>
     <Box sx={{ flexGrow: 1,  }}>
 
       <AppBar position="fixed">
@@ -257,6 +259,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
           
         <Toolbar>
            <EventAvailableRoundedIcon sx={{mr: 2, fontSize: "lg"}} 
+           aria-label='Go to home page'
            onClick={() => navigate("/") }/>
            
           <ThemeProvider theme={theme}>
@@ -265,6 +268,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
             noWrap
             onClick={() => navigate("/") }
             color='primary'
+            tabIndex={0}
             sx={{ display: { xs: 'none', sm: 'block' }, color: "white" }}
           >
             Event Space
@@ -273,7 +277,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
 
           <Search >
             <SearchIconWrapper >
-              <SearchIcon/>
+              <SearchIcon  aria-hidden="true"/>
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search The Event Title…"
@@ -299,7 +303,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
             <IconButton
               size="large"
               edge="end"
-              aria-label="account of current user"
+              aria-label="Open profile menu"
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
@@ -311,7 +315,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
-              aria-label="show more"
+              aria-label="show more options"
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
@@ -327,5 +331,6 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
       {renderMobileMenu}
       {renderMenu}
     </Box>
+    </nav>
   );
 }

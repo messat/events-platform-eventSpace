@@ -10,5 +10,8 @@ export default defineConfig(({ mode }) => {
       'process.env.CLIENT_ID' : JSON.stringify(env.CLIENT_ID)
     },
     plugins: [react()],
+    resolve : {
+      mainFields: []
+    }
   }
 })

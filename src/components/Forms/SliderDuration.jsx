@@ -26,14 +26,17 @@ function valuetext(value) {
 }
 
 export default function DurationSlider({ formData, setFormData}) {
-  return (<Box sx={{mt:2}}>
+  return (<section aria-labelledby='duration-slider-label'>
+  <Box sx={{mt:2}}>
 
-      <Typography color='primary' variant='button'>Duration of Event</Typography>
+      <Typography color='primary' variant='button' id="duration-slider-label">Duration of Event</Typography>
 
     <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center"}} >
       <Slider
-        aria-label="Event Duration"
+        aria-label="Event duration slider label"
         defaultValue={0.5}
+        aria-valuemin={0.5}
+        aria-valuemax={8}
         getAriaValueText={valuetext}
         name='duration'
         value={formData.duration}
@@ -53,5 +56,6 @@ export default function DurationSlider({ formData, setFormData}) {
     </Box>
     
     </Box>
+    </section>
   );
 }

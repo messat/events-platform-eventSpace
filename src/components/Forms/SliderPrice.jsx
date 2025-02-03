@@ -31,13 +31,17 @@ function valuetext(value) {
 
 export default function EventPriceSlider({ formData, setFormData}) {
 
-  return (<Box>
+  return (<section aria-labelledby='price-slider-label'>
+  <Box>
 
-      <Typography color='primary' variant='button'>Price of Event</Typography>
+      <Typography color='primary' variant='button' id="price-slider-label">Price of Event</Typography>
       
     <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center"}} >
       <Slider
         aria-label="Event Price"
+        aria-labelledby='price-slider-label'
+        aria-valuemin={0.5}
+        aria-valuemax={100}
         defaultValue={20}
         getAriaValueText={valuetext}
         name='price'
@@ -56,5 +60,6 @@ export default function EventPriceSlider({ formData, setFormData}) {
     </Box>
 
     </Box>
+    </section>
   );
 }

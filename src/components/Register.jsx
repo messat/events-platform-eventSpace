@@ -64,14 +64,14 @@ export default function RegisterUser({setRegistrationLogInAlertSuccess}) {
     }
 
 if(isLoading){
-    return (<Box>
+    return (<Box role="alert" aria-live="polite">
         <RegisterUserLoading />
     </Box>)
 }
 
 if(isError){
     if(!isError.response){
-      return (<Box>
+      return (<Box role="alert" aria-live="polite">
         <ErrorHandlerClient isError={isError} />
         </Box>)
     } else {
@@ -79,18 +79,19 @@ if(isError){
     }
 }
 
-   return (<Container maxWidth="sm">
+   return (<main role="main" aria-labelledby="register-page-title">
+   <Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 8, p: 2}}>
 
             <Avatar sx={{ width: 56, height: 56, bgcolor: '#2196f3', mx: 'auto', textAlign: "center", mb: 2 }}>
-                <AppRegistrationIcon fontSize="large" />
+                <AppRegistrationIcon fontSize="large" aria-labelledby="Event Space Registration Icon"/>
             </Avatar>
 
             <ThemeProvider theme={theme}>
-            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Register with Event Space</Typography>
+            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}} id="register-page-title" tabIndex={0}>Register with Event Space</Typography>
             </ThemeProvider>
 
-            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}}>Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.</FormHelperText> : ""}
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}} role="alert" tabIndex={0}>Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.</FormHelperText> : ""}
             
             <Box component="form"
             onSubmit={handleSubmit}
@@ -98,11 +99,12 @@ if(isError){
             >
     
             <TextField 
-            id="outlined-basic-firstname"
+            id="register-user-firstname"
             label="First Name"
             variant="outlined"
             placeholder="Enter your first name"
             name="firstname"
+            type="text"
             value={formData.firstname}
             onChange={(event) => {
                 const {name, value} = event.target
@@ -118,6 +120,8 @@ if(isError){
             slotProps={{htmlInput: {pattern: "[A-Za-z ]+"}}}
             error={firstnameError}
             helperText={firstnameError ? "Please Enter Your Firstname" : ""}
+            aria-invalid={firstnameError}
+            aria-describedby={"firstname-helper"}
             fullWidth
             required
             autoFocus
@@ -126,7 +130,7 @@ if(isError){
             /> 
 
             <TextField 
-            id="outlined-basic-lastname"
+            id="register-user-lastname"
             label="Last Name"
             variant="outlined"
             placeholder="Enter your last name"
@@ -146,6 +150,8 @@ if(isError){
             error={lastnameError}
             slotProps={{htmlInput: {pattern: "[A-Za-z ]+"}}}
             helperText={lastnameError ? "Please Enter Your Lastname" : ""}
+            aria-invalid={lastnameError}
+            aria-describedby={"lastname-helper"}
             fullWidth
             required
             autoComplete="on"
@@ -153,7 +159,7 @@ if(isError){
             /> 
 
             <TextField 
-            id="outlined-basic-email-address"
+            id="register-user-email-address"
             label="Email Address"
             variant="outlined"
             placeholder="Enter your email address"
@@ -173,17 +179,20 @@ if(isError){
             }}
             error={emailError}
             helperText={emailError ? "Please Enter A Valid Email" : ""}
+            aria-invalid={emailError}
+            aria-describedby={"email-helper"}
             fullWidth
             required
             autoComplete="on"
             sx={{mb: 2.5}}
             /> 
 
-            {checkUniqueEmail ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>
+            {checkUniqueEmail ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}} role="alert"
+                tabIndex={0}>
                 This Email Already Exists. Please Try Another Email.</FormHelperText> : ""}
 
             <TextField 
-            id="outlined-basic-username-register"
+            id="register-user-username-register"
             label="Username"
             variant="outlined"
             name="username"
@@ -203,17 +212,19 @@ if(isError){
             error={usernameError}
             slotProps={{htmlInput: {pattern: "[A-Za-z0-9]+"}}}
             helperText={usernameError ? "Please Enter A Valid Username. This Should Not Include Any Special Characters !*_?" : ""}
+            aria-invalid={usernameError}
+            aria-describedby={"username-helper"}
             fullWidth
             required
             autoComplete="off"
             sx={{mb: 2.5}}
             /> 
 
-            {checkUniqueUsername ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>
+            {checkUniqueUsername ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}} role="alert" tabIndex={0}>
                 This Username Already Exists. Please Try Again.</FormHelperText> : ""}
 
             <TextField 
-            id="outlined-basic-password-register"
+            id="user-password-register"
             label="Password"
             variant="outlined"
             placeholder="Enter your password"
@@ -233,6 +244,8 @@ if(isError){
             }}
             error={passwordError}
             helperText={passwordError ? "Please Enter A Valid Password" : ""}
+            aria-invalid={passwordError}
+            aria-describedby={"password-helper"}
             required
             type="password"
             autoComplete="off"
@@ -254,5 +267,6 @@ if(isError){
 
         </Paper>
     </Container>
+    </main>
    )
 }

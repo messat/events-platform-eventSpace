@@ -7,6 +7,7 @@ import Button from '@mui/joy/Button';
 import {Button as SingleButton} from '@mui/material'
 import ButtonGroup from '@mui/joy/ButtonGroup';
 import { Link, useNavigate } from 'react-router-dom';
+import Moment from "react-moment";
 import AccountManagmentUserLoading from "./LoadingState/AccountManagementLoading";
 import { EventTicketCancelledByUserAlert } from "./Alerts/CancelEventAlert";
 import BookingTicketAlertSuccess from "./Alerts/BookingTicketAlert";
@@ -146,13 +147,13 @@ export default function AccountManagement ({cancelTicketByUserAlert, setCancelTi
     }
 
 if(isLoading){
-    return (<Box>
+    return (<Box role="alert" aria-live="polite">
         <AccountManagmentUserLoading />
     </Box>)
 }
 
 if(isError){
-    return (<Box>
+    return (<Box role="alert" aria-live="polite">
       <ErrorHandlerClient isError={isError} />
     </Box>)
   }
@@ -206,7 +207,8 @@ if(isError){
       }
     
 
-    return (<Box sx={{mt: 4}}>
+    return (<main role="main" aria-labelledby="account-management-title-user">
+    <Box sx={{mt: 4}}>
         <Modal
             open={open}
             onClose={handleClose}
@@ -253,17 +255,17 @@ if(isError){
 
         <Box sx={{display: "flex", justifyContent: "center", boxShadow: 10, p: 0.5, mb: 4}}  >
             <ThemeProvider theme={theme}>
-            <Typography component={"h1"} variant="h3" sx={{color: 'primary.dark'}}>Your Event Space</Typography>
+            <Typography component={"h1"} variant="h3" sx={{color: 'primary.dark'}} id="account-managment-title">Your Event Space</Typography>
             </ThemeProvider>
         </Box>
 
         </Container>
 
-          {cancelTicketByUserAlert ? <Box sx={{mb: 3}}>
+          {cancelTicketByUserAlert ? <Box sx={{mb: 3}} role="alert" aria-live="polite">
                     <EventTicketCancelledByUserAlert setCancelTicketByUserAlert={setCancelTicketByUserAlert} />
                 </Box> : null}
 
-            {bookingTicketByUserAlert ? <Box sx={{mb: 3}}>
+            {bookingTicketByUserAlert ? <Box sx={{mb: 3}} role="alert" aria-live="polite">
                     <BookingTicketAlertSuccess setBookingTicketByUserAlert={setBookingTicketByUserAlert} />
                 </Box> : null}
 
@@ -282,27 +284,27 @@ if(isError){
             </Grid2>
 
             {eventsUserJoined.length ? eventsUserJoined.map((event) => (
-                <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 4}} key={event._id}>
+                <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 4}} key={event._id} role="article" aria-labelledby={`event-title-${event._id}`}>
 
                 <Paper elevation={8}  sx={{maxHeight: "900px", minHeight: "300px", gap: 2, pb: 4}}>
 
-                <img src={event.event_img_url} alt='Event Image' className='eventImage' onError={(e) => {
+                <img src={event.event_img_url} alt={`${event.title} Image`} role="img" className='eventImage' onError={(e) => {
                           e.target.src = 'https://images.unsplash.com/photo-1642618598178-52eb00dc544d?q=80&w=3390&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
                           }}/>
 
-                <Typography variant="h6" sx={{mx: 2, minHeight: 96, typography: { xs: 'h6', sm: 'body1', md: 'h6'}}} gutterBottom>{event.title}</Typography>
-                <Typography variant='subtitle1' sx={{mx: 2}} gutterBottom>{event.date ? event.date: event.start}</Typography>
-                <Typography sx={{color: "grey", mx: 2, fontWeight: "bold"}} gutterBottom>{event.location}</Typography>
+                <Typography variant="h6" sx={{mx: 2, minHeight: 96, typography: { xs: 'h6', sm: 'body1', md: 'h6'}}} id={`event-title-${event.title}`} tabIndex={0} gutterBottom>{event.title}</Typography>
+                <Typography variant='subtitle1' sx={{mx: 2, color: "primary.main", fontWeight: "bold"}} gutterBottom><Moment format="LLL">{event.start}</Moment> {">>>"} <Moment format="LT">{event.end}</Moment></Typography>
+                <Typography sx={{color: "grey", mx: 2, fontWeight: "bold"}} tabIndex={0} gutterBottom>{event.location}</Typography>
                 <Typography variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
 
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
                         <Typography sx={{display: "inline-block", mt: -1.4, mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.duration + " hr"}</Typography>
-                        <AccessTimeIcon sx={{mr: 2, display: "inline-block", mt: -1.4, mb: 1 }}/>
+                        <AccessTimeIcon sx={{mr: 2, display: "inline-block", mt: -1.4, mb: 1 }} aria-label="Duration Icon"/>
                     </div>
 
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
                         <Typography sx={{display: "inline-block", mr: 2, mt: -0.4, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.spaces + " spaces"}</Typography>
-                        <Groups2Icon  sx={{mr: 2, display: "inline-block", mt: -0.5}}></Groups2Icon> 
+                        <Groups2Icon  sx={{mr: 2, display: "inline-block", mt: -0.5}} aria-label="Spaces Available Icon"></Groups2Icon> 
                     </div>
 
                     <ButtonGroup
@@ -311,23 +313,24 @@ if(isError){
                         size="md"
                         variant="solid"
                         sx={{ '--ButtonGroup-radius': '40px', mx: 2, mt: -4.9}}
+                        
                         >
-                        <Button component={Link} to={`/event/${event._id}`}>View event</Button>
+                        <Button component={Link} to={`/event/${event._id}`} role="button">View event</Button>
                         </ButtonGroup>
 
                         <Stack spacing={3} direction="column" sx={{display: "flex", justifyContent: "center", mt: 3, alignItems: "center"}}>
 
-                            <SingleButton variant="contained" sx={{width: "93%", color: "error", borderRadius: "20px"}} color="error" onClick={() => {
+                            <SingleButton variant="contained" sx={{width: "93%", color: "error", borderRadius: "20px"}} color="error" role="button" onClick={() => {
                                 setEventGoogleCalendar(event)
                                 handleOpen()
                                 }}>
-                            <GoogleIcon sx={{mr: 2}} onClick={() => {
+                            <GoogleIcon aria-label="Google Icon" sx={{mr: 2}} onClick={() => {
                                 setEventGoogleCalendar(event)
                                 handleOpen()
                                 }}/>Add To Google Calender</SingleButton>
 
 
-                            <SingleButton variant="contained" sx={{width: "93%", color: "error", borderRadius: "20px"}} color="warning" onClick={()=> {
+                            <SingleButton variant="contained" sx={{width: "93%", color: "error", borderRadius: "20px"}} color="warning" role="button" onClick={()=> {
                                 return hancleCancelTicketUser(userID, event)
                             }}>Cancel Ticket</SingleButton>
                         </Stack>
@@ -335,10 +338,11 @@ if(isError){
                 </Paper>
             </Grid2>
             )): <Box sx={{mx: "auto"}}>
-              <Typography variant="button" fontSize={"20px"} color="primary" onClick={() => navigate("/")}>You Have not joined any Events. Please Visit Event Space</Typography>
+              <Typography variant="button" fontSize={"20px"} color="primary" tabIndex={0} onClick={() => navigate("/")}>You Have not joined any Events. Please Visit Event Space</Typography>
               </Box>}
                
         </Grid2>
     </Container>
-    </Box>)
+    </Box>
+    </main>)
 }
