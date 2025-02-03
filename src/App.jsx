@@ -61,8 +61,8 @@ function App() {
       <Box sx={{pb: "9rem"}}>
 
     <BrowserRouter>
-    <Navbar setSearchTitle={setSearchTitle} setUserLogOutAlert={setUserLogOutAlert} />
-
+    <Navbar aria-label="Main Navigation" setSearchTitle={setSearchTitle} setUserLogOutAlert={setUserLogOutAlert} />
+      <main role='Main Part Of Event Space'>
       <Routes>
         <Route path="/" element={<IndexPage searchTitle={searchTitle} userLogInAlert={userLogInAlert} setUserLogInAlert={setUserLogInAlert} registrationLogInAlertSuccess={registrationLogInAlertSuccess} setRegistrationLogInAlertSuccess={setRegistrationLogInAlertSuccess} />} />
         <Route path="/events/user/login" element={<Login setUserLogInAlert={setUserLogInAlert} userLogOutAlert={userLogOutAlert} setUserLogOutAlert={setUserLogOutAlert} />} />
@@ -75,9 +75,11 @@ function App() {
         <Route path="/event/:event_id" element={<EventInformation setBookingTicketByUserAlert={setBookingTicketByUserAlert} />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      
+      </main>
       </BrowserRouter>
+      <footer role='Event Space Tech Stacks Used'>
     <Footer/>
+    </footer>
     </Box>
     </Box>
 

@@ -95,14 +95,14 @@ export default function CreateEvent({setCreateEventAlert}) {
     }
 
 if(isLoading){
-    return (<Box>
+    return (<Box role="alert" aria-live="polite">
         <HostEventLoading />
     </Box>)
 }
 
 if(isError){
     if(!isError.response){
-      return (<Box>
+      return (<Box role="alert" aria-live="polite">
         <ErrorHandlerClient isError={isError} />
     </Box>)
     } else {
@@ -110,18 +110,19 @@ if(isError){
     }
 }
 
-   return (<Container maxWidth="sm">
+   return (<main role="main" aria-labelledby="create-event-title">
+   <Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 4, p: 4}}>
 
             <Avatar sx={{ width: 56, height: 56, bgcolor: '#2196f3', mx: 'auto', textAlign: "center", mb: 2 }}>
-                <EditCalendarIcon fontSize="large" />
+                <EditCalendarIcon fontSize="large" aria-label="Calendar Icon"/>
             </Avatar>
 
             <ThemeProvider theme={theme}>
-            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Host an event at Event Space</Typography>
+            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}} id="create-event-title" tabIndex={0}>Host an event at Event Space</Typography>
             </ThemeProvider>
 
-            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}}>
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}} role="alert" tabIndex={0}>
                 Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.
                 </FormHelperText> : ""}
 
@@ -150,6 +151,8 @@ if(isError){
             }}
             error={titleError}
             helperText={titleError ? "Please Enter A Title" : ""}
+            aria-invalid={titleError}
+            aria-describedby={`title-helper`}
             fullWidth
             required
             autoFocus
@@ -158,7 +161,7 @@ if(isError){
             /> 
             
             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
-            <AddLocationIcon color="primary" fontSize="large" sx={{mt: 1, mr: 1.2}}/>
+            <AddLocationIcon color="primary" fontSize="large" sx={{mt: 1, mr: 1.2}} aria-label="location icon"/>
             <TextField 
             id="location-event"
             label="Location"
@@ -179,6 +182,8 @@ if(isError){
             }}
             error={locationError}
             helperText={locationError ? "Please Enter A Valid Location" : ""}
+            aria-invalid={locationError}
+            aria-describedby={`location-helper`}
             required
             autoComplete="off"
             sx={{mb: 2.5,  width: "92%"}}
@@ -186,7 +191,7 @@ if(isError){
             </Box>
 
             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
-            <ImageIcon color="primary" fontSize="large" sx={{mt: 1, mr: 1.2}}/>
+            <ImageIcon color="primary" fontSize="large" sx={{mt: 1, mr: 1.2}} aria-label="Image address icon"/>
             <TextField 
             id="event_image_url-event"
             label="Image Address Link"
@@ -208,6 +213,8 @@ if(isError){
             }}
             error={imageAddressError}
             helperText={imageAddressError ? "Please Enter A Image Address Link" : ""}
+            aria-invalid={imageAddressError}
+            aria-describedby={`image-address-helper`}
             required
             autoComplete="off"
             sx={{mb: 2.5, width: "92%"}}
@@ -215,7 +222,7 @@ if(isError){
             </Box>
 
             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
-            <GroupsIcon color="primary" fontSize="large" sx={{mt: 1, mr: 1.2}}/>
+            <GroupsIcon color="primary" fontSize="large" sx={{mt: 1, mr: 1.2}} aria-label="Spaces Icon"/>
             <TextField 
             id="spaces-event"
             label="Spaces Available"
@@ -238,6 +245,8 @@ if(isError){
             }}
             error={spacesError}
             helperText={spacesError ? "Please Enter A Valid Number" : ""}
+            aria-invalid={spacesError}
+            aria-describedby={`spaces-helper`}
             required
             autoComplete="off"
             sx={{mb: 2.5, width: "92%"}}
@@ -294,6 +303,8 @@ if(isError){
             }}
             error={categoryError}
             helperText={categoryError ? "Please Enter A Category" : ""}
+            aria-invalid={categoryError}
+            aria-describedby={`category-helper`}
             fullWidth
             type="text"
             required
@@ -301,9 +312,9 @@ if(isError){
             sx={{mb: 2.5}}
             /> 
 
-            <EventPriceSlider formData={formData} setFormData={setFormData} />
+            <EventPriceSlider formData={formData} setFormData={setFormData} aria-label="Event Price slider" />
 
-            <DurationSlider formData={formData} setFormData={setFormData} />
+            <DurationSlider formData={formData} setFormData={setFormData} aria-label="Duration Event slider"/>
 
             <TextField 
             id="description-event"
@@ -326,6 +337,8 @@ if(isError){
             }}
             error={descriptionError}
             helperText={descriptionError ? "Please Enter A Description About The Event" : ""}
+            aria-invalid={descriptionError}
+            aria-describedby={`description-helper`}
             required
             type="text"
             autoComplete="off"
@@ -334,14 +347,11 @@ if(isError){
             rows={3}
             /> 
 
-            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Create an Event Space</Button>
+            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}} role="button">Create an Event Space</Button>
             </Box>
-
-            <Grid2 container justifyContent="end" sx={{mt: 3, ml: 1}}>
-      
-            </Grid2>
 
         </Paper>
     </Container>
+    </main>
    )
 }

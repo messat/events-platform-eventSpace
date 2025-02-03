@@ -49,14 +49,14 @@ export default function Login({setUserLogInAlert, userLogOutAlert, setUserLogOut
     }
 
 if(isLoading){
-    return (<Box>
+    return (<Box role="alert" aria-live="polite">
         <LogInUserLoading />
         </Box>)
 }
 
 if(isError){
     if(!isError.response){
-      return (<Box>
+      return (<Box role="alert" aria-live="polite">
         <ErrorHandlerClient isError={isError} />
             </Box>)
     } else {
@@ -64,29 +64,31 @@ if(isError){
     }
 }
 
-   return (<Box>
-    {userLogOutAlert ? <Box> <UserLogOutAlertSuccess setUserLogOutAlert={setUserLogOutAlert} /> </Box> : null}
+   return (<main role="main" aria-labelledby="login-page-user">
+   <Box>
+    {userLogOutAlert ? <Box role="alert"> <UserLogOutAlertSuccess setUserLogOutAlert={setUserLogOutAlert} /> </Box> : null}
 
    <Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 8, p: 2}}>
 
             <Avatar sx={{ width: 56, height: 56, bgcolor: '#2196f3', mx: 'auto', textAlign: "center", mb: 2 }}>
-                <LockPersonIcon fontSize="large" />
+                <LockPersonIcon fontSize="large" aria-label="Lock Icon"/>
             </Avatar>
 
             <ThemeProvider theme={theme}>
-            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Sign In To Event Space</Typography>
+            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}} id="Login-page-title" tabIndex={0}>Sign In To Event Space</Typography>
             </ThemeProvider>
 
             <Box component="form"
             onSubmit={handleSubmit}
             sx={{mx: 1}}
+            aria-labelledby="login-page-title"
             >
             
-            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "17px", ml: 1, color: "red", textAlign: "center"}}>Incorrect Username or Password</FormHelperText> : ""}
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "17px", ml: 1, color: "red", textAlign: "center"}} role="alert" tabIndex={0}>Incorrect Username or Password</FormHelperText> : ""}
             
             <TextField 
-            id="outlined-basic-username"
+            id="username"
             label="Username"
             variant="outlined"
             name="username"
@@ -104,6 +106,8 @@ if(isError){
             }}
             helperText={usernameError ? "Please Enter Your Username" : ""}
             error={usernameError}
+            aria-invalid={usernameError}
+            aria-describedby="username-helper"
             placeholder="Enter your username"
             fullWidth
             required
@@ -113,7 +117,7 @@ if(isError){
             /> 
 
             <TextField 
-            id="outlined-basic-password"
+            id="password"
             label="Password"
             variant="outlined"
             placeholder="Enter your password"
@@ -134,6 +138,8 @@ if(isError){
             }}
             error={passwordError}
             helperText={passwordError ? "Please Enter A Valid Password" : ""}
+            aria-invalid={passwordError}
+            aria-describedby="password-helper"
             type="password"
             autoComplete="off"
             sx={{mb: 2.5}}
@@ -157,5 +163,6 @@ if(isError){
         </Paper>
     </Container>
     </Box>
+    </main>
    )
 }

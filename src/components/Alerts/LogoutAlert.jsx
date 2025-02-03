@@ -14,12 +14,13 @@ export default function UserLogOutAlertSuccess({setUserLogOutAlert}) {
     },[])
 
     if(show){
-    return (<Box>
+    return (<Box role="alert" aria-live="assertive">
         <Container maxWidth="lg">
         <Grid2 container spacing={2}>
             <Grid2 size={{xs: 12, sm: 8, md: 6}} sx={{mx: 3, mt: 3}} offset={{sm: 2, md: 3}} >
         <Alert
         severity="success"
+        aria-label="Successfully signed out"
         >
         Successfully Signed Out. We Hope To See You Come Back!
       </Alert>

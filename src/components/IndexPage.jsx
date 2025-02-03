@@ -10,23 +10,27 @@ export default function IndexPage ({searchTitle, userLogInAlert, setUserLogInAle
         typography: {fontFamily: 'sniglet'}
       })
 
-    return <div style={{marginTop: 20}}>
+    return (<main role="main" aria-labelledby="Main section of the event space">
+    <Box style={{marginTop: 20}}>
         
         <ThemeProvider theme={theme}>
-        <Typography variant="h2" sx={{textAlign: "center", mt: "21px"}} color="primary" gutterBottom>Welcome to Event Space</Typography>
+        <Typography variant="h2" sx={{textAlign: "center", mt: "21px"}} 
+        color="primary" gutterBottom tabIndex={0}>
+            Welcome to Event Space</Typography>
         </ThemeProvider>
         
-        {userLogInAlert ? <Box>
-        <UserLogInAlertSuccess setUserLogInAlert={setUserLogInAlert} />
+        {userLogInAlert ? <Box aria-live="polite" aria-atomic="true">
+        <UserLogInAlertSuccess setUserLogInAlert={setUserLogInAlert} role="alert"/>
         </Box> : null}
         
-        {registrationLogInAlertSuccess ? <Box>
+        {registrationLogInAlertSuccess ? <Box role="alert">
         <RegistrationLoginAlert setRegistrationLogInAlertSuccess={setRegistrationLogInAlertSuccess} />
         </Box> : null}
 
-        <Grid2 container spacing={2} sx={{marginX: {xs: "2.5em"}, marginTop: "2.7em", marginBottom: "2.5em"}}>
+        <Grid2 container spacing={2} sx={{marginX: {xs: "2.5em"}, marginTop: "2.7em", marginBottom: "2.5em"}} 
+        role="region" aria-labelledby="intro-section-event-space-values">
             <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 3}}>
-        <Paper elevation={24} sx={{minHeight: "325px", bgcolor: "#1769aa", display: "flex", alignItems: "center"}} >
+        <Paper elevation={24} sx={{minHeight: "325px", bgcolor: "#1769aa", display: "flex", alignItems: "center"}} role="region" tabIndex={0}>
         <Typography variant="subtitle2" textAlign={"center"}   fontSize={"24px"} color="white" letterSpacing={2} sx={{p: 1, fontFamily: "Arial"}}>
             A platform to connect with anyone in the event space to Learn, Share and Grow</Typography>
         </Paper>
@@ -57,7 +61,8 @@ export default function IndexPage ({searchTitle, userLogInAlert, setUserLogInAle
 
 
         <AllEvents searchTitle={searchTitle}/>
-    </div>
+    </Box>
+    </main>)
 } 
 
 

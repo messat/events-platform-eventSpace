@@ -46,14 +46,14 @@ export default function EmployeeLogin({setUserLogInAlert}) {
     }
 
 if(isLoading){
-    return (<Box>
+    return (<Box role="alert" aria-live="polite">
         <LogInUserLoading />
     </Box>)
 }
 
 if(isError){
     if(!isError.response){
-      return (<Box>
+      return (<Box role="alert" aria-live="polite">
         <ErrorHandlerClient isError={isError} />
         </Box>)
     } else {
@@ -61,15 +61,16 @@ if(isError){
     }
 }
 
-    return (<Container maxWidth="sm">
+    return (<main role="main" aria-labelledby="employee-login-title">
+    <Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 8, p: 2, pb: 4}}>
 
             <Avatar sx={{ width: 56, height: 56, bgcolor: '#2196f3', mx: 'auto', textAlign: "center", mb: 2 }}>
-                <BadgeIcon fontSize="large" />
+                <BadgeIcon fontSize="large" aria-label="Lock Icon"/>
             </Avatar>
 
             <ThemeProvider theme={theme}>
-            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Employee login Event Space</Typography>
+            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}} id="employee-login-title" tabIndex={0}>Employee login Event Space</Typography>
             </ThemeProvider>
 
             <Box component="form"
@@ -77,7 +78,8 @@ if(isError){
             sx={{mx: 1}}
             >
 
-            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "17px", ml: 1, color: "red", textAlign: "center"}}>
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "17px", ml: 1, color: "red", textAlign: "center"}} role="alert"
+              tabIndex={0}>
                 Incorrect Employee ID Or Password</FormHelperText> : ""}
             
             <TextField 
@@ -99,6 +101,8 @@ if(isError){
             }}
             helperText={employeeIDError ? "Please Enter A Valid Employee ID" : ""}
             error={employeeIDError}
+            aria-invalid={employeeIDError}
+            aria-describedby="employee-id-helper"
             placeholder="Enter your employee ID"
             fullWidth
             required
@@ -130,18 +134,21 @@ if(isError){
             }}
             error={passwordError}
             helperText={passwordError ? "Please Enter A Valid Password" : ""}
+            aria-invalid={passwordError}
+            aria-describedby="password-helper"
             type="password"
             autoComplete="off"
             sx={{mb: 2.5}}
             /> 
 
-            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Employee Log In</Button>
+            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}} role="button" aria-label="Submit Employee Login">Employee Log In</Button>
             </Box>
             
             <Box sx={{mt: 2}}>
-            <Link href="/events/user/login" sx={{ml: 1, marginTop: "20px"}} underline="hover" variant="body1">Back to User Login</Link>
+            <Link href="/events/user/login" sx={{ml: 1, marginTop: "20px"}} underline="hover" variant="body1" aria-label="Back to user login">Back to User Login</Link>
             </Box>
 
         </Paper>
-    </Container>)
+    </Container>
+    </main>)
 }

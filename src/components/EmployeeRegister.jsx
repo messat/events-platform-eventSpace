@@ -73,14 +73,14 @@ export default function EmployeeRegister({setRegistrationLogInAlertSuccess}) {
     }
 
 if(isLoading){
-    return (<Box>
+    return (<Box role="alert" aria-live="polite">
         <RegisterEmployeeLoading />
         </Box>)
 }
 
 if(isError){
     if(!isError.response){
-      return (<Box>
+      return (<Box  role="alert" aria-live="polite">
         <ErrorHandlerClient isError={isError} />
         </Box>)
     } else {
@@ -88,18 +88,20 @@ if(isError){
     }
 }
 
-   return (<Container maxWidth="sm">
+   return (<main role="main" aria-labelledby="employee-register-title">
+   <Container maxWidth="sm">
         <Paper elevation={10} sx={{mt: 8, p: 2, pb: 4}}>
 
             <Avatar sx={{ width: 56, height: 56, bgcolor: '#2196f3', mx: 'auto', textAlign: "center", mb: 2 }}>
-                <WorkIcon fontSize="large" />
+                <WorkIcon fontSize="large" aria-label="Work Icon"/>
             </Avatar>
 
             <ThemeProvider theme={theme}>
-            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}}>Employee registration at Event Space</Typography>
+            <Typography component="h1" variant="h5" sx={{ textAlign: "center", mb: 2}} id="employee-register-title">Employee registration at Event Space</Typography>
             </ThemeProvider>
 
-            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}}>
+            {messageSubmission ? <FormHelperText sx={{mb: 2, fontSize: "15px", color: "red", textAlign: "center", mx: 0.6}} role="alert"
+              tabIndex={0}>
                 Please review the form carefully as some fields contain invalid information. Please check for missing or incorrect details and try again.
                 </FormHelperText> : ""}
 
@@ -109,7 +111,7 @@ if(isError){
             >
 
             <TextField 
-            id="employee-firstname"
+            id="employee-firstname-register"
             label="First Name"
             variant="outlined"
             placeholder="Enter your first name"
@@ -129,6 +131,8 @@ if(isError){
             slotProps={{htmlInput: {pattern: "[A-Za-z ]+"}}}
             error={firstnameError}
             helperText={firstnameError ? "Please Enter Your Firstname" : ""}
+            aria-invalid={firstnameError}
+            aria-describedby={"firstname-helper"}
             fullWidth
             required
             autoComplete="on"
@@ -136,7 +140,7 @@ if(isError){
             /> 
 
             <TextField 
-            id="outlined-basic-lastname"
+            id="employee-lastname-register"
             label="Last Name"
             variant="outlined"
             placeholder="Enter your last name"
@@ -156,6 +160,8 @@ if(isError){
             error={lastnameError}
             slotProps={{htmlInput: {pattern: "[A-Za-z ]+"}}}
             helperText={lastnameError ? "Please Enter Your Lastname" : ""}
+            aria-invalid={lastnameError}
+            aria-describedby={`lastname-helper`}
             fullWidth
             required
             autoComplete="on"
@@ -183,13 +189,16 @@ if(isError){
             }}
             error={emailError}
             helperText={emailError ? "Please Enter A Valid Email" : ""}
+            aria-invalid={emailError}
+            aria-describedby={`email-helper`}
             fullWidth
             required
             autoComplete="off"
             sx={{mb: 2}}
             /> 
 
-            {checkUniqueEmail ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>
+            {checkUniqueEmail ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}} 
+            role="alert" tabIndex={0}>
                 This Email Already Exists. Please Try Another Email.</FormHelperText> : ""}
 
 
@@ -214,6 +223,8 @@ if(isError){
             error={employeeIDError}
             helperText={employeeIDError ? "Please Enter A Valid Employee ID" : ""}
             slotProps={{htmlInput: { pattern: "\d+"}}}
+            aria-invalid={employeeIDError}
+            aria-describedby={"employeeID-helper"}
             fullWidth
             type="number"
             inputMode="numeric"
@@ -222,10 +233,12 @@ if(isError){
             sx={{mb: 2}}
             /> 
 
-            {checkUniqueEmployeeID ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>
+            {checkUniqueEmployeeID ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}
+            role="alert" tabIndex={0}>
                 This Username Already Exists. Please Try Again.</FormHelperText> : ""}
 
-            {checkEmployeeIDLength ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}>
+            {checkEmployeeIDLength ? <FormHelperText sx={{mb: 2.5, fontSize: "13px", color: "red", textAlign: "center", mx: 0.6, mt: -1}}
+            role="alert" tabIndex={0}>
                 Must Be 8 Characters Long.</FormHelperText> : ""}
 
             <TextField 
@@ -249,16 +262,19 @@ if(isError){
             }}
             error={passwordError}
             helperText={passwordError ? "Please Enter A Valid Password" : ""}
+            aria-invalid={passwordError}
+            aria-describedby={`password-helper`}
             required
             type="password"
             autoComplete="off"
             sx={{mb: 2}}
             /> 
             
-            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}}>Employee Registration At Event Space</Button>
+            <Button type="submit" variant="contained" fullWidth sx={{mt: 1}} role="button">Employee Registration At Event Space</Button>
             </Box>   
 
         </Paper>
     </Container>
+    </main>
    )
 }
