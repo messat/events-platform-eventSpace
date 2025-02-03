@@ -3,7 +3,7 @@ import { Box, Container, createTheme, ThemeProvider, Typography } from "@mui/mat
 
 
 
-export default function Footer () {
+export default function FooterEventSpace () {
      const theme = createTheme({
             typography: {fontFamily: 'sniglet'}
           })
