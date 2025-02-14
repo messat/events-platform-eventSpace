@@ -27,9 +27,9 @@ const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   display: "flex",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.8),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: "#f0f0f0",
   },
   marginRight: theme.spacing(2),
   marginTop: 1,
@@ -43,6 +43,7 @@ const Search = styled('div')(({ theme }) => ({
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
+  color: "black",
   padding: theme.spacing(0, 2),
   height: '100%',
   position: 'absolute',
@@ -53,7 +54,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: "#000000",
   fontSize: "20px",
   fontWeight: "400",
   '& .MuiInputBase-input': {
@@ -67,6 +68,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const cursorStyle = {
+  cursor: "pointer",
+  "&:hover": {
+    cursor: "pointer"
+  }
+}
 
 
 
@@ -118,7 +125,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
     >
       {isLoggedIn.username || isLoggedIn.employeeNumber ? <Box sx={{display: "flex", flexDirection: "row"}}>
 
-      <LogoutIcon sx={{mt: 0.9, ml:1.5}} onClick={() => {
+      <LogoutIcon sx={{mt: 0.9, ml:1.5}} style={cursorStyle} onClick={() => {
         setIsLoggedIn({})
         localStorage.clear()
         setUserLogOutAlert(true)
@@ -136,7 +143,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
       </Box>
       : 
       <Box sx={{display: "flex", flexDirection: "row"}}>
-      <LoginIcon sx={{mt: 0.9, ml: 1}} onClick={() => {
+      <LoginIcon sx={{mt: 0.9, ml: 1}} style={cursorStyle} onClick={() => {
           navigate("/events/user/login")
         }} />
       <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Typography underline='hover' variant='button' color='primary' onClick={() => {navigate("/events/user/login")}}>Log In</Typography></MenuItem>
@@ -145,7 +152,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
       {isLoggedIn.username ? 
 
       <Box sx={{display: "flex", flexDirection: "row"}}>
-      <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}} onClick={() => navigate("/events/user/account-management")}/>
+      <ManageAccountsIcon style={cursorStyle} sx={{mt: 0.8, ml: 1.5}} onClick={() => navigate("/events/user/account-management")}/>
       <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Typography onClick={() => { navigate("/events/user/account-management")}} color="primary" underline='hover' variant='button'>My account</Typography></MenuItem>
       </Box>
 
@@ -154,7 +161,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
       {isLoggedIn.employeeNumber ? 
 
       <Box sx={{display: "flex", flexDirection: "row"}}>
-      <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}} onClick={() => navigate("/events/vpn/employee/account-management")}/>
+      <ManageAccountsIcon sx={{mt: 0.8, ml: 1.5}} style={cursorStyle} onClick={() => navigate("/events/vpn/employee/account-management")}/>
       <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Typography onClick={() => { navigate("/events/vpn/employee/account-management")}} color='primary' underline='hover' variant='button'>My account</Typography></MenuItem>
       </Box>
 
@@ -162,7 +169,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
 
        {isLoggedIn.employeeNumber ? 
         <Box sx={{display: "flex", flexDirection: "row"}}>
-        <EditCalendarIcon sx={{mt: 0.8, ml: 1.5}} onClick={() => { navigate("/events/vpn/employee/hostEvent")}}/>
+        <EditCalendarIcon sx={{mt: 0.8, ml: 1.5}} style={cursorStyle} onClick={() => { navigate("/events/vpn/employee/hostEvent")}}/>
        <MenuItem onClick={handleMenuClose} sx={{p: 1}}><Typography onClick={() => { navigate("/events/vpn/employee/hostEvent")}} color='primary' underline='hover' variant='button'>Host event</Typography></MenuItem>
       </Box>
 
@@ -194,7 +201,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
 
       <MenuItem>
 
-      <LogoutIcon onClick={() => {
+      <LogoutIcon style={cursorStyle} onClick={() => {
         setIsLoggedIn({})
         localStorage.clear()
         setUserLogOutAlert(true)
@@ -211,7 +218,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
       </Box>
       :
       <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
-        <LoginIcon sx={{mt: 0.5}} onClick={() => {
+        <LoginIcon sx={{mt: 0.5}} style={cursorStyle} onClick={() => {
           navigate("/events/user/login")
         }} fontSize='large'/>
       <MenuItem onClick={handleMenuClose} sx={{p: 1.2}}><Typography onClick={() => { navigate("/events/user/login")}} color='primary' underline='hover' variant='button'>Log In</Typography></MenuItem>
@@ -219,14 +226,14 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
 
         {isLoggedIn.username ? 
          <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
-         <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large' onClick={() => navigate("/events/user/account-management")}/>
+         <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large' style={cursorStyle} onClick={() => navigate("/events/user/account-management")}/>
          <MenuItem onClick={handleMenuClose} ><Typography onClick={() => navigate("/events/user/account-management")} underline='hover' variant='button' color='primary' sx={{fontSize: "16px", mt: 1}}>My account</Typography></MenuItem>
          </Box>
           : null}
         
         {isLoggedIn.employeeNumber ? 
          <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
-         <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large' onClick={() => navigate("/events/vpn/employee/account-management")}/>
+         <ManageAccountsIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large' style={cursorStyle} onClick={() => navigate("/events/vpn/employee/account-management")}/>
          <MenuItem onClick={handleMenuClose} ><Typography onClick={() => navigate("/events/vpn/employee/account-management")} underline='hover' color='primary' variant='button' sx={{fontSize: "16px", mt: 0.5}}>My account</Typography></MenuItem>
          </Box>
           : null}
@@ -235,7 +242,7 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
 
         {isLoggedIn.employeeNumber ? 
          <Box sx={{display: "flex", flexDirection: "row", justifyContent: "start"}}>
-         <EditCalendarIcon sx={{mt: 1.2, ml: 1.7 }} fontSize='large' onClick={() => navigate("/events/vpn/employee/hostEvent")}/>
+         <EditCalendarIcon sx={{mt: 1.2, ml: 1.7 }} style={cursorStyle} fontSize='large' onClick={() => navigate("/events/vpn/employee/hostEvent")}/>
          <MenuItem onClick={handleMenuClose} ><Typography onClick={() => navigate("/events/vpn/employee/hostEvent")} underline='hover' color='primary' variant='button' sx={{fontSize: "16px", mt: 0.5}}>Host Event</Typography></MenuItem>
          </Box>
           : null}
@@ -259,13 +266,14 @@ export default function Navbar({setSearchTitle, setUserLogOutAlert}) {
           
         <Toolbar>
            <EventAvailableRoundedIcon sx={{mr: 2, fontSize: "lg"}} 
-           aria-label='Go to home page'
+           aria-label='Go to home page' style={cursorStyle}
            onClick={() => navigate("/") }/>
            
           <ThemeProvider theme={theme}>
           <Typography
             variant="h6"
             noWrap
+            style={cursorStyle}
             onClick={() => navigate("/") }
             color='primary'
             tabIndex={0}

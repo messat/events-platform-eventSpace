@@ -62,13 +62,13 @@ export default function AllEvents ({searchTitle}){
                           }}/>
 
                         <Typography variant="h6" sx={{mx: 2, minHeight: 96, typography: { xs: 'h6', sm: 'body1', md: 'h6'}}} tabIndex={0} gutterBottom>{event.title}</Typography>
-                        
+                      
                         
                         <Typography variant='subtitle1' sx={{mx: 2, color: "primary.main", fontWeight: "bold"}} gutterBottom><Moment format='LLL'>{event.start}</Moment></Typography>
-                        <Typography sx={{color: "grey", mx: 2, fontWeight: "bold", height: "40px"}} tabIndex={0} gutterBottom>{event.location}</Typography>
+                        <Typography sx={{color: "#757575", mx: 2, fontWeight: "bold", height: "40px"}} tabIndex={0} gutterBottom>{event.location}</Typography>
                         <Typography variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
                         
-                        <Box >
+                        <Box>
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
                         <Typography sx={{display: "inline-block", mt: -5, mr: 2, typography: { xs: 'button', sm: 'body1', md: 'button'}}} tabIndex={0} variant='h6'>{event.category.slice(0, 1).toUpperCase() + event.category.slice(1)}</Typography>
                         <CategoryIcon sx={{mr: 2, display: "inline-block", mt: -5, color: "orange" }} aria-label='Category Icon'/>

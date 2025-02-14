@@ -77,7 +77,7 @@ function App() {
       </Routes>
       </main>
       </BrowserRouter>
-      <footer role='Event Space Tech Stacks Used'>
+      <footer>
     <FooterEventSpace />
     </footer>
     </Box>

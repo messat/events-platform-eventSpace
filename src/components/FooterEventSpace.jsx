@@ -24,7 +24,7 @@ export default function FooterEventSpace () {
 
           <Grid>
             <ThemeProvider theme={theme}>
-            <Typography color="black" variant="h5" sx={{fontStyle: "sniglet", color: "#2196f3"}}>
+            <Typography color="black" component={"h1"} variant="h5" sx={{fontStyle: "sniglet", color: "#2196f3"}}>
                Event Space
             </Typography>
             </ThemeProvider>
@@ -32,7 +32,7 @@ export default function FooterEventSpace () {
 
           <Grid item="true">
             <ThemeProvider theme={theme}>
-            <Typography color="textSecondary" variant="subtitle1">
+            <Typography color="textSecondary" component={"p"} variant="subtitle1" textAlign={"center"}>
              © {`${new Date().getFullYear()} | Muhammad Essat | React JS | Material UI | Node | JavaScript | Express | MongoDB | Mongoose`}
             </Typography>
             </ThemeProvider>

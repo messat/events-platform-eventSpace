@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Container, createTheme, Grid2, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Avatar, Box, Button, Container, createTheme, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import { useNavigate} from 'react-router-dom'
 import { useEffect, useState } from "react";
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
@@ -16,6 +16,8 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import 'dayjs/locale/en-gb'
+
 
 
 export default function CreateEvent({setCreateEventAlert}) {
@@ -44,8 +46,8 @@ export default function CreateEvent({setCreateEventAlert}) {
     const [descriptionError, setDescriptionError] = useState(false)
     const [messageSubmission, setMessageSubmission] = useState(false)
     
-    const [startDate, setStartDate] = useState(dayjs('2025-02-03T15:30'))
-    const [endDate, setEndDate] = useState(dayjs('2025-02-03T15:30'))
+    const [startDate, setStartDate] = useState(dayjs(new Date().toISOString()))
+    const [endDate, setEndDate] = useState(dayjs(new Date().toISOString()))
     
     const [formData, setFormData] = useState({
         title: "",
@@ -257,7 +259,7 @@ if(isError){
             <Box>
                 <Box sx={{mb: 2}}>
                 <Typography variant="button" color="primary">Start Date</Typography>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
                     <DemoContainer components={['DateTimePicker']}>
                         <DateTimePicker
                             label="Start Date"
@@ -270,7 +272,7 @@ if(isError){
 
         <Box sx={{mb: 3}}>   
             <Typography variant="button" color="primary">End Date</Typography>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
                 <DemoContainer components={['DateTimePicker']}>
                 <DateTimePicker
                     label="End Date"
@@ -312,7 +314,7 @@ if(isError){
             sx={{mb: 2.5}}
             /> 
 
-            <EventPriceSlider formData={formData} setFormData={setFormData} aria-label="Event Price slider" />
+            <EventPriceSlider formData={formData} setFormData={setFormData} aria-label="Event Price"/>
 
             <DurationSlider formData={formData} setFormData={setFormData} aria-label="Duration Event slider"/>
 

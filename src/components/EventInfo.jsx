@@ -15,6 +15,7 @@ import EventInfoLoadingScreen, { SignUpTicketLoading } from "./LoadingState/Even
 import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 
+
 export default function EventInformation({setBookingTicketByUserAlert}) {
     const theme = createTheme({
         typography: {
@@ -23,7 +24,7 @@ export default function EventInformation({setBookingTicketByUserAlert}) {
     })
 
     const navigate = useNavigate()
-
+    
     const {event_id} = useParams()
 
     const [eventByID, setEventByID] = useState({author: {firstname: "Farhana", lastname: "Essat"}})
@@ -75,7 +76,7 @@ export default function EventInformation({setBookingTicketByUserAlert}) {
             const checkUserLogin = JSON.parse(localStorage.getItem("user"))
             const checkEmployeeLogin = JSON.parse(localStorage.getItem("employee"))
             if(!checkUserLogin){
-                navigate("/events/user/login")
+                navigate("/events/user/login", { state: `/event/${event_id}`})
             } 
             if(checkEmployeeLogin){
                 navigate(`/event/${event_id}`)

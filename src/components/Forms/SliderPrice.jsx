@@ -1,6 +1,7 @@
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
-import { Typography } from '@mui/material';
+import Box from '@mui/material/Box'
+import Slider from '@mui/material/Slider'
+import { Typography } from '@mui/material'
+
 
 const marks = [
   {
@@ -31,15 +32,14 @@ function valuetext(value) {
 
 export default function EventPriceSlider({ formData, setFormData}) {
 
-  return (<section aria-labelledby='price-slider-label'>
+  return (<section>
   <Box>
 
-      <Typography color='primary' variant='button' id="price-slider-label">Price of Event</Typography>
       
-    <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center"}} >
+    <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center"}}>
+      <Typography color='primary' variant='button' id="eventPriceLabel">Price of Event</Typography>
       <Slider
-        aria-label="Event Price"
-        aria-labelledby='price-slider-label'
+        aria-labelledby='eventPriceLabel'
         aria-valuemin={0.5}
         aria-valuemax={100}
         defaultValue={20}
