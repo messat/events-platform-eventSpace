@@ -259,7 +259,7 @@ if(isError){
                 
                 <Grid2 item="true" sx={{mt: 1}}>
                 <Link component={RouterLink} to="/events/vpn/employee/login" 
-                sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} 
+                sx={{color: "#616161", textDecoration: "none", fontWeight: "bold"}} 
                 className="StaffLink">Staff Account</Link>
                 </Grid2>
 

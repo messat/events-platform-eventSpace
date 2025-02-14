@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, Container, createTheme, FormHelperText, Grid2, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import LockPersonIcon from '@mui/icons-material/LockPerson';
-import { Link as RouterLink, useNavigate} from 'react-router-dom'
+import { Link as RouterLink, useLocation, useNavigate} from 'react-router-dom'
 import { useContext, useState } from "react";
 import { logInUserEventSpace } from "../API server/api";
 import UserContext from "../Context/UserContext";
@@ -12,6 +12,7 @@ import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 export default function Login({setUserLogInAlert, userLogOutAlert, setUserLogOutAlert}) {
     const {setIsLoggedIn} = useContext(UserContext)
 
+
     const theme = createTheme({
         typography: {
             fontFamily: "sniglet"
@@ -19,6 +20,8 @@ export default function Login({setUserLogInAlert, userLogOutAlert, setUserLogOut
     })
 
     let navigate = useNavigate()
+    let recieved = useLocation().state
+
 
     const [formData, setFormData] = useState({username: "", password: ""})
     const [usernameError, setUsernameError] = useState(false)
@@ -39,7 +42,8 @@ export default function Login({setUserLogInAlert, userLogOutAlert, setUserLogOut
             setMessageSubmission(false)
             setIsLoading(false)
             localStorage.setItem("user", JSON.stringify(loginUser))
-            navigate("/")
+            const from = recieved || "/"
+            navigate(from, { replace: true })
         } catch (err) {
             setUserLogInAlert(false)
             setIsError(err)
@@ -151,13 +155,10 @@ if(isError){
             <Grid2 container justifyContent="end" sx={{mt: 3, ml: 1}}>
                 
                 <Grid2 item="true" size={{xs: 12}}>
-                <Typography variant="subtitle1" sx={{display: "inline"}}>Don't have an account? </Typography>
+                <Typography component={"h2"} variant="subtitle1" sx={{display: "inline"}}>Don't have an account? </Typography>
                 <Link component={RouterLink} to="/events/user/register">Create an account</Link>
                 </Grid2>
 
-                <Grid2 item="true" sx={{mt: 1}}>
-                <Link component={RouterLink} to="/events/vpn/employee/login" sx={{color: "#9e9e9e", textDecoration: "none", fontWeight: "bold"}} className="StaffLink">Staff Account</Link>
-                </Grid2>
             </Grid2>
 
         </Paper>

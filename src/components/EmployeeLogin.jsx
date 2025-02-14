@@ -144,9 +144,6 @@ if(isError){
             <Button type="submit" variant="contained" fullWidth sx={{mt: 1}} role="button" aria-label="Submit Employee Login">Employee Log In</Button>
             </Box>
             
-            <Box sx={{mt: 2}}>
-            <Link href="/events/user/login" sx={{ml: 1, marginTop: "20px"}} underline="hover" variant="body1" aria-label="Back to user login">Back to User Login</Link>
-            </Box>
 
         </Paper>
     </Container>

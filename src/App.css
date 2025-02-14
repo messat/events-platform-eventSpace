@@ -13,3 +13,27 @@
     object-position: center;
     margin-bottom: 0.5em;
 }
+
+@keyframes eventSpaceValues1 {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@keyframes eventSpaceValues2 {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@keyframes eventSpaceValues3 {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@keyframes eventSpaceValues4 {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}

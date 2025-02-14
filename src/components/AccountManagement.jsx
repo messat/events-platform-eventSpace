@@ -1,5 +1,5 @@
 import { Box, Container, createTheme, Grid2, Paper, Stack, ThemeProvider, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { cancelEventByUser, fetchUserJoinedEvents } from "../API server/api";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Groups2Icon from '@mui/icons-material/Groups2';
@@ -14,6 +14,7 @@ import BookingTicketAlertSuccess from "./Alerts/BookingTicketAlert";
 import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 import GoogleIcon from '@mui/icons-material/Google';
 import Modal from "@mui/material/Modal";
+import UserContext from "../Context/UserContext";
 
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -35,6 +36,8 @@ const style = {
 };
 
 export default function AccountManagement ({cancelTicketByUserAlert, setCancelTicketByUserAlert, bookingTicketByUserAlert, setBookingTicketByUserAlert}) {
+    const {isLoggedIn} = useContext(UserContext)    
+
     const [userID, setUserID] = useState({})
     const [eventsUserJoined, setEventsUserJoined] = useState([])
 
@@ -112,6 +115,9 @@ export default function AccountManagement ({cancelTicketByUserAlert, setCancelTi
 
     useEffect(()=> {
         (async () => {
+          if(!isLoggedIn.username){
+            setIsLoading(false)
+          }
             try {
                 if(userID._id){
                     setIsLoading(true)
@@ -293,7 +299,7 @@ if(isError){
                           }}/>
 
                 <Typography variant="h6" sx={{mx: 2, minHeight: 96, typography: { xs: 'h6', sm: 'body1', md: 'h6'}}} id={`event-title-${event.title}`} tabIndex={0} gutterBottom>{event.title}</Typography>
-                <Typography variant='subtitle1' sx={{mx: 2, color: "primary.main", fontWeight: "bold"}} gutterBottom><Moment format="LLL">{event.start}</Moment> {">>>"} <Moment format="LT">{event.end}</Moment></Typography>
+                <Typography variant='subtitle1' sx={{mx: 2, color: "primary.main", fontWeight: "bold"}} gutterBottom><Moment format="llll">{event.start}</Moment> {"---"} <Moment format="lll">{event.end}</Moment></Typography>
                 <Typography sx={{color: "grey", mx: 2, fontWeight: "bold"}} tabIndex={0} gutterBottom>{event.location}</Typography>
                 <Typography variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
 
@@ -337,8 +343,12 @@ if(isError){
                         
                 </Paper>
             </Grid2>
-            )): <Box sx={{mx: "auto"}}>
-              <Typography variant="button" fontSize={"20px"} color="primary" tabIndex={0} onClick={() => navigate("/")}>You Have not joined any Events. Please Visit Event Space</Typography>
+            )): isLoggedIn.username ? <Box sx={{mx: "auto", textAlign: "center"}}>
+              <Typography style={{cursor: "pointer"}} variant="button" fontSize={"20px"} color="primary" tabIndex={0} onClick={() => navigate("/")}>You Have not joined any Events. Please Visit Event Space</Typography>
+              </Box> : 
+              
+              <Box sx={{mx: "auto", textAlign: "center"}}>
+              <Typography style={{cursor: "pointer"}} color="primary" variant="button" fontSize={"20px"} tabIndex={0} onClick={() => navigate("/events/user/login")}>Unauthorised Access. Please Create/login to your Event Space Account to view this page</Typography>
               </Box>}
                
         </Grid2>

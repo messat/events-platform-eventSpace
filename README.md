@@ -2,6 +2,17 @@
 
 Welcome to the **Event Space** front-end platform. This is a web application where users can browse, book, and manage event tickets. Employees can host and manage events. The front-end is built using React JS and integrates with the Event Space back-end server.
 
+## Table of Contents
+1. [Tech Stack](#tech-stack)
+2. [Live Production View](#live-production-view)
+3. [Prerequisites](#prerequisites)
+4. [Setting Up Locally](#setting-up-locally)
+5. [Test Account Credentials](#test-account-credentials)
+6. [Features](#features)
+7. [User Authentication & Account Management](#user-authentication--account-management)
+8. [Employee Authentication & Event Management](#employee-authentication--event-management)
+9. [Events](#events)
+
 ## Tech Stack
 - **React.js** 
 - **Material UI** 
@@ -57,6 +68,8 @@ Before running the project locally, ensure the following is installed:
 ## Test Account Credentials
 To test the application, use the following credentials:
 
+### Please note employee login/register details are accessed via separate page.
+
 ### **User Account**
 - **Username**: testuser
 - **Password**: 1234
@@ -64,6 +77,10 @@ To test the application, use the following credentials:
 ### **Employee Account**
 - **EmployeeID**: 12341234
 - **Password**: testEmployee
+
+[`Employee Login Page`](https://event-space-connect.netlify.app/events/vpn/employee/login)
+
+[`Employee Register Page`](https://event-space-connect.netlify.app/events/vpn/employee/eventspace/register)
 
 
 ## Features
@@ -77,24 +94,24 @@ To test the application, use the following credentials:
 ### User Authentication & Account Management
 | Endpoint | Description |
 |----------|-------------|
-`/events/user/register` | Register a new user |
-`/events/user/login` | User login |
-`/events/user/account-management` | User Account Management |
+[`/events/user/register`](https://event-space-connect.netlify.app/events/user/register) | Register a new user |
+[`/events/user/login`](https://event-space-connect.netlify.app/events/user/login) | User login |
+[`/events/user/account-management`](https://event-space-connect.netlify.app/events/user/account-management) | User Account Management |
 
 
 ### Employee Authentication & Event Management
 | Endpoint | Description |
 |----------|-------------|
-`/events/vpn/employee/eventspace/register` | Register a new employee |
-`/events/vpn/employee/login` | Employee login |
-`/events/vpn/employee/hostEvent` | Host Event Form |
-`/events/vpn/employee/account-management` | Employee Account Management |
+[`/events/vpn/employee/eventspace/register`](https://event-space-connect.netlify.app/events/vpn/employee/eventspace/register) | Register a new employee |
+[`/events/vpn/employee/login`](https://event-space-connect.netlify.app/events/vpn/employee/login) | Employee login |
+[`/events/vpn/employee/hostEvent`](https://event-space-connect.netlify.app/events/vpn/employee/hostEvent) | Host Event Form |
+[`/events/vpn/employee/account-management`](https://event-space-connect.netlify.app/events/vpn/employee/account-management) | Employee Account Management |
 
 
 ### Events
 | Endpoint | Description |
 |----------|-------------|
-`/` | Get all events |
-`/events/:event_id` | Get details of a specific event |
-`*` | Error page |
+[`/`](https://event-space-connect.netlify.app/) | Get all events |
+[`/events/:event_id`](https://event-space-connect.netlify.app/event/67a20971057403592b1f2c43) | Get details of a specific event |
+[`*`](https://event-space-connect.netlify.app/not-exist) | Error page |
 
