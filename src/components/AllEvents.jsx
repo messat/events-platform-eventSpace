@@ -75,7 +75,7 @@ export default function AllEvents ({searchTitle}){
                         </div>
 
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                        <Typography sx={{display: "inline-block", mt: -1.4, mr: 2, typography: { xs: 'button', sm: 'body1', md: 'button'}}} variant='h6' tabIndex={0}>{event.duration + " hr"}</Typography>
+                        <Typography sx={{display: "inline-block", mt: -1.4, mr: 2, typography: { xs: 'button', sm: 'body1', md: 'button'}}} variant='h6' tabIndex={0}>{event.duration}</Typography>
                         <AccessTimeIcon sx={{mr: 2, color: "primary.main", display: "inline-block", mt: -1.4, mb: 1 }} aria-label='Duration Icon'/>
                         </div>
 

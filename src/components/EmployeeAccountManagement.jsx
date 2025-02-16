@@ -146,7 +146,7 @@ if(isError){
                 <Typography component={"p"} variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
 
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                        <Typography component={"p"} sx={{display: "inline-block", mt: -1.4, mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.duration + " hr"}</Typography>
+                        <Typography component={"p"} sx={{display: "inline-block", mt: -1.4, mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.duration}</Typography>
                         <AccessTimeIcon sx={{mr: 2, display: "inline-block", mt: -1.4, mb: 1 }} aria-label="Duration Icon"/>
                     </div>
 
