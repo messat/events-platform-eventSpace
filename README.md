@@ -2,6 +2,10 @@
 
 Welcome to the **Event Space** front-end platform. This is a web application where users can browse, book, and manage event tickets. Employees can host and manage events. The front-end is built using React JS and integrates with the Event Space back-end server.
 
+**Please note when adding an event to the Google calendar, after signing in, it may say Google hasn't verified this app. To bypass this notification, click on advanced link and then click on Go to event-space-connect.netlify.app (unsafe). Continue the prompts from Google to authenticate**
+
+**Note after the adding the event on Google calendar, if the notification says cannot find the requested event of Google Calendar page. Click on the right hand corner to select the correct Gmail Account to find your event in the selected account from event space**
+
 ## Table of Contents
 1. [Tech Stack](#tech-stack)
 2. [Live Production View](#live-production-view)
@@ -26,6 +30,8 @@ https://event-space-connect.netlify.app/
 
 The back-end is hosted on **Vercel**:
 https://events-space-be-messat.vercel.app/
+
+Google Calendar API app has been published to production. Anyone with valid Gmail account can utilise this feature to add events from event space directly to their Google Calendar.
 
 
 

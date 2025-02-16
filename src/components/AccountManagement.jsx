@@ -17,6 +17,7 @@ import Modal from "@mui/material/Modal";
 import UserContext from "../Context/UserContext";
 
 
+
 const CLIENT_ID = process.env.CLIENT_ID;
 const API_KEY = process.env.API_KEY;
 const DISCOVERY_DOC =
@@ -60,7 +61,15 @@ export default function AccountManagement ({cancelTicketByUserAlert, setCancelTi
     const theme = createTheme({
         typography: {
             fontFamily: 'sniglet',
-        }
+        },
+        palette: {
+          ochre: {
+            main: '#E3D026',
+            light: '#E9DB5D',
+            dark: '#A29415',
+            contrastText: '#242105',
+          },
+        },
     })
 
     useEffect(() => {
@@ -282,7 +291,7 @@ if(isError){
                 
             <Paper elevation={10} sx={{p: 4}}>
                 <Box sx={{display: "flex", justifyContent: "center"}}>
-                <Typography variant="h6" sx={{textAlign: "center"}}>
+                <Typography component={"h2"}variant="h6" sx={{textAlign: "center"}}>
                   Account Management: All Your Event Tickets In One Place</Typography>
                 <br></br>
                 </Box>
@@ -298,18 +307,18 @@ if(isError){
                           e.target.src = 'https://images.unsplash.com/photo-1642618598178-52eb00dc544d?q=80&w=3390&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
                           }}/>
 
-                <Typography variant="h6" sx={{mx: 2, minHeight: 96, typography: { xs: 'h6', sm: 'body1', md: 'h6'}}} id={`event-title-${event.title}`} tabIndex={0} gutterBottom>{event.title}</Typography>
-                <Typography variant='subtitle1' sx={{mx: 2, color: "primary.main", fontWeight: "bold"}} gutterBottom><Moment format="llll">{event.start}</Moment> {"---"} <Moment format="lll">{event.end}</Moment></Typography>
-                <Typography sx={{color: "grey", mx: 2, fontWeight: "bold"}} tabIndex={0} gutterBottom>{event.location}</Typography>
-                <Typography variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
+                <Typography component={"h3"} variant="h6" sx={{mx: 2, minHeight: 96, typography: { xs: 'h6', sm: 'body1', md: 'h6'}}} id={`event-title-${event.title}`} tabIndex={0} gutterBottom>{event.title}</Typography>
+                <Typography component={"h4"} variant='subtitle1' sx={{mx: 2, color: "primary.main", fontWeight: "bold", minHeight: "50px"}} gutterBottom><Moment format="llll">{event.start}</Moment> {"---"} <Moment format="lll">{event.end}</Moment></Typography>
+                <Typography sx={{color: "#757575", mx: 2, fontWeight: "bold", minHeight: "50px"}} tabIndex={0} gutterBottom>{event.location}</Typography>
+                <Typography component={"p"} variant='h6' sx={{mx: 2, display: "inline-block"}}>{event.price ? "£" + event.price: "FREE" }</Typography>
 
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                        <Typography sx={{display: "inline-block", mt: -1.4, mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.duration + " hr"}</Typography>
+                        <Typography component={"p"} sx={{display: "inline-block", mt: -1.4, mr: 2, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.duration}</Typography>
                         <AccessTimeIcon sx={{mr: 2, display: "inline-block", mt: -1.4, mb: 1 }} aria-label="Duration Icon"/>
                     </div>
 
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                        <Typography sx={{display: "inline-block", mr: 2, mt: -0.4, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.spaces + " spaces"}</Typography>
+                        <Typography component={"p"} sx={{display: "inline-block", mr: 2, mt: -0.4, typography: { xs: 'h6', sm: 'body1', md: 'button'}}} variant='h6'>{event.spaces + " spaces"}</Typography>
                         <Groups2Icon  sx={{mr: 2, display: "inline-block", mt: -0.5}} aria-label="Spaces Available Icon"></Groups2Icon> 
                     </div>
 
@@ -335,10 +344,11 @@ if(isError){
                                 handleOpen()
                                 }}/>Add To Google Calender</SingleButton>
 
-
-                            <SingleButton variant="contained" sx={{width: "93%", color: "error", borderRadius: "20px"}} color="warning" role="button" onClick={()=> {
+                            <ThemeProvider theme={theme}>
+                            <SingleButton variant="contained" sx={{width: "93%", borderRadius: "20px", bgcolor: "ochre.main", fontWeight: "500"}} color="black" role="button" onClick={()=> {
                                 return hancleCancelTicketUser(userID, event)
                             }}>Cancel Ticket</SingleButton>
+                            </ThemeProvider>
                         </Stack>
                         
                 </Paper>

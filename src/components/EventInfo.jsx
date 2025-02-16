@@ -15,7 +15,6 @@ import EventInfoLoadingScreen, { SignUpTicketLoading } from "./LoadingState/Even
 import ErrorHandlerClient from "./ErrorState/ErrorIndex";
 
 
-
 export default function EventInformation({setBookingTicketByUserAlert}) {
     const theme = createTheme({
         typography: {
@@ -165,7 +164,7 @@ if(isError){
             : null}
 
           <Typography variant="h5" sx={{ mt: 2}}>Date and Time</Typography>
-          <Typography variant="subtitle1" sx={{mt: 0.5, color: "primary.main", fontWeight: "bold"}}><Moment format="LLL">{eventByID.start}</Moment> {">>>"} <Moment format="LT">{eventByID.end}</Moment></Typography>
+          <Typography variant="subtitle1" sx={{mt: 0.5, color: "primary.main", fontWeight: "bold"}}><Moment format="LLLL">{eventByID.start}</Moment> {"---"} <Moment format="LLL">{eventByID.end}</Moment></Typography>
 
           <Box sx={{display: "flex", flexDirection: "row", alignItems: "end", mb: 2}}>
           <LocationOnIcon sx={{color: "orange", mt: 2, mr: 1}} fontSize="large" aria-label="Location Icon"/>
@@ -179,7 +178,7 @@ if(isError){
 
           <Box sx={{display: "flex", flexDirection: "row", mb: 2, alignItems: "center"}}>
             <TimelapseIcon fontSize="large" aria-label="Duration Icon"/>
-            <Typography variant="body1" sx={{fontWeight: "bold", fontSize: "19px", ml: 1}}>{eventByID.duration + " hr"}</Typography>
+            <Typography variant="body1" sx={{fontWeight: "bold", fontSize: "19px", ml: 1}}>{eventByID.duration}</Typography>
           </Box>
 
             <Typography variant="h5" gutterBottom>About this event</Typography>

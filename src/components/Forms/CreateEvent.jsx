@@ -5,7 +5,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
 import ImageIcon from '@mui/icons-material/Image';
 import EventPriceSlider from "./SliderPrice";
-import DurationSlider from "./SliderDuration";
+import DurationEvent from "./SliderDuration";
 import GroupsIcon from '@mui/icons-material/Groups';
 import FormHelperText from '@mui/material/FormHelperText';
 import { createEventInEventSpace } from "../../API server/api";
@@ -43,12 +43,13 @@ export default function CreateEvent({setCreateEventAlert}) {
     const [imageAddressError, setImageAddressError] = useState(false)
     const [spacesError, setSpacesError] = useState(false)
     const [categoryError, setCategoryError] = useState(false)
+    const [durationError, setDurationError] = useState(false)
     const [descriptionError, setDescriptionError] = useState(false)
     const [messageSubmission, setMessageSubmission] = useState(false)
     
     const [startDate, setStartDate] = useState(dayjs(new Date().toISOString()))
     const [endDate, setEndDate] = useState(dayjs(new Date().toISOString()))
-    
+    const [minEndDate, setMinEndDate] = useState(startDate)
     const [formData, setFormData] = useState({
         title: "",
         date: "",
@@ -58,7 +59,7 @@ export default function CreateEvent({setCreateEventAlert}) {
         location: "",
         event_img_url: "",
         price: 0,
-        duration: 2,
+        duration: "",
         category: "",
         spaces: "",
         _id: ""
@@ -67,9 +68,18 @@ export default function CreateEvent({setCreateEventAlert}) {
     const [isError, setIsError] = useState(null)
     
     const handleStartDateChange = (newValue) => {
-        setStartDate(newValue);
+        setStartDate(newValue)
         setFormData((prev) => ({ ...prev, start: newValue.toISOString() }))
+       
     }
+
+    useEffect(()=>{
+        setMinEndDate(() => {
+            let newDateObj = new Date(startDate)
+            newDateObj.setTime(newDateObj.getTime() + 15 * 60_000)
+            return dayjs(newDateObj)
+        })
+    }, [startDate])
     
     const handleEndDateChange = (newValue) => {
         setEndDate(newValue)
@@ -79,7 +89,6 @@ export default function CreateEvent({setCreateEventAlert}) {
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
-           
             setIsLoading(true)
             const newEvent = await createEventInEventSpace(formData)
             setIsError(null)
@@ -262,6 +271,7 @@ if(isError){
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
                     <DemoContainer components={['DateTimePicker']}>
                         <DateTimePicker
+                            disablePast
                             label="Start Date"
                             value={startDate}
                             onChange={handleStartDateChange}
@@ -275,9 +285,11 @@ if(isError){
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
                 <DemoContainer components={['DateTimePicker']}>
                 <DateTimePicker
+                    disablePast
                     label="End Date"
-                    value={endDate}
+                    value={minEndDate}
                     onChange={handleEndDateChange}
+                    minDate={startDate}
                 />
                 </DemoContainer>
             </LocalizationProvider>
@@ -316,7 +328,7 @@ if(isError){
 
             <EventPriceSlider formData={formData} setFormData={setFormData} aria-label="Event Price"/>
 
-            <DurationSlider formData={formData} setFormData={setFormData} aria-label="Duration Event slider"/>
+            <DurationEvent formData={formData} setFormData={setFormData} durationError={durationError} setDurationError={setDurationError} aria-label="Duration Event slider"/>
 
             <TextField 
             id="description-event"
